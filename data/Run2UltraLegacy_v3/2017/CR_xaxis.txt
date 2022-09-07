@@ -1,0 +1,5 @@
+POG_SingleMuon_OnZ_OS ZCand_Mass 60 200
+HNL_ZZ_FourLepton_CR_DiElectron_HN2018  met   0       300
+HNL_ZZ_FourLepton_CR_DiElectron_HN2018  ht    0       300
+HNL_ZZ_FourLepton_CR_DiElectron_HN2018  lep1_pt	 0       500
+HNL_ZZ_FourLepton_CR_DiElectron_HN2018  nPV     -999  -999

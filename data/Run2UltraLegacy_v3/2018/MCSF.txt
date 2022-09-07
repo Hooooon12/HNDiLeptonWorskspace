@@ -1,0 +1,9 @@
+DYJets               1.00    0.00
+DYJetsToEE_MiNNLO    1.00    0.00
+DYJetsToMuMu_MiNNLO  1.00    0.00
+TTLJ_powheg          1.00    0.00   
+TTLL_powheg          1.00    0.00   
+WW_pythia            1.00    0.00   
+WZ_pythia            1.00    0.00   
+ZZ_pythia            1.00    0.00   
+ZToLL                1.00    0.00
