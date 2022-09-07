@@ -527,7 +527,8 @@ class Plotter:
         if self.DoDebug:
           print ('[DEBUG] Trying to get data histogram..')
           print (Region.PrimaryDataset + '/'+ Region.ParamName + '/'+ Region.Name+'/'+Variable.Name)
-        h_Data = f_Data.Get(Region.PrimaryDataset + '/'+ Region.ParamName + '/'+ Region.Name+'/'+Variable.Name)
+        h_Data = f_Data.Get(Region.PrimaryDataset + '/'+ Region.ParamName + '/'+ Region.Name+'/'+Variable.Name) #FIXME this naming convention is different with ControlRegion
+				# if Validation naming convention == Signal/Control, then do it. else, do another.
         if not h_Data:
           print (Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+'_data_Lepton'+self.Filename_suffix+'.root')
           print (Region.PrimaryDataset + '/'+ Region.ParamName + '/'+ Region.Name+'/'+Variable.Name)

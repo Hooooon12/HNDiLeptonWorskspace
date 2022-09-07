@@ -28,7 +28,7 @@ parser.add_argument('--ScaleMC', action='store_true')
 args = parser.parse_args()
 
 Analyser='HNL_ControlRegionPlotter'
-OutPutOnLxplus=True
+OutPutOnLxplus=False
 ## Enviroment
 
 dataset = os.environ['FLATVERSION']
@@ -165,7 +165,7 @@ from PredefinedSamples import *
 if args.Category==0:
   #### Define Samples
   if str_Era != 'YearCombined':
-        exec('m.SampleGroups = [SampleGroup_NonPrompt_MuMu_%s,SampleGroup_Conv_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+        exec('m.SampleGroups = [SampleGroup_NonPrompt_MuMu_%s,SampleGroup_Conv_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra)) #XXX sometimes you need to merge samples
   else:
     m.SampleGroups = [
       SampleGroup_TTLL_2016preVFP,SampleGroup_TTLL_2016postVFP,SampleGroup_TTLL_2017,SampleGroup_TTLL_2018,
