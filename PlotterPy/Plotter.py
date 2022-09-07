@@ -113,7 +113,8 @@ class Plotter:
   def __init__(self):
 
     self.DoDebug = False
-
+    self.Lxplus_User=''
+    self.Lxplus_Dir=''
     self.DataYear = 2016
     self.DataEra = ""
     self.DataDirectory = "2016"
@@ -436,8 +437,8 @@ class Plotter:
           os.system("ssh jalmond@lxplus.cern.ch 'mkdir -p " + self.OutputDirectory +"/ScaleMC/'")
           OutdirLXPLUS= self.OutputDirectory +'/ScaleMC/'+Region.Name+'/'
           
-      print( 'scp ' + Outdir + '/Cutflow_'+CFName+'.pdf  jalmond@lxplus.cern.ch:'+OutdirLXPLUS+'/')
-      os.system('scp ' + Outdir + '/Cutflow_'+CFName+'.pdf  jalmond@lxplus.cern.ch:'+OutdirLXPLUS+'/')
+      print( 'scp ' + Outdir + '/Cutflow_'+CFName+'.pdf  '+self.Lxplus_User + '@lxplus.cern.ch:'+OutdirLXPLUS+'/')
+      os.system('scp ' + Outdir + '/Cutflow_'+CFName+'.pdf  '+ self.Lxplus_User + '@lxplus.cern.ch:'+OutdirLXPLUS+'/')
 
 
 
@@ -463,19 +464,19 @@ class Plotter:
 
       if not self.OutputDirectory =="":
         OutdirLXPLUS= self.OutputDirectory +'/'+Region.Name+'/'
-        os.system("ssh jalmond@lxplus.cern.ch 'mkdir -p " + OutdirLXPLUS + "'")
+        os.system("ssh "+self.Lxplus_User + "@lxplus.cern.ch 'mkdir -p " + OutdirLXPLUS + "'")
         if self.ScaleMC:
-          os.system("ssh jalmond@lxplus.cern.ch 'mkdir -p " + self.OutputDirectory +"/ScaleMC/'")
+          os.system("ssh "+self.Lxplus_User + "@lxplus.cern.ch 'mkdir -p " + self.OutputDirectory +"/ScaleMC/'")
           OutdirLXPLUS= self.OutputDirectory +'/ScaleMC/'+Region.Name+'/'
-          os.system("ssh jalmond@lxplus.cern.ch 'mkdir -p " + OutdirLXPLUS + "'")
+          os.system("ssh "+self.Lxplus_User + "@lxplus.cern.ch 'mkdir -p " + OutdirLXPLUS + "'")
 
 
       print ('##   Outputs => '+Outdir)
       
       os.system('mkdir -p '+Outdir)
       if not self.OutputDirectory =="":
-        print('scp ' + os.getenv('HTML_DIR') + '/index.php ' + 'jalmond@lxplus.cern.ch:'+ OutdirLXPLUS+'/')
-        os.system('scp ' + os.getenv('HTML_DIR') + '/index.php ' + 'jalmond@lxplus.cern.ch:'+ OutdirLXPLUS+'/')
+        print('scp ' + os.getenv('HTML_DIR') + '/index.php ' + ''+self.Lxplus_User + '@lxplus.cern.ch:'+ OutdirLXPLUS+'/')
+        os.system('scp ' + os.getenv('HTML_DIR') + '/index.php ' + ''+self.Lxplus_User + '@lxplus.cern.ch:'+ OutdirLXPLUS+'/')
 
 
       ## Data file
@@ -1190,9 +1191,9 @@ class Plotter:
 
         print(str(self.OutputDirectory))
         if not self.OutputDirectory =="":
-          print ('scp ' + Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'.pdf  jalmond@lxplus.cern.ch:'+OutdirLXPLUS+'/')
-          os.system('scp ' + Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'.pdf  jalmond@lxplus.cern.ch:'+OutdirLXPLUS+'/')
-          os.system('scp ' + Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'.png  jalmond@lxplus.cern.ch:'+OutdirLXPLUS+'/')
+          print ('scp ' + Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'.pdf  '+self.Lxplus_User + '@lxplus.cern.ch:'+OutdirLXPLUS+'/')
+          os.system('scp ' + Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'.pdf  '+self.Lxplus_User + '@lxplus.cern.ch:'+OutdirLXPLUS+'/')
+          os.system('scp ' + Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'.png  '+self.Lxplus_User + '@lxplus.cern.ch:'+OutdirLXPLUS+'/')
           lxplus_dir.append(OutdirLXPLUS)
           
 

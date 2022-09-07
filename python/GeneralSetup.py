@@ -55,6 +55,17 @@ def setupargs(version):
       args = parser.parse_args()
       return args
 
+
+def GetFromConfig(tag):
+
+   ConfigFile = os.environ['HNDILEPTONWORKSPACE_DIR'] + '/PlotterPy/Config.txt'
+   ConfigLines = open(ConfigFile,'r').readlines()
+   for line in ConfigLines:
+      if tag+' ' in line:
+         return line.split()[1]
+   return ''
+
+
 def check_limit_reader_path(input_dir,tag):
    file_limit_path= str(os.getenv("LIMIT_PATH"))
    if  input_dir == None:

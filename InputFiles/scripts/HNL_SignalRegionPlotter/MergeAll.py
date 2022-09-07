@@ -7,8 +7,6 @@ if os.getenv("FILE_MERGED_PATH") == "NULL":
 
 
 eras = ["2016preVFP", "2016postVFP", "2017", "2018"]
-eras = [ "2017", "2018"]
-
 
 MergeFake=True
 MergeCF=True

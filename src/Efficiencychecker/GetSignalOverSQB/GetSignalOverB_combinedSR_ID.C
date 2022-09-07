@@ -13,16 +13,6 @@ void GetSignalOverB_combinedSR_ID(){
   vector<TString> years={"2016"};//,"2017","2018"};
   
   for (auto y : years) {
-<<<<<<< HEAD
-    vector <TString> masses = {"100"};//,"500","1000"};                                                                                                                                    
-    vector <double> d_masses = {100.};//,500.,1000.};                                                                                                                                       
-
-    vector<TString> IDnames = GetIDList();
-    return;
-    for(int i = 0; i <  masses.size(); i++){
-      GetSignalOverB_combinedSR_IDMAIN(IDnames,y,"", "FullOpt_iso", masses[i], d_masses[i]);
-      //GetSignalOverB_combinedSR_IDMAIN(IDnames,y,"", "FullOpt_Miniiso", masses[i], d_masses[i]);
-=======
     vector <TString> masses = {"300"};//,"500","1000"};                                                                                                                                    
     vector <double> d_masses = {300.};//,500.,1000.};                                                                                                                                       
 
@@ -31,7 +21,6 @@ void GetSignalOverB_combinedSR_ID(){
     for(int i = 0; i <  masses.size(); i++){
       GetSignalOverB_combinedSR_IDMAIN(IDnames,y,"", "FullOpt_iso", masses[i], d_masses[i]);
       GetSignalOverB_combinedSR_IDMAIN(IDnames,y,"", "FullOpt_Miniiso", masses[i], d_masses[i]);
->>>>>>> 38c9e6d8c202ef665e226f1b76f459f329784be8
       
     }
   }
@@ -41,31 +30,16 @@ void GetSignalOverB_combinedSR_ID(){
 
 std::vector<TString> GetIDList(){
 
-<<<<<<< HEAD
-  TString ENV_MERGEDFILE_PATH = getenv("FILE_MERGED_PATH");
-  TString analysername="HNL_IDOpt" ;
-  
-  TString promptpath1 = ENV_MERGEDFILE_PATH+ analysername + "/2016/"+analysername+"_SkimTree_HNMultiLep_DoubleMuon.root";
-  cout << promptpath1 << endl;
-  vector<TString> IDs;
-  
-  return IDs;
-=======
   TString ENV_MERGEDFILE_PATH = getenv("INFILE_MERGED_PATH");
   TString analysername="HNDilepton" ;
   
   TString promptpath1 = ENV_MERGEDFILE_PATH+ analysername+"/2016/"+analysername+"_SkimTree_SSHN_DoubleEG_ID.root";
 
->>>>>>> 38c9e6d8c202ef665e226f1b76f459f329784be8
   
   TFile * _file1 = new TFile(promptpath1);
   TH1* h_id  = (TH1*)_file1->Get("FillEventCutflow/Fullopt_testhist_events");
 
-<<<<<<< HEAD
-
-=======
   vector<TString> IDs;
->>>>>>> 38c9e6d8c202ef665e226f1b76f459f329784be8
   for(unsigned int i=1 ; i < h_id->GetNbinsX()+1; i++){
 
     TString hname = h_id->GetXaxis()->GetBinLabel(i);

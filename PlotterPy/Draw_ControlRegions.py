@@ -13,7 +13,7 @@ import argparse
 ROOT.gROOT.SetBatch(ROOT.kTRUE)
 
 #if not os.path.exists('/tmp/ssh-jalmond@lxplus.cern.ch'):
-from GeneralSetup import check_lxplus_connection
+from GeneralSetup import check_lxplus_connection,GetFromConfig
 check_lxplus_connection()
 
 
@@ -84,12 +84,24 @@ if args.ScaleMC:
   os.system('mkdir -p '+ m.OutputDirectoryLocal+'/ScaleMC/')
   
 
+# check connection to lxplus is open
+check_lxplus_connection()
+
+#set username for lxplus
+m.Lxplus_User = GetFromConfig('LXPLUS_USER')
+m.Lxplus_Dir = GetFromConfig('LXPLUS_Dir')
+
+print m.Lxplus_User + " " + m.Lxplus_Dir
+exit()
+
+
+
 if OutPutOnLxplus:
-  m.OutputDirectory = "/afs/cern.ch/user/j/jalmond/www/SNU/WebPlots/HNL/"+Analyser+"/"+str_Era+"/"
+  m.OutputDirectory = m.Lxplus_Dir
   print "-"*40
-  print("ssh jalmond@lxplus.cern.ch 'mkdir -p " + m.OutputDirectory + "'")
+  print("ssh "+m.Lxplus_User+"@lxplus.cern.ch 'mkdir -p " + m.OutputDirectory + "'")
   print "-"*40
-  os.system("ssh jalmond@lxplus.cern.ch 'mkdir -p " + m.OutputDirectory + "'")
+  os.system("ssh "+m.Lxplus_User+"@lxplus.cern.ch 'mkdir -p " + m.OutputDirectory + "'")
 
 
 #### Category
