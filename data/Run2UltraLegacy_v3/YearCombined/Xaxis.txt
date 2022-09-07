@@ -1,6 +1,6 @@
 LLMass   0.	200.
-Lep1Pt   0.	200
-Lep2Pt   0	100
+Lep_1_Pt   0.	200
+Lep_2_Pt   0	100
 NBJets   0	3
 NJets    0	5
 nPV	0	100

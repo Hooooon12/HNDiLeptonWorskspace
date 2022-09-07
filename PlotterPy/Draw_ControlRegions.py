@@ -14,7 +14,7 @@ ROOT.gROOT.SetBatch(ROOT.kTRUE)
 
 #if not os.path.exists('/tmp/ssh-jalmond@lxplus.cern.ch'):
 from GeneralSetup import check_lxplus_connection,GetFromConfig
-check_lxplus_connection()
+#check_lxplus_connection() #JH
 
 
 ## Arguments
@@ -72,11 +72,11 @@ m.InputDirectory = WORKING_DIR+'/InputFiles/MergedFiles/'+dataset+"/"+Analyser+"
 str_Era=m.DataEra
 
 #HNtypeI_Dilepton_SkimTree_HNMultiLep_Electron.root
-m.DataDirectory = str_Era
+m.DataDirectory = str_Era+'/DATA'
 m.Filename_prefix = Analyser
 m.Filename_suffix = ""
-m.Filename_skim = "_SkimTree_Dilepton"
-m.Filename_data_skim = ""
+m.Filename_skim = "_SkimTree_HNMultiLep"
+m.Filename_data_skim = "_SkimTree_HNMultiLep"
 
 m.OutputDirectoryLocal = ENV_PLOT_PATH+"/"+dataset+"/"+Analyser+"/"+str_Era+"/"
 os.system('mkdir -p '+ m.OutputDirectoryLocal)
@@ -85,14 +85,14 @@ if args.ScaleMC:
   
 
 # check connection to lxplus is open
-check_lxplus_connection()
+#check_lxplus_connection() #JH
 
 #set username for lxplus
 m.Lxplus_User = GetFromConfig('LXPLUS_USER')
 m.Lxplus_Dir = GetFromConfig('LXPLUS_Dir')
 
 print m.Lxplus_User + " " + m.Lxplus_Dir
-exit()
+#exit()
 
 
 
@@ -109,8 +109,8 @@ m.ScaleMC = args.ScaleMC
 
 #### Systematic
 tmp_Systematics = [
-  "Lumi",
-  "GetMCUncertainty",
+  #"Lumi",
+  #"GetMCUncertainty",
   #"JetRes",
   #"JetEn",
   #"JetMass",
@@ -177,7 +177,7 @@ from PredefinedSamples import *
 if args.Category==0:
   #### Define Samples
   if str_Era != 'YearCombined':
-        exec('m.SampleGroups = [SampleGroup_NonPrompt_MuMu_%s,SampleGroup_Conv_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra)) #XXX sometimes you need to merge samples
+        exec('m.SampleGroups = [SampleGroup_NonPrompt_MuMu_%s,SampleGroup_Conv_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra)) #JH : XXX sometimes you need to merge samples
   else:
     m.SampleGroups = [
       SampleGroup_TTLL_2016preVFP,SampleGroup_TTLL_2016postVFP,SampleGroup_TTLL_2017,SampleGroup_TTLL_2018,
@@ -190,8 +190,8 @@ if args.Category==0:
   #### Print
   m.PrintSamples()
 
-  PNs=["POG_UL"]
-  #### Define reiongs
+  PNs=["POGCR_UL_RunAllControlRegions"] #JH: TMP
+  #### Define regions
   m.RegionsToDraw = [
 
     Region('HNL_WZ_ThreeLepton_CR', 'MuMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{DY->ll CR (M>50)}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
@@ -205,7 +205,7 @@ if args.Category==0:
 m.VariablesToDraw = [
   Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
   Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
-  Variable('Lep_3_pt', 'm(ll)','GeV'),
+  #Variable('Lep_3_pt', 'm(ll)','GeV'),
   #Variable('NJets', 'N_{j}',''),
   #Variable('NBJets', 'N_{bj}',''),
   #Variable('nPV', 'N_{pv}',''),

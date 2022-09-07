@@ -16,7 +16,7 @@ for era in eras:
     
     FilePath=  os.getenv("FILE_MERGED_PATH")+"/"+Analyser+"/"+era
 
-    if os.path.exists(FilePath+"/HNL_ControlRegionPlotter_SkimTree_HNMultiLep_CF.root"):
-        os.system("rm " + FilePath+"/HNL_ControlRegionPlotter_SkimTree_HNMultiLep_CF.root")
+    if os.path.exists(FilePath+"/HNL_ControlRegionPlotter_SkimTree_Dilepton_CF.root"):
+        os.system("rm " + FilePath+"/HNL_ControlRegionPlotter_SkimTree_Dilepton_CF.root")
 
-    os.system("hadd " + FilePath+"/HNL_ControlRegionPlotter_SkimTree_HNMultiLep_CF.root  /data6/Users/jalmond/SKFlatOutput//Run2UltraLegacy_v3/HNL_ControlRegionPlotter/"+era+"/RunCF__/HNL_ControlRegionPlotter_SkimTree_HNMultiLep_*")                
+    os.system("hadd " + FilePath+"/HNL_ControlRegionPlotter_SkimTree_Dilepton_CF.root  /data6/Users/jalmond/SKFlatOutput//Run2UltraLegacy_v3/HNL_ControlRegionPlotter/"+era+"/RunCF__/HNL_ControlRegionPlotter_SkimTree_Dilepton_*")

@@ -6,9 +6,9 @@ if os.getenv("FILE_MERGED_PATH") == "NULL":
     print("Env not set.....")
     exit()
 
-sk_path=os.getenv("FILE_MERGED_PATH")+"/"+Analyser +"/2016preVFP/SIG/"
-sk_path2=os.getenv("FILE_MERGED_PATH")+"/"+Analyser +"/2016postVFP/SIG/"
-path_2016=os.getenv("FILE_MERGED_PATH")+"/"+Analyser +"/2016/SIG/"
+sk_path=os.getenv("FILE_MERGED_PATH")+"/"+Analyser +"/2016preVFP/"
+sk_path2=os.getenv("FILE_MERGED_PATH")+"/"+Analyser +"/2016postVFP/"
+path_2016=os.getenv("FILE_MERGED_PATH")+"/"+Analyser +"/2016/"
 
 from os import listdir
 
