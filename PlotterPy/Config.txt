@@ -1,0 +1,2 @@
+LXPLUS_USER jalmond
+LXPLUS_Dir /afs/cern.ch/user/j/jalmond/www/SNU/WebPlots/HNL/
