@@ -140,7 +140,7 @@ class Plotter:
     self.ErrorFromShape = False
     self.AddErrorLinear = False
 
-    self.NoErrorBand = False
+    self.NoErrorBand = True #JH tmp
 
   def PrintBorder(self):
     print ('--------------------------------------------------------------------------')
@@ -195,7 +195,7 @@ class Plotter:
 
 
     if len(Rebins) == 0:
-      print("No binnings set for " +str(Region) )
+      print("No bin width set for " +str(Region) ) #JH
 
     ## xaxis
     XaxisRanges = dict()
@@ -207,7 +207,7 @@ class Plotter:
       XaxisRanges[words[1]] = [float(words[2]), float(words[3])]
 
     if len(XaxisRanges) == 0:
-      print("No binnings set for " +str(Region) )
+      print("No bin range set for " +str(Region) ) #JH
 
     return Rebins, XaxisRanges
   def Rebin(self, hist, region, var, nRebin):
@@ -245,7 +245,7 @@ class Plotter:
     for Region in self.RegionsToDraw:
       print Region.Name
       Indir = self.InputDirectory
-      Outdir = self.OutputDirectoryLocal+'/'+Region.Name+'/'
+      Outdir = self.OutputDirectoryLocal+'/'+Region.ParamName+'/'+Region.Name+'/' #JH
       if self.ScaleMC:
         Outdir = self.OutputDirectoryLocal+'/ScaleMC/'+Region.Name+'/'
       os.system('mkdir -p '+Outdir)
@@ -253,7 +253,7 @@ class Plotter:
       print("self.Filename_prefix " + str(self.Filename_prefix))
       #f_Data = ROOT.TFile(Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+'_data_'+Region.PrimaryDataset+self.Filename_suffix+'.root')
 
-      f_Data = ROOT.TFile(Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+'_data_Lepton'+self.Filename_suffix+'.root')
+      f_Data = ROOT.TFile(Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+self.Filename_suffix+'.root')
       print (Region.PrimaryDataset + '/'+ Region.ParamName + '/'+ Region.Name+'/'+Hist_Name) #######
       h_Data = f_Data.Get(Region.PrimaryDataset + '/'+ Region.ParamName + '/'+ Region.Name+'/'+Hist_Name)
       if not h_Data:
@@ -455,10 +455,16 @@ class Plotter:
 
       ## Read binning data
       Rebins, XaxisRanges = self.ReadBinningInfo(Region.Name)
+      if self.DoDebug:
+        print ('[DEBUG] Use rebin : ')
+        print Rebins
+        print ('[DEBUG] Use Xaxis range : ')
+        print XaxisRanges
 
       ## Input/Output directotry
       Indir = self.InputDirectory
-      Outdir = self.OutputDirectoryLocal+'/'+Region.Name+'/'
+      #Outdir = self.OutputDirectoryLocal+'/'+Region.Name+'/'
+      Outdir = self.OutputDirectoryLocal+'/'+Region.ParamName+'/'+Region.Name+'/' #JH
       if self.ScaleMC:
         Outdir = self.OutputDirectoryLocal+'/ScaleMC/'+Region.Name+'/'
 
@@ -481,7 +487,7 @@ class Plotter:
 
       ## Data file
       #f_Data = ROOT.TFile(Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+'_data_'+Region.PrimaryDataset+self.Filename_suffix+'.root')
-      f_Data = ROOT.TFile(Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+'_data_Lepton'  +self.Filename_suffix+'.root')
+      f_Data = ROOT.TFile(Indir+'/'+self.DataDirectory+'/'+Region.ParamName+'/'+self.Filename_prefix+self.Filename_data_skim+'_data'+self.Filename_suffix+'.root') #JH
       
       if self.DoDebug:
         print ('[DEBUG] Trying to read from data file ' + Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+'_data_Lepton'+self.Filename_suffix+'.root')
@@ -603,7 +609,7 @@ class Plotter:
               if self.DoDebug:
                 print ('[DEBUG] Trying to make histogram for Sample = '+Sample)
 
-              f_Sample = ROOT.TFile(Indir+'/'+str(SampleGroup.Era)+'/'+self.Filename_prefix+self.Filename_skim+'_'+Sample+self.Filename_suffix+'.root')
+              f_Sample = ROOT.TFile(Indir+'/'+str(SampleGroup.Era)+'/'+Region.ParamName+'/'+self.Filename_prefix+self.Filename_skim+'_'+Sample+self.Filename_suffix+'.root') #JH
               h_Sample = 0
 
               ## Uncorrelated sources has Syst.Year = 2016 or 2017 or 2018
@@ -622,7 +628,8 @@ class Plotter:
                 tmp_paraName = Region.ParamName
                 h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ tmp_paraName + '/'+ Region.Name+'/'+Variable.Name)
               else:
-                h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ paraName + '/'+ Region.Name+'/'+Variable.Name)
+                #h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ paraName + '/'+ Region.Name+'/'+Variable.Name)
+                h_Sample = f_Sample.Get(Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName + '/'+Variable.Name) #JH
                 if self.DoDebug:
                   print("Looking in file: "+Indir+'/'+str(SampleGroup.Era)+'/'+self.Filename_prefix+self.Filename_skim+'_'+Sample+self.Filename_suffix+'.root')
                   print(Region.PrimaryDataset + '/'+ paraName + '/'+ Region.Name+'/'+Variable.Name)

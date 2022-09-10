@@ -72,7 +72,7 @@ m.InputDirectory = WORKING_DIR+'/InputFiles/MergedFiles/'+dataset+"/"+Analyser+"
 str_Era=m.DataEra
 
 #HNtypeI_Dilepton_SkimTree_HNMultiLep_Electron.root
-m.DataDirectory = str_Era+'/DATA'
+m.DataDirectory = str_Era
 m.Filename_prefix = Analyser
 m.Filename_suffix = ""
 m.Filename_skim = "_SkimTree_HNMultiLep"
@@ -171,13 +171,15 @@ else:
 from PredefinedSamples import *
 
 ###############
-#### DY CR ####
+#### WZ CR ####
 ###############
 
 if args.Category==0:
   #### Define Samples
   if str_Era != 'YearCombined':
-        exec('m.SampleGroups = [SampleGroup_NonPrompt_MuMu_%s,SampleGroup_Conv_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra)) #JH : XXX sometimes you need to merge samples
+    #exec('m.SampleGroups = [SampleGroup_NonPrompt_%s,SampleGroup_Conv_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra)) #JH : XXX sometimes you need to merge samples
+    #exec('m.SampleGroups = [SampleGroup_NonPrompt_%s,SampleGroup_Conv_%s, SampleGroup_CF_%s, SampleGroup_XG_%s, SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra)) #JH : XXX sometimes you need to merge samples
+    exec('m.SampleGroups = [SampleGroup_NonPrompt_%s,SampleGroup_Conv_%s, SampleGroup_CF_%s, SampleGroup_XG_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra)) #JH : XXX sometimes you need to merge samples
   else:
     m.SampleGroups = [
       SampleGroup_TTLL_2016preVFP,SampleGroup_TTLL_2016postVFP,SampleGroup_TTLL_2017,SampleGroup_TTLL_2018,
@@ -190,11 +192,35 @@ if args.Category==0:
   #### Print
   m.PrintSamples()
 
-  PNs=["POGCR_UL_RunAllControlRegions"] #JH: TMP
+  PNs=["POGCR_UL"] #JH
+  #PNs=["HNL_UL"] #JH
   #### Define regions
   m.RegionsToDraw = [
 
-    Region('HNL_WZ_ThreeLepton_CR', 'MuMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{DY->ll CR (M>50)}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_WZ_ThreeLepton_CR', 'MuMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{WZ CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_WZ_ThreeLepton_CR', 'EMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{e#mu}{WZ CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_WZ_ThreeLepton_CR', 'EE', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{ee}{WZ CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_ZZ_FourLepton_CR', 'MuMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{ZZ CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_ZZ_FourLepton_CR', 'EMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{e#mu}{ZZ CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_ZZ_FourLepton_CR', 'EE', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{ee}{ZZ CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_SSPresel_TwoLepton', 'MuMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SSPresel}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_SSPresel_TwoLepton', 'EMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{e#mu}{SSPresel}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_SSPresel_TwoLepton', 'EE', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{ee}{SSPresel}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_SSVBFPresel_TwoLepton', 'MuMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SSVBFPresel}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_SSVBFPresel_TwoLepton', 'EMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{e#mu}{SSVBFPresel}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_SSVBFPresel_TwoLepton', 'EE', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{ee}{SSVBFPresel}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_HighMassSR1_TwoLepton_CR', 'MuMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{HighMassCR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_HighMassSR1_TwoLepton_CR', 'EMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{e#mu}{HighMassCR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_HighMassSR1_TwoLepton_CR', 'EE', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{ee}{HighMassCR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_HighMassCR2_TwoLepton_CR', 'MuMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{HighMassCR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_HighMassCR2_TwoLepton_CR', 'EMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{e#mu}{HighMassCR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_HighMassCR2_TwoLepton_CR', 'EE', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{ee}{HighMassCR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_HighMassSR3_TwoLepton_CR', 'MuMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{HighMassCR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_HighMassSR3_TwoLepton_CR', 'EMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{e#mu}{HighMassCR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_HighMassSR3_TwoLepton_CR', 'EE', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{ee}{HighMassCR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    Region('HNL_HighMassNP_TwoLepton_CR', 'MuMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{NonPromptCR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    Region('HNL_HighMassNP_TwoLepton_CR', 'EMu', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{e#mu}{NonPromptCR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    Region('HNL_HighMassNP_TwoLepton_CR', 'EE', PNs[0],  UnblindData=True, Logy=0, TLatexAlias='#splitline{ee}{NonPromptCR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
 
     
   ]
@@ -203,8 +229,13 @@ if args.Category==0:
 
 #### Define Variables
 m.VariablesToDraw = [
-  Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
+  Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'), #JH
   Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
+  Variable('Lep_1_eta', '#eta of the leading lepton', 'GeV'),
+  Variable('Lep_2_eta', '#eta of the second lepton', 'GeV'),
+  #Variable('N_AK4Jets', 'N_{j}', ''),
+  #Variable('N_bjetsM', 'N_{bj}', ''),
+  #Variable('N_AK8Jets', 'N_{J}', ''),
   #Variable('Lep_3_pt', 'm(ll)','GeV'),
   #Variable('NJets', 'N_{j}',''),
   #Variable('NBJets', 'N_{bj}',''),

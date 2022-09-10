@@ -17,7 +17,7 @@ from HNType1_config import *
 
 
 eras = ["2016"] #"2016preVFP", "2016postVFP", "2017", "2018"]
-eras = ["2017", "2018"]
+eras = ["2018"]
 
 # This code makes /SIG dir in HNDiLeptonWorskspace/InputFiles/MergedFiles for each DataYear
 # It then merges SSWW samples ans merges All signals per mass
@@ -36,7 +36,7 @@ for era in eras:
         exit()
     
     if not os.path.exists(os.getenv("FILE_MERGED_PATH")+"/"+Analyser+"/"+era+"/SIGMerged/"):
-        os.system("mkdir  "+ os.getenv("FILE_MERGED_PATH")+"/"+Analyser+"/"+era+"/SIGMerged/")
+        os.system("mkdir -p "+ os.getenv("FILE_MERGED_PATH")+"/"+Analyser+"/"+era+"/SIGMerged/")
     
 
     for Mass in MassList:

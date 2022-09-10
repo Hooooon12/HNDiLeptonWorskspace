@@ -6,14 +6,13 @@ from Plotter import SampleGroup
 SampleGroup_Conv_2018 =  SampleGroup(
     Name='Conv',
     Type='Bkgd',
-    Samples=['CF'],
+    Samples=['Conv'],
     Era = "2018",
     Color=74,
     Style=1,
     TLatexAlias='Conv.',
     LatexAlias='Conv.'
 )
-
 
 SampleGroup_CF_2016preVFP =  SampleGroup(
     Name='CF',
@@ -42,7 +41,7 @@ SampleGroup_CF_2018 =  SampleGroup(
     Type='Bkgd',
     Samples=['CF'],
     Era = "2018",
-    Color=74,
+    Color=64,
     Style=1,
     TLatexAlias='Charge MisID.',
     LatexAlias='Charge MisID.'
@@ -148,7 +147,7 @@ SampleGroup_XG_2017 = SampleGroup(
 SampleGroup_XG_2018 = SampleGroup(
     Name='XG',
     Type='Bkgd',
-    Samples=['ZGTo2LG_01J', 'WGToLNuG'],
+    Samples=['ZGToLLG', 'WGToLNuG'], #JH
     Era = "2018",
     Color=ROOT.kSpring-7,
     Style=1,
@@ -531,8 +530,10 @@ SampleGroup_VV_2018 = SampleGroup(
     Era = "2018",
     Color=ROOT.kSpring-1,
     Style=1,
-    TLatexAlias='VV[powheg]',
-    LatexAlias='VV[Powheg]'
+    #TLatexAlias='VV[powheg]',
+    TLatexAlias='VV',
+    #LatexAlias='VV[Powheg]'
+    LatexAlias='VV' #JH
 )
 
 
@@ -849,7 +850,8 @@ SampleGroup_NonPrompt_2017 = SampleGroup(
 SampleGroup_NonPrompt_2018 = SampleGroup(
   Name='NonPrompt',
   Type='Bkgd',
-  Samples=['NonPrompt_Lepton'],
+  #Samples=['NonPrompt_Lepton'],
+  Samples=['NonPrompt'], #JH
   Era = "2018",
     Color=870,
   Style=1,

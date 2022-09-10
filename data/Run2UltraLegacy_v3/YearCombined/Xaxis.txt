@@ -1,22 +1,52 @@
-LLMass   0.	200.
-Lep_1_Pt   0.	200
-Lep_2_Pt   0	100
-NBJets   0	3
-NJets    0	5
-nPV	0	100
-PFMETPhiType1   -3.2 3.2
-PFMETPhiType1POGXY   -3.2 3.2
-PFMETPhiType1XY   -3.2 3.2
-PFMETType1   0	200.
-PFMETType1POGXY   0	200.
-PFMETType1XY   0	200.
-PuppiMETPhiType1   -3.2 3.2
-PuppiMETPhiType1POGXY   -3.2 3.2
-PuppiMETPhiType1XY   -3.2 3.2
-PuppiMETPhiType1XYSmeared   -3.2 3.2
-PuppiMETPhiType1XYSmeared2   -3.2 3.2
-PuppiMETType1   0	200.
-PuppiMETType1POGXY   0	200.
-PuppiMETType1XY   0	200.
-PuppiMETType1XYSmeared   0	200.
-PuppiMETType1XYSmeared2   0	200.
+HNL_WZ_ThreeLepton_CR	LLMass   0.	200.
+HNL_WZ_ThreeLepton_CR	NBJets   0	3
+HNL_WZ_ThreeLepton_CR	NJets    0	5
+HNL_WZ_ThreeLepton_CR	nPV	0	100
+HNL_WZ_ThreeLepton_CR	PFMETPhiType1   -3.2 3.2
+HNL_WZ_ThreeLepton_CR	PFMETPhiType1POGXY   -3.2 3.2
+HNL_WZ_ThreeLepton_CR	PFMETPhiType1XY   -3.2 3.2
+HNL_WZ_ThreeLepton_CR	PFMETType1   0	200.
+HNL_WZ_ThreeLepton_CR	PFMETType1POGXY   0	200.
+HNL_WZ_ThreeLepton_CR	PFMETType1XY   0	200.
+HNL_WZ_ThreeLepton_CR	PuppiMETPhiType1   -3.2 3.2
+HNL_WZ_ThreeLepton_CR	PuppiMETPhiType1POGXY   -3.2 3.2
+HNL_WZ_ThreeLepton_CR	PuppiMETPhiType1XY   -3.2 3.2
+HNL_WZ_ThreeLepton_CR	PuppiMETPhiType1XYSmeared   -3.2 3.2
+HNL_WZ_ThreeLepton_CR	PuppiMETPhiType1XYSmeared2   -3.2 3.2
+HNL_WZ_ThreeLepton_CR	PuppiMETType1   0	200.
+HNL_WZ_ThreeLepton_CR	PuppiMETType1POGXY   0	200.
+HNL_WZ_ThreeLepton_CR	PuppiMETType1XY   0	200.
+HNL_WZ_ThreeLepton_CR	PuppiMETType1XYSmeared   0	200.
+HNL_WZ_ThreeLepton_CR	PuppiMETType1XYSmeared2   0	200.
+HNL_WZ_ThreeLepton_CR	Lep_1_pt   0.	200
+HNL_WZ_ThreeLepton_CR	Lep_2_pt   0	100
+HNL_WZ_ThreeLepton_CR	Lep_1_eta   -2.5	2.5
+HNL_WZ_ThreeLepton_CR	Lep_2_eta   -2.5	2.5
+HNL_ZZ_FourLepton_CR	Lep_1_pt   0.	200
+HNL_ZZ_FourLepton_CR	Lep_2_pt   0	100
+HNL_ZZ_FourLepton_CR	Lep_1_eta   -2.5	2.5
+HNL_ZZ_FourLepton_CR	Lep_2_eta   -2.5	2.5
+HNL_SSPresel_TwoLepton	Lep_1_pt   0.	200
+HNL_SSPresel_TwoLepton	Lep_2_pt   0	100
+HNL_SSPresel_TwoLepton	Lep_1_eta   -2.5	2.5
+HNL_SSPresel_TwoLepton	Lep_2_eta   -2.5	2.5
+HNL_SSVBFPresel_TwoLepton	Lep_1_pt   0.	200
+HNL_SSVBFPresel_TwoLepton	Lep_2_pt   0	100
+HNL_SSVBFPresel_TwoLepton	Lep_1_eta   -2.5	2.5
+HNL_SSVBFPresel_TwoLepton	Lep_2_eta   -2.5	2.5
+HNL_HighMassSR1_TwoLepton_CR	Lep_1_pt   0.	400
+HNL_HighMassSR1_TwoLepton_CR	Lep_2_pt   0	200
+HNL_HighMassSR1_TwoLepton_CR	Lep_1_eta   -2.5	2.5
+HNL_HighMassSR1_TwoLepton_CR	Lep_2_eta   -2.5	2.5
+HNL_HighMassCR2_TwoLepton_CR	Lep_1_pt   0.	400
+HNL_HighMassCR2_TwoLepton_CR	Lep_2_pt   0	200
+HNL_HighMassCR2_TwoLepton_CR	Lep_1_eta   -2.5	2.5
+HNL_HighMassCR2_TwoLepton_CR	Lep_2_eta   -2.5	2.5
+HNL_HighMassSR3_TwoLepton_CR	Lep_1_pt   0.	400
+HNL_HighMassSR3_TwoLepton_CR	Lep_2_pt   0	200
+HNL_HighMassSR3_TwoLepton_CR	Lep_1_eta   -2.5	2.5
+HNL_HighMassSR3_TwoLepton_CR	Lep_2_eta   -2.5	2.5
+HNL_HighMassNP_TwoLepton_CR	Lep_1_pt   0.	400
+HNL_HighMassNP_TwoLepton_CR	Lep_2_pt   0	200
+HNL_HighMassNP_TwoLepton_CR	Lep_1_eta   -2.5	2.5
+HNL_HighMassNP_TwoLepton_CR	Lep_2_eta   -2.5	2.5
