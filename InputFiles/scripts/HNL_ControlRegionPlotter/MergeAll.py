@@ -65,7 +65,7 @@ if MergeCF:
         if os.path.exists(OutFile):
             os.system("rm " + OutFile)
 
-        os.system("hadd " + OutFile + "  " + InputPath + "/"+era+"//RunCF__/*")
+        os.system("hadd " + OutFile + "  " + InputPath + "/"+era+"//RunCF__/DATA/*") #JH
 
        
 if MergeConv:
@@ -76,7 +76,7 @@ if MergeConv:
         if os.path.exists(OutFile):
             os.system("rm " + OutFile)
 
-        os.system("hadd " +OutFile+  "   " + InputPath + "/"+era+"//RunConv__/*.root") #JH
+        os.system("hadd " +OutFile+  "   " + InputPath + "/"+era+"//RunConv__/*G.root") #JH
 
 
 

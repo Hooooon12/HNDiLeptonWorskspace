@@ -19,7 +19,18 @@ SampleGroup_CF_2016preVFP =  SampleGroup(
     Type='Bkgd',
     Samples=['CF'],
     Era = "2016preVFP",
-    Color=74,
+    Color=ROOT.kYellow,
+    Style=1,
+    TLatexAlias='Charge MisID.',
+    LatexAlias='Charge MisID.'
+)
+
+SampleGroup_CF_2016postVFP =  SampleGroup(
+    Name='CF',
+    Type='Bkgd',
+    Samples=['CF'],
+    Era = "2016postVFP",
+    Color=ROOT.kYellow,
     Style=1,
     TLatexAlias='Charge MisID.',
     LatexAlias='Charge MisID.'
@@ -30,7 +41,7 @@ SampleGroup_CF_2017 =  SampleGroup(
     Type='Bkgd',
     Samples=['CF'],
     Era = "2017",
-    Color=74,
+    Color=ROOT.kYellow,
     Style=1,
     TLatexAlias='Charge MisID.',
     LatexAlias='Charge MisID.'
@@ -41,7 +52,7 @@ SampleGroup_CF_2018 =  SampleGroup(
     Type='Bkgd',
     Samples=['CF'],
     Era = "2018",
-    Color=64,
+    Color=ROOT.kYellow,
     Style=1,
     TLatexAlias='Charge MisID.',
     LatexAlias='Charge MisID.'
@@ -155,11 +166,58 @@ SampleGroup_XG_2018 = SampleGroup(
     LatexAlias='X+$\\gamma$'
 )
 
+#WZJJ
+SampleGroup_WZJJ_2018 = SampleGroup(
+    Name='WZJJ',
+    Type='Bkgd',
+    Samples=['WZJJToLNu_private'], #JH
+    Era = "2018",
+    Color=ROOT.kOrange-2,
+    Style=1,
+    TLatexAlias='WZJJ',
+    LatexAlias='WZJJ'
+)
+
+#WGJJ
+SampleGroup_WGJJ_2018 = SampleGroup(
+    Name='WGJJ',
+    Type='Bkgd',
+    Samples=['WZJJToLNu_private'], #JH
+    Era = "2018",
+    Color=ROOT.kOrange+4,
+    Style=1,
+    TLatexAlias='WGJJ',
+    LatexAlias='WGJJ'
+)
+
+#WpWp
+SampleGroup_WpWp_2018 = SampleGroup(
+    Name='WpWp',
+    Type='Bkgd',
+    Samples=['WpWp_EWK','WpWp_QCD'], #JH
+    Era = "2018",
+    Color=ROOT.kRed,
+    Style=1,
+    TLatexAlias='W\pm W\pm',
+    LatexAlias='W\pm W\pm'
+)
+
 SampleGroup_ZG_2016preVFP = SampleGroup(
     Name='XG',
     Type='Bkgd',
     Samples=['ZGTo2LG_01J'],
     Era = "2016preVFP",
+    Color=ROOT.kSpring-7,
+    Style=1,
+    TLatexAlias='Z+#gamma',
+    LatexAlias='Z+$\\gamma$'
+)
+
+SampleGroup_ZG_2016postVFP = SampleGroup(
+    Name='XG',
+    Type='Bkgd',
+    Samples=['ZGTo2LG_01J'],
+    Era = "2016postVFP",
     Color=ROOT.kSpring-7,
     Style=1,
     TLatexAlias='Z+#gamma',

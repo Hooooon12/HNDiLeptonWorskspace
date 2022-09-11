@@ -73,10 +73,12 @@ class Variable:
 
 ## Region ##
 class Region:
-  def __init__(self, Name, PrimaryDataset, PName, UnblindData=True, Logy=-1, TLatexAlias="", CutFlowCaption="Test"):
+  #def __init__(self, Name, PrimaryDataset, PName, UnblindData=True, Logy=-1, TLatexAlias="", CutFlowCaption="Test"):
+  def __init__(self, Name, PrimaryDataset, PName, HistTag, UnblindData=True, Logy=-1, TLatexAlias="", CutFlowCaption="Test"): #JH
     self.Name = Name
     self.PrimaryDataset = PrimaryDataset
     self.ParamName = PName
+    self.HistTag = HistTag
     self.UnblindData = UnblindData
     self.Logy = Logy
     self.TLatexAlias = TLatexAlias
@@ -490,7 +492,7 @@ class Plotter:
       f_Data = ROOT.TFile(Indir+'/'+self.DataDirectory+'/'+Region.ParamName+'/'+self.Filename_prefix+self.Filename_data_skim+'_data'+self.Filename_suffix+'.root') #JH
       
       if self.DoDebug:
-        print ('[DEBUG] Trying to read from data file ' + Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+'_data_Lepton'+self.Filename_suffix+'.root')
+        print ('[DEBUG] Trying to read from data file ' + Indir+'/'+self.DataDirectory+'/'+Region.ParamName+'/'+self.Filename_prefix+self.Filename_data_skim+'_data'+self.Filename_suffix+'.root')
 
 
       ## Loop over variables
@@ -537,8 +539,8 @@ class Plotter:
         #h_Data = f_Data.Get(Region.PrimaryDataset + '/'+ Region.ParamName + '/'+ Region.Name+'/'+Variable.Name) #JH: FIXME this naming convention is different with ControlRegion
         h_Data = f_Data.Get(Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName + '/'+Variable.Name) #JH: CR naming convention
         if not h_Data:
-          print (Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+'_data_Lepton'+self.Filename_suffix+'.root')
-          print (Region.PrimaryDataset + '/'+ Region.ParamName + '/'+ Region.Name+'/'+Variable.Name)
+          print (Indir+'/'+self.DataDirectory+'/'+Region.ParamName+'/'+self.Filename_prefix+self.Filename_data_skim+'_data'+self.Filename_suffix+'.root') #JH
+          print (Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName + '/'+Variable.Name)
           print (Variable.Name+'_'+Region.Name+'.pdf ==> No data, skipped')
           continue
 
@@ -629,10 +631,10 @@ class Plotter:
                 h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ tmp_paraName + '/'+ Region.Name+'/'+Variable.Name)
               else:
                 #h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ paraName + '/'+ Region.Name+'/'+Variable.Name)
-                h_Sample = f_Sample.Get(Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName + '/'+Variable.Name) #JH
+                h_Sample = f_Sample.Get(Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName+Region.HistTag + '/'+Variable.Name) #JH
                 if self.DoDebug:
-                  print("Looking in file: "+Indir+'/'+str(SampleGroup.Era)+'/'+self.Filename_prefix+self.Filename_skim+'_'+Sample+self.Filename_suffix+'.root')
-                  print(Region.PrimaryDataset + '/'+ paraName + '/'+ Region.Name+'/'+Variable.Name)
+                  print("Looking in file: "+Indir+'/'+str(SampleGroup.Era)+'/'+Region.ParamName+'/'+self.Filename_prefix+self.Filename_skim+'_'+Sample+self.Filename_suffix+'.root') #JH
+                  print(Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName+Region.HistTag + '/'+Variable.Name) #JH
 
               if not h_Sample:
                 print 'No hist : %s %s'%(Syst.Name,Sample)
@@ -1192,8 +1194,8 @@ class Plotter:
         exec(self.ExtraLines)
 
         ## Save
-        c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'.pdf')
-        c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'.png')
+        c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+'.pdf')
+        c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+'.png') #JH
         print (Variable.Name+'_'+Region.Name+'.pdf ==> Saved')
 
         print(str(self.OutputDirectory))
