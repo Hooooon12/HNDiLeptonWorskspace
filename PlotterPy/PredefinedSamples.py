@@ -3,6 +3,39 @@ from Plotter import SampleGroup
 
 #VV_incl", "DY","Xgamma", "VVV", "top", "WW_double","ttbar"
 
+SampleGroup_Conv_2016preVFP =  SampleGroup(
+    Name='Conv',
+    Type='Bkgd',
+    Samples=['Conv'],
+    Era = "2016preVFP",
+    Color=74,
+    Style=1,
+    TLatexAlias='Conv.',
+    LatexAlias='Conv.'
+)
+
+SampleGroup_Conv_2016postVFP =  SampleGroup(
+    Name='Conv',
+    Type='Bkgd',
+    Samples=['Conv'],
+    Era = "2016postVFP",
+    Color=74,
+    Style=1,
+    TLatexAlias='Conv.',
+    LatexAlias='Conv.'
+)
+
+SampleGroup_Conv_2017 =  SampleGroup(
+    Name='Conv',
+    Type='Bkgd',
+    Samples=['Conv'],
+    Era = "2017",
+    Color=74,
+    Style=1,
+    TLatexAlias='Conv.',
+    LatexAlias='Conv.'
+)
+
 SampleGroup_Conv_2018 =  SampleGroup(
     Name='Conv',
     Type='Bkgd',
@@ -72,6 +105,17 @@ SampleGroup_Top_2016preVFP = SampleGroup(
     LatexAlias='$\\mathrm{t}\\bar{\\mathrm{t}}$[powheg]'
 )
 
+SampleGroup_Top_2016postVFP = SampleGroup(
+    Name='Top',
+    Type='Bkgd',
+    Samples=['TTLL_powheg','ttWToLNu','ttWToQQ','ttZToLLNuNu','ttZToQQ'],
+    Era = "2016postVFP",
+    Color=ROOT.kRed,
+    Style=1,
+    TLatexAlias='t#bar{t}[powheg]',
+    LatexAlias='$\\mathrm{t}\\bar{\\mathrm{t}}$[powheg]'
+)
+
 SampleGroup_Top_2017 = SampleGroup(
     Name='Top',
     Type='Bkgd',
@@ -108,6 +152,17 @@ SampleGroup_VVV_2016preVFP = SampleGroup(
     LatexAlias='VVV'
 )
 
+SampleGroup_VVV_2016postVFP = SampleGroup(
+    Name='VVV',
+    Type='Bkgd',
+    Samples=['WWW', 'WWZ', 'WZZ', 'ZZZ'],
+    Era = "2016postVFP",
+    Color=ROOT.kSpring+10,
+    Style=1,
+    TLatexAlias='VVV',
+    LatexAlias='VVV'
+)
+
 SampleGroup_VVV_2017 = SampleGroup(
     Name='VVV',
     Type='Bkgd',
@@ -135,8 +190,19 @@ SampleGroup_VVV_2018 = SampleGroup(
 SampleGroup_XG_2016preVFP = SampleGroup(
     Name='XG',
     Type='Bkgd',
-    Samples=['ZGTo2LG_01J', 'WGToLNuG'],
+    Samples=['ZGToLLG', 'WGToLNuG'],
     Era = "2016preVFP",
+    Color=ROOT.kSpring-7,
+    Style=1,
+    TLatexAlias='X+#gamma',
+    LatexAlias='X+$\\gamma$'
+)
+
+SampleGroup_XG_2016postVFP = SampleGroup(
+    Name='XG',
+    Type='Bkgd',
+    Samples=['ZGToLLG', 'WGToLNuG'],
+    Era = "2016postVFP",
     Color=ROOT.kSpring-7,
     Style=1,
     TLatexAlias='X+#gamma',
@@ -146,7 +212,7 @@ SampleGroup_XG_2016preVFP = SampleGroup(
 SampleGroup_XG_2017 = SampleGroup(
     Name='XG',
     Type='Bkgd',
-    Samples=['ZGTo2LG_01J', 'WGToLNuG'],
+    Samples=['ZGToLLG', 'WGToLNuG'],
     Era = "2017",
     Color=ROOT.kSpring-7,
     Style=1,
@@ -167,6 +233,39 @@ SampleGroup_XG_2018 = SampleGroup(
 )
 
 #WZJJ
+SampleGroup_WZJJ_2016preVFP = SampleGroup(
+    Name='WZJJ',
+    Type='Bkgd',
+    Samples=['WZJJToLNu_private'], #JH
+    Era = "2016preVFP",
+    Color=ROOT.kOrange-2,
+    Style=1,
+    TLatexAlias='WZJJ',
+    LatexAlias='WZJJ'
+)
+
+SampleGroup_WZJJ_2016postVFP = SampleGroup(
+    Name='WZJJ',
+    Type='Bkgd',
+    Samples=['WZJJToLNu_private'], #JH
+    Era = "2016postVFP",
+    Color=ROOT.kOrange-2,
+    Style=1,
+    TLatexAlias='WZJJ',
+    LatexAlias='WZJJ'
+)
+
+SampleGroup_WZJJ_2017 = SampleGroup(
+    Name='WZJJ',
+    Type='Bkgd',
+    Samples=['WZJJToLNu_private'], #JH
+    Era = "2017",
+    Color=ROOT.kOrange-2,
+    Style=1,
+    TLatexAlias='WZJJ',
+    LatexAlias='WZJJ'
+)
+
 SampleGroup_WZJJ_2018 = SampleGroup(
     Name='WZJJ',
     Type='Bkgd',
@@ -179,6 +278,39 @@ SampleGroup_WZJJ_2018 = SampleGroup(
 )
 
 #WGJJ
+SampleGroup_WGJJ_2016preVFP = SampleGroup(
+    Name='WGJJ',
+    Type='Bkgd',
+    Samples=['WZJJToLNu_private'], #JH
+    Era = "2016preVFP",
+    Color=ROOT.kOrange+4,
+    Style=1,
+    TLatexAlias='WGJJ',
+    LatexAlias='WGJJ'
+)
+
+SampleGroup_WGJJ_2016postVFP = SampleGroup(
+    Name='WGJJ',
+    Type='Bkgd',
+    Samples=['WZJJToLNu_private'], #JH
+    Era = "2016postVFP",
+    Color=ROOT.kOrange+4,
+    Style=1,
+    TLatexAlias='WGJJ',
+    LatexAlias='WGJJ'
+)
+
+SampleGroup_WGJJ_2017 = SampleGroup(
+    Name='WGJJ',
+    Type='Bkgd',
+    Samples=['WZJJToLNu_private'], #JH
+    Era = "2017",
+    Color=ROOT.kOrange+4,
+    Style=1,
+    TLatexAlias='WGJJ',
+    LatexAlias='WGJJ'
+)
+
 SampleGroup_WGJJ_2018 = SampleGroup(
     Name='WGJJ',
     Type='Bkgd',
@@ -191,6 +323,39 @@ SampleGroup_WGJJ_2018 = SampleGroup(
 )
 
 #WpWp
+SampleGroup_WpWp_2016preVFP = SampleGroup(
+    Name='WpWp',
+    Type='Bkgd',
+    Samples=['WpWp_EWK','WpWp_QCD'], #JH
+    Era = "2016preVFP",
+    Color=ROOT.kRed,
+    Style=1,
+    TLatexAlias='W\pm W\pm',
+    LatexAlias='W\pm W\pm'
+)
+
+SampleGroup_WpWp_2016postVFP = SampleGroup(
+    Name='WpWp',
+    Type='Bkgd',
+    Samples=['WpWp_EWK','WpWp_QCD'], #JH
+    Era = "2016postVFP",
+    Color=ROOT.kRed,
+    Style=1,
+    TLatexAlias='W\pm W\pm',
+    LatexAlias='W\pm W\pm'
+)
+
+SampleGroup_WpWp_2017 = SampleGroup(
+    Name='WpWp',
+    Type='Bkgd',
+    Samples=['WpWp_EWK','WpWp_QCD'], #JH
+    Era = "2017",
+    Color=ROOT.kRed,
+    Style=1,
+    TLatexAlias='W\pm W\pm',
+    LatexAlias='W\pm W\pm'
+)
+
 SampleGroup_WpWp_2018 = SampleGroup(
     Name='WpWp',
     Type='Bkgd',
@@ -554,8 +719,8 @@ SampleGroup_VV_2016preVFP = SampleGroup(
     Era = "2016preVFP",
     Color=ROOT.kSpring-1,
     Style=1,
-    TLatexAlias='VV[Powheg]',
-    LatexAlias='VV[Powheg]'
+    TLatexAlias='VV',
+    LatexAlias='VV'
 )
 
 SampleGroup_VV_2016postVFP = SampleGroup(
@@ -565,11 +730,9 @@ SampleGroup_VV_2016postVFP = SampleGroup(
     Era = "2016postVFP",
     Color=ROOT.kSpring-1,
     Style=1,
-    TLatexAlias='VV[Powheg]',
-    LatexAlias='VV[Powheg]'
+    TLatexAlias='VV',
+    LatexAlias='VV'
 )
-
-
 
 SampleGroup_VV_2017 = SampleGroup(
     Name='VV',
@@ -578,8 +741,8 @@ SampleGroup_VV_2017 = SampleGroup(
     Era = "2017",
     Color=ROOT.kSpring-1,
     Style=1,
-    TLatexAlias='VV[Pythia]',
-    LatexAlias='VV[Pythia]'
+    TLatexAlias='VV',
+    LatexAlias='VV'
 )
 SampleGroup_VV_2018 = SampleGroup(
     Name='VV',
@@ -598,7 +761,7 @@ SampleGroup_VV_2018 = SampleGroup(
 SampleGroup_Other_2016preVFP = SampleGroup(
     Name='Other',
     Type='Bkgd',
-    Samples=['WpWp_EWK','WpWp_QCD','TTZZ','TTTT','VBF_HToZZTo4L','VHToNonbb','tHq','ttHToNonbb','ttWToLNu','ttZToLLNuNu'],
+    Samples=['TTZZ','TTTT','VBF_HToZZTo4L','VHToNonbb','tHq','ttHToNonbb','ttWToLNu','ttZToLLNuNu'],
     Era = "2016preVFP",
     Color=ROOT.kGray,
     Style=1,
@@ -609,7 +772,7 @@ SampleGroup_Other_2016preVFP = SampleGroup(
 SampleGroup_Other_2016postVFP = SampleGroup(
     Name='Other',
     Type='Bkgd',
-    Samples=['WpWp_EWK','WpWp_QCD','TTZZ','TTTT','VBF_HToZZTo4L','VHToNonbb','tHq','ttHToNonbb','ttWToLNu','ttZToLLNuNu'],
+    Samples=['TTZZ','TTTT','VBF_HToZZTo4L','VHToNonbb','tHq','ttHToNonbb','ttWToLNu','ttZToLLNuNu'],
     Era = "2016postVFP",
     Color=ROOT.kGray,
     Style=1,
@@ -619,7 +782,7 @@ SampleGroup_Other_2016postVFP = SampleGroup(
 SampleGroup_Other_2017 = SampleGroup(
     Name='Other',
     Type='Bkgd',
-    Samples=['WpWp_EWK','WpWp_QCD','TTZZ','TTTT','VBF_HToZZTo4L','VHToNonbb','tHq','ttHToNonbb','ttWToLNu','ttZToLLNuNu'],
+    Samples=['TTZZ','TTTT','VBF_HToZZTo4L','VHToNonbb','tHq','ttHToNonbb','ttWToLNu','ttZToLLNuNu'],
     Era = "2017",
     Color=ROOT.kGray,
     Style=1,
@@ -629,7 +792,7 @@ SampleGroup_Other_2017 = SampleGroup(
 SampleGroup_Other_2018 = SampleGroup(
     Name='Other',
     Type='Bkgd',
-    Samples=['WpWp_EWK','WpWp_QCD','TTZZ','TTTT','VBF_HToZZTo4L','VHToNonbb','tHq','ttHToNonbb','ttWToLNu','ttZToLLNuNu'],
+    Samples=['TTZZ','TTTT','VBF_HToZZTo4L','VHToNonbb','tHq','ttHToNonbb','ttWToLNu','ttZToLLNuNu'],
     Era = "2018",
     Color=ROOT.kGray,
     Style=1,
@@ -875,7 +1038,7 @@ SampleGroup_NonPrompt_EE_2018 = SampleGroup(
 SampleGroup_NonPrompt_2016preVFP = SampleGroup(
   Name='NonPrompt',
   Type='Bkgd',
-  Samples=['NonPrompt_Lepton'],
+  Samples=['NonPrompt'],
     Era = "2016preVFP",
     Color=870,
   Style=1,
@@ -887,7 +1050,7 @@ SampleGroup_NonPrompt_2016preVFP = SampleGroup(
 SampleGroup_NonPrompt_2016postVFP = SampleGroup(
   Name='NonPrompt',
   Type='Bkgd',
-  Samples=['NonPrompt_Lepton'],
+  Samples=['NonPrompt'],
     Era = "2016postVFP",
     Color=870,
   Style=1,
@@ -898,7 +1061,7 @@ SampleGroup_NonPrompt_2016postVFP = SampleGroup(
 SampleGroup_NonPrompt_2017 = SampleGroup(
   Name='NonPrompt',
   Type='Bkgd',
-  Samples=['NonPrompt_Lepton'],
+  Samples=['NonPrompt'],
   Era = "2017",
     Color=870,
   Style=1,

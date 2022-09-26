@@ -62,12 +62,16 @@ HNL_HighMassBJet_TwoLepton_CR	Lep_1_eta   -2.5	2.5
 HNL_HighMassBJet_TwoLepton_CR	Lep_2_eta   -2.5	2.5
 HNL_ZG_ThreeLepton_CR	Lep_1_pt   0.	400
 HNL_ZG_ThreeLepton_CR	Lep_2_pt   0	200
+HNL_ZG_ThreeLepton_CR	Lep_3_pt   0	100
 HNL_ZG_ThreeLepton_CR	Lep_1_eta   -2.5	2.5
 HNL_ZG_ThreeLepton_CR	Lep_2_eta   -2.5	2.5
+HNL_ZG_ThreeLepton_CR	Lep_3_eta   -2.5	2.5
 HNL_WG_ThreeLepton_CR	Lep_1_pt   0.	400
 HNL_WG_ThreeLepton_CR	Lep_2_pt   0	200
+HNL_WG_ThreeLepton_CR	Lep_3_pt   0	100
 HNL_WG_ThreeLepton_CR	Lep_1_eta   -2.5	2.5
 HNL_WG_ThreeLepton_CR	Lep_2_eta   -2.5	2.5
+HNL_WG_ThreeLepton_CR	Lep_3_eta   -2.5	2.5
 HNL_WpWp_TwoLepton_CR1	Lep_1_pt   0.	400
 HNL_WpWp_TwoLepton_CR1	Lep_2_pt   0	200
 HNL_WpWp_TwoLepton_CR1	Lep_1_eta   -2.5	2.5

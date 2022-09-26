@@ -7,15 +7,18 @@ if os.getenv("FILE_MERGED_PATH") == "NULL":
 
 
 eras = ["2016preVFP", "2016postVFP", "2017", "2018"]
-eras = ["2018"]
+eras = ["2017"]
+#eras = ["2018"]
 paramNames = ["POGCR_UL", "HNL_UL"]
 paramNames = ["HNL_UL"] #JH
 
 MergeFake=True
-MergeCF=True
-MergeConv=True
+MergeCF=False
+MergeConv=False
 MergeMC=False
+CopyMC=False
 MergeBkg=False
+MergeData=False
 
 Analyser="HNL_ControlRegionPlotter"
 InputPath=os.getenv("SKFlatOutputDir")+"/"+os.getenv("SKFlatV") + "/"+Analyser+"/"
@@ -48,7 +51,8 @@ if MergeMC:
             os.system("rm " + OutFile)
 
         os.system("hadd " + OutFile + "  " + InputPath + "/"+era+"/*HNMu*")
-else:
+
+if CopyMC:
 
     for era in eras:
 
@@ -95,7 +99,6 @@ if MergeBkg:
     #os.system("python Merge16.py")
     #os.system("python MergeSignalFull.py") #JH
 
-MergeData=True
 if MergeData:
 
     for era in eras:
