@@ -74,11 +74,12 @@ class Variable:
 ## Region ##
 class Region:
   #def __init__(self, Name, PrimaryDataset, PName, UnblindData=True, Logy=-1, TLatexAlias="", CutFlowCaption="Test"):
-  def __init__(self, Name, PrimaryDataset, PName, HistTag, UnblindData=True, Logy=-1, TLatexAlias="", CutFlowCaption="Test"): #JH
+  def __init__(self, Name, PrimaryDataset, PName, HistTag, OutputTag, UnblindData=True, Logy=-1, TLatexAlias="", CutFlowCaption="Test"): #JH
     self.Name = Name
     self.PrimaryDataset = PrimaryDataset
     self.ParamName = PName
     self.HistTag = HistTag
+    self.OutputTag = OutputTag
     self.UnblindData = UnblindData
     self.Logy = Logy
     self.TLatexAlias = TLatexAlias
@@ -536,7 +537,6 @@ class Plotter:
         if self.DoDebug:
           print ('[DEBUG] Trying to get data histogram..')
           print (Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName + '/'+Variable.Name)
-        #h_Data = f_Data.Get(Region.PrimaryDataset + '/'+ Region.ParamName + '/'+ Region.Name+'/'+Variable.Name) #JH: FIXME this naming convention is different with ControlRegion
         h_Data = f_Data.Get(Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName + '/'+Variable.Name) #JH: CR naming convention
         if not h_Data:
           print (Indir+'/'+self.DataDirectory+'/'+Region.ParamName+'/'+self.Filename_prefix+self.Filename_data_skim+'_data'+self.Filename_suffix+'.root') #JH
@@ -630,7 +630,6 @@ class Plotter:
                 tmp_paraName = Region.ParamName
                 h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ tmp_paraName + '/'+ Region.Name+'/'+Variable.Name)
               else:
-                #h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ paraName + '/'+ Region.Name+'/'+Variable.Name)
                 h_Sample = f_Sample.Get(Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName+Region.HistTag + '/'+Variable.Name) #JH
                 if self.DoDebug:
                   print("Looking in file: "+Indir+'/'+str(SampleGroup.Era)+'/'+Region.ParamName+'/'+self.Filename_prefix+self.Filename_skim+'_'+Sample+self.Filename_suffix+'.root') #JH
@@ -1194,8 +1193,8 @@ class Plotter:
         exec(self.ExtraLines)
 
         ## Save
-        c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+'.pdf')
-        c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+'.png') #JH
+        #c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+Region.OutputTag+'.pdf')
+        c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+Region.OutputTag+'.png') #JH
         print (Variable.Name+'_'+Region.Name+'.pdf ==> Saved')
 
         print(str(self.OutputDirectory))

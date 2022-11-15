@@ -20,11 +20,11 @@ PuppiMETType1XYSmeared   1
 PuppiMETType1XYSmeared2   1
 HNL_WZ_ThreeLepton_CR	Lep_1_pt   				5
 HNL_WZ_ThreeLepton_CR	Lep_2_pt   				5
-HNL_WZ_ThreeLepton_CR	Lep_3_pt   				5
+HNL_WZ_ThreeLepton_CR	Lep_3_pt   				1
 HNL_ZZ_FourLepton_CR	Lep_1_pt   				5
 HNL_ZZ_FourLepton_CR	Lep_2_pt   				5
-HNL_ZZ_FourLepton_CR	Lep_3_pt   				5
-HNL_ZZ_FourLepton_CR	Lep_4_pt   				5
+HNL_ZZ_FourLepton_CR	Lep_3_pt   				1
+HNL_ZZ_FourLepton_CR	Lep_4_pt   				1
 HNL_SSPresel_TwoLepton	Lep_1_pt   			5
 HNL_SSPresel_TwoLepton	Lep_2_pt   			5
 HNL_SSVBFPresel_TwoLepton	Lep_1_pt  		5
@@ -39,12 +39,12 @@ HNL_HighMassNP_TwoLepton_CR	Lep_1_pt   	5
 HNL_HighMassNP_TwoLepton_CR	Lep_2_pt   	5
 HNL_HighMassBJet_TwoLepton_CR	Lep_1_pt  5
 HNL_HighMassBJet_TwoLepton_CR	Lep_2_pt  5
-HNL_ZG_ThreeLepton_CR	Lep_1_pt   				5
-HNL_ZG_ThreeLepton_CR	Lep_2_pt   				5
-HNL_ZG_ThreeLepton_CR	Lep_3_pt   				5
-HNL_WG_ThreeLepton_CR	Lep_1_pt   				5
-HNL_WG_ThreeLepton_CR	Lep_2_pt   				5
-HNL_WG_ThreeLepton_CR	Lep_3_pt   				5
+HNL_ZG_ThreeLepton_CR	Lep_1_pt   				2
+HNL_ZG_ThreeLepton_CR	Lep_2_pt   				2
+HNL_ZG_ThreeLepton_CR	Lep_3_pt   				1
+HNL_WG_ThreeLepton_CR	Lep_1_pt   				2
+HNL_WG_ThreeLepton_CR	Lep_2_pt   				2
+HNL_WG_ThreeLepton_CR	Lep_3_pt   				1
 HNL_WpWp_TwoLepton_CR1	Lep_1_pt  			5
 HNL_WpWp_TwoLepton_CR1	Lep_2_pt  			5
 HNL_WpWp_TwoLepton_CR2	Lep_1_pt  			5
@@ -57,10 +57,10 @@ HNL_WpWpNP3_TwoLepton_CR	Lep_1_pt 			5
 HNL_WpWpNP3_TwoLepton_CR	Lep_2_pt 			5 
 HNL_WZ2_ThreeLepton_CR	Lep_1_pt   			5 
 HNL_WZ2_ThreeLepton_CR	Lep_2_pt   			5 
-HNL_WZ2_ThreeLepton_CR	Lep_3_pt   			5 
+HNL_WZ2_ThreeLepton_CR	Lep_3_pt   			1
 HNL_WZB_ThreeLepton_CR	Lep_1_pt   			5 
 HNL_WZB_ThreeLepton_CR	Lep_2_pt   			5 
-HNL_WZB_ThreeLepton_CR	Lep_3_pt   			5 
+HNL_WZB_ThreeLepton_CR	Lep_3_pt   			1
 HNL_WZ_ThreeLepton_CR	Lep_1_eta  					5 
 HNL_WZ_ThreeLepton_CR	Lep_2_eta   				5
 HNL_WZ_ThreeLepton_CR	Lep_3_eta   				5

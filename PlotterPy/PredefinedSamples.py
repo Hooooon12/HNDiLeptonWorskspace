@@ -47,6 +47,61 @@ SampleGroup_Conv_2018 =  SampleGroup(
     LatexAlias='Conv.'
 )
 
+SampleGroup_Conv_DYonly_2017 =  SampleGroup(
+    Name='Conv',
+    Type='Bkgd',
+    Samples=['Conv_DYonly'],
+    Era = "2017",
+    Color=74,
+    Style=1,
+    TLatexAlias='Conv.',
+    LatexAlias='Conv.'
+)
+
+SampleGroup_Conv_MG_2017 =  SampleGroup(
+    Name='Conv',
+    Type='Bkgd',
+    Samples=['Conv_MG'],
+    Era = "2017",
+    Color=74,
+    Style=1,
+    TLatexAlias='Conv.',
+    LatexAlias='Conv.'
+)
+
+SampleGroup_Conv_amcatnlo_2017 =  SampleGroup(
+    Name='Conv',
+    Type='Bkgd',
+    Samples=['Conv_amcatnlo'],
+    Era = "2017",
+    Color=74,
+    Style=1,
+    TLatexAlias='Conv.',
+    LatexAlias='Conv.'
+)
+
+SampleGroup_Conv_Sherpa_2017 =  SampleGroup(
+    Name='Conv',
+    Type='Bkgd',
+    Samples=['Conv_Sherpa'],
+    Era = "2017",
+    Color=74,
+    Style=1,
+    TLatexAlias='Conv.',
+    LatexAlias='Conv.'
+)
+
+SampleGroup_Conv_HT_2017 =  SampleGroup(
+    Name='Conv',
+    Type='Bkgd',
+    Samples=['Conv_HT'],
+    Era = "2017",
+    Color=74,
+    Style=1,
+    TLatexAlias='Conv.',
+    LatexAlias='Conv.'
+)
+
 SampleGroup_CF_2016preVFP =  SampleGroup(
     Name='CF',
     Type='Bkgd',
@@ -737,7 +792,7 @@ SampleGroup_VV_2016postVFP = SampleGroup(
 SampleGroup_VV_2017 = SampleGroup(
     Name='VV',
     Type='Bkgd',
-    Samples=['WZTo3LNu_amcatnlo','ZZTo4L_powheg','GluGluToZZto2e2mu','GluGluToZZto4e','GluGluToZZto4mu'],
+    Samples=['WZTo3LNu_mllmin4p0_powheg','ZZTo4L_powheg','GluGluToZZto2e2mu','GluGluToZZto4e','GluGluToZZto4mu'],
     Era = "2017",
     Color=ROOT.kSpring-1,
     Style=1,

@@ -12,13 +12,14 @@ eras = ["2017"]
 paramNames = ["POGCR_UL", "HNL_UL"]
 paramNames = ["HNL_UL"] #JH
 
-MergeFake=True
-MergeCF=False
-MergeConv=False
-MergeMC=False
-CopyMC=False
-MergeBkg=False
 MergeData=False
+MergeFake=False
+MergeCF=  False
+MergeConv=True
+CopyMC=   False
+
+MergeMC=False
+MergeBkg=False
 
 Analyser="HNL_ControlRegionPlotter"
 InputPath=os.getenv("SKFlatOutputDir")+"/"+os.getenv("SKFlatV") + "/"+Analyser+"/"
@@ -76,11 +77,33 @@ if MergeConv:
 
     for era in eras:
 
-        OutFile=OutputPath + era + "/"+Analyser+"_SkimTree_HNMultiLep_Conv.root"
-        if os.path.exists(OutFile):
-            os.system("rm " + OutFile)
+        Conv_dict = {
+                     'Conv' : " "+InputPath+"/"+era+"/RunConv__/*G.root", #JH : when testing WG_LO without DY, WJet
+                     #'Conv' : " "+InputPath+"/"+era+"/RunConv__/*G.root"+" "+InputPath+"/"+era+"/RunConv__/*DYJets.root", #JH : final version (maybe)
+                     'DYonly' : " "+InputPath+"/"+era+"/RunConv__/*G.root"+" "+InputPath+"/"+era+"/RunConv__/*DYJets.root",
+                     'MG' : " "+InputPath+"/"+era+"/RunConv__/*G.root"+" "+InputPath+"/"+era+"/RunConv__/*DYJets.root"+" "+InputPath+"/"+era+"/RunConv__/*WJets_MadGraph.root",
+                     'amcatnlo' : " "+InputPath+"/"+era+"/RunConv__/*G.root"+" "+InputPath+"/"+era+"/RunConv__/*DYJets.root"+" "+InputPath+"/"+era+"/RunConv__/*WJets_amcatnlo.root",
+                     'Sherpa' : " "+InputPath+"/"+era+"/RunConv__/*G.root"+" "+InputPath+"/"+era+"/RunConv__/*DYJets.root"+" "+InputPath+"/"+era+"/RunConv__/*WJets_Sherpa.root",
+                     'HT' : " "+InputPath+"/"+era+"/RunConv__/*G.root"+" "+InputPath+"/"+era+"/RunConv__/*DYJets.root"+" "+InputPath+"/"+era+"/RunConv__/*WJetsToLNu_HT*.root",
+                    }
 
-        os.system("hadd " +OutFile+  "   " + InputPath + "/"+era+"//RunConv__/*G.root") #JH
+        OutFiles = []
+
+        OutFiles.append(OutputPath + era + "/"+Analyser+"_SkimTree_HNMultiLep_Conv.root")
+        #OutFiles.append(OutputPath + era + "/"+Analyser+"_SkimTree_HNMultiLep_Conv_DYonly.root")
+        #OutFiles.append(OutputPath + era + "/"+Analyser+"_SkimTree_HNMultiLep_Conv_MG.root")
+        #OutFiles.append(OutputPath + era + "/"+Analyser+"_SkimTree_HNMultiLep_Conv_amcatnlo.root")
+        #OutFiles.append(OutputPath + era + "/"+Analyser+"_SkimTree_HNMultiLep_Conv_Sherpa.root")
+        #OutFiles.append(OutputPath + era + "/"+Analyser+"_SkimTree_HNMultiLep_Conv_HT.root")
+
+        for OutFile in OutFiles:
+
+          Conv_tag = OutFile.split('_')[-1][0:-5]
+
+          if os.path.exists(OutFile):
+              os.system("rm " + OutFile)
+
+          os.system("hadd " +OutFile+Conv_dict[Conv_tag]) #JH
 
 
 
