@@ -175,7 +175,8 @@ if args.Category==0:
   if str_Era != 'YearCombined':
     #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_WZ_%s, SampleGroup_ZZ_%s, SampleGroup_WpWp_%s, SampleGroup_WG_%s, SampleGroup_ZG_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_VV_%s, SampleGroup_Conv_%s, SampleGroup_WZ_EWK_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    exec('m.SignalsToDraw = [SampleGroup_DY_%s_M100, SampleGroup_DY_%s_M1000, SampleGroup_VBF_%s_M1000, SampleGroup_SSWW_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    #exec('m.SignalsToDraw = [SampleGroup_DY_%s_M100, SampleGroup_DY_%s_M1000, SampleGroup_VBF_%s_M1000, SampleGroup_SSWW_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    exec('m.SignalsToDraw = [SampleGroup_DY_%s_M1000, SampleGroup_VBF_%s_M1000, SampleGroup_SSWW_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
   else:
     m.SampleGroups = [
       SampleGroup_TTLL_2016preVFP,SampleGroup_TTLL_2016postVFP,SampleGroup_TTLL_2017,SampleGroup_TTLL_2018,
@@ -198,7 +199,9 @@ if args.Category==0:
     #Region('LimitInputBDT_M100', 'MuonSR', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{LimitInputBDT_M100}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
     #Region('DiJetSR3', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
     Region('OneJetSR3', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{OneJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    #Region('ZeroJetSR3', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{ZeroJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    Region('ZeroJetSR3', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{ZeroJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('OneJetSR3', 'EE', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{OneJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('ZeroJetSR3', 'EE', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{ZeroJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
     #Region('InclusiveSR1', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{Incl. SR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
     #Region('PassSR2', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
 
@@ -211,7 +214,7 @@ if args.Category==0:
 m.VariablesToDraw = [
   #Variable('', 'Limit input', 'GeV'), #JH
   Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'), #JH
-  #Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
+  Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
   #Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
   #Variable('Lep_4_pt', 'p_{T} of the fourth lepton', 'GeV'),
   #Variable('Lep_1_eta', '#eta of the leading lepton', 'GeV'),

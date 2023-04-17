@@ -1069,10 +1069,7 @@ class Plotter:
           h_Sig = self.Rebin(h_Sig, Region.Name, Variable.Name, nRebin)
 
           ## Scale
-          #h_Sig.Scale( Sig.xsec * Sig.kfactor * Sig.xsecScale )
-          #if Region.PrimaryDataset != "EMu":
-          #  print("Scaling xsec by 2. since Signals have E+Mu coupling")
-          #  h_Sig.Scale(2.)
+          h_Sig.Scale( Sig.Scale )
           
           ## Att
           h_Sig.SetLineWidth(3)
@@ -1080,7 +1077,7 @@ class Plotter:
           h_Sig.SetLineStyle(Sig.Style)
 
           ## legend
-          lg.AddEntry(h_Sig, Sig.TLatexAlias, 'l')
+          lg.AddEntry(h_Sig, Sig.TLatexAlias + ' (V=1) #times'+str(float(Sig.Scale)), 'l')
 
           ## Draw
           h_Sig.Draw("histsame")
@@ -1899,10 +1896,7 @@ class Plotter:
               gr_Data.Draw("p0same")
 
             ## signal legend
-            if 'SSWW' in Sig.Name:
-              lg.AddEntry(h_Sig, Sig.TLatexAlias + ' (V=1) #times'+str(float(Sig.Scale)), 'l')
-            else:
-              lg.AddEntry(h_Sig, Sig.TLatexAlias + ' (V=1) #times'+str(Sig.Scale/10000.), 'l')
+            lg.AddEntry(h_Sig, Sig.TLatexAlias + ' (V=1) #times'+str(float(Sig.Scale)), 'l') # Note that the signal xsec were already set to V=1, even though not generated so.
 
             ## Draw signal
             h_SigUp.Draw("histsame")
