@@ -22,7 +22,8 @@ void DrawLimits(TString year="", TString channel=""){
   TString method = "Asym"; //"Full";
   //vector<TString> myWPs = {"InputForCombine","InputForCombine_beforeFixLowMass","Workshop","Workshop_FullRun2","Workshop_FullRun2_beforeFixLowMass"};
   //vector<TString> myWPs = {"Workshop_FixedSR1"};
-  vector<TString> myWPs = {"AddSyst_DividedBy1p87"};
+  //vector<TString> myWPs = {"AddSyst_DividedBy1p87"};
+  vector<TString> myWPs = {"KPS23Spr"};
   for(int i=0; i<myWPs.size(); i++){
     TString myWP = myWPs.at(i);
     TString this_filepath = filepath+myWP+"/"+year+"_"+channel+"_"+tag+"_"+method+"_limit.txt";
@@ -165,13 +166,18 @@ void DrawLimits(TString year="", TString channel=""){
         247.709, 340.424, 1340.34
       } ;
       scales_17028 = {
-        0.001, 0.01, 0.01,0.01,0.01,0.01,0.1, 0.1,0.1,0.1,1,1,1,1,1,1,1,1,1,1
+        0.001, 0.01, 0.01,0.01,
+        0.01,0.01,0.1, 0.1,
+        0.1,0.1,1,1,
+        1,1,1,1,
+        1,1,1,1
       };
       tempvec_obs_17028 = {
-        215.218, 23.0424,41.8101,49.4399,57.1134,84.404,39.6932,
-        44.5303,81.4561,195.31,16.3137,42.605,61.6358,103.589,150.295,
-        220.286, 365.037, 516.2, 1408.5
-
+        215.218, 23.0424,41.8101,49.4399,
+        57.1134,84.404,39.6932,44.5303,
+        81.4561,195.31,16.3137,42.605,
+        61.6358,103.589,150.295,220.286,
+        365.037, 516.2, 1408.5
       };
     }
     else   if(channel=="EE"){
@@ -246,13 +252,15 @@ void DrawLimits(TString year="", TString channel=""){
     const int n_mass_21003 = 19;
     double mass_21003[n_mass_21003] = {50,150,300,450,600,750,900,1000,1250,1500,1750,2000,2500,5000,7500,10000,15000,20000,25000};
     double obs_21003[n_mass_21003] = {0.0632,0.0125,0.0070,0.0061,0.0060,0.0066,0.0067,0.0075,0.0086,0.0098,0.0117,0.0136,0.0189,0.0539,0.1081,0.1908,0.4021,0.7433,1.1322};
+    double obs_21003_sqrt[n_mass_21003] = {0.2514, 0.1118, 0.0837, 0.0781, 0.0775, 0.0812, 0.0819, 0.0866, 0.0927, 0.099, 0.1082, 0.1166, 0.1375, 0.2322, 0.3288, 0.4368, 0.6341, 0.8621, 1.064}; //xcheck with https://www.hepdata.net/record/131287
     double twolow_21003[n_mass_21003] = {0.0487,0.0100,0.0060,0.0048,0.0048,0.0050,0.0053,0.0057,0.0071,0.0081,0.0092,0.0111,0.0154,0.0438,0.0877,0.1552,0.3264,0.6055,0.9196};
     double onelow_21003[n_mass_21003] = {0.0668,0.0141,0.0076,0.0072,0.0068,0.0075,0.0071,0.0086,0.0102,0.0113,0.0132,0.0152,0.0213,0.0609,0.1220,0.2158,0.4540,0.8421,1.2790};
     double exp_21003[n_mass_21003] = {0.0981,0.0200,0.0112,0.0103,0.0103,0.0107,0.0112,0.0122,0.0142,0.0161,0.0190,0.0229,0.0317,0.0903,0.1812,0.3203,0.6738,1.2500,1.8984};
     double onehigh_21003[n_mass_21003] = {0.1459,0.0306,0.0173,0.0152,0.0152,0.0166,0.0166,0.0188,0.0218,0.0251,0.0297,0.0343,0.0477,0.1368,0.2757,0.4863,1.0257,1.9027,2.8822};
     double twohigh_21003[n_mass_21003] = {0.2096,0.0443,0.0255,0.0224,0.0224,0.0239,0.0243,0.0274,0.0321,0.0367,0.0433,0.0501,0.0702,0.2014,0.4058,0.7168,1.5094,2.8000,4.2485};
 
-    TGraph *gr_21003_obs = new TGraph(n_mass_21003, mass_21003, obs_21003);
+    //TGraph *gr_21003_obs = new TGraph(n_mass_21003, mass_21003, obs_21003);
+    TGraph *gr_21003_obs = new TGraph(n_mass_21003, mass_21003, obs_21003_sqrt); // the 21003 must be sqrt-ed.
     gr_21003_obs->SetLineWidth(3);
     gr_21003_obs->SetLineColor(kBlue);
 
@@ -771,7 +779,7 @@ void DrawLimits(TString year="", TString channel=""){
       //lg_Alt->AddEntry(gr_17028_exp, "CMS 13 TeV dilepton", "l");
       lg_Alt->AddEntry(gr_17028_obs, "CMS 13 TeV dilepton", "l");
       lg_Alt->AddEntry(gr_trilepLimit, "CMS 13 TeV trilepton", "l");
-      lg_Alt->AddEntry(gr_21003_obs, "CMS 13 TeV SSWW", "l");
+      //lg_Alt->AddEntry(gr_21003_obs, "CMS 13 TeV SSWW", "l");
       lg_Alt->AddEntry(gr_EWPD_mm, "EWPD", "l");
     }
     if(channel=="EE"){
@@ -826,7 +834,7 @@ void DrawLimits(TString year="", TString channel=""){
     if(channel=="MuMu"){
       //gr_L3Limit->Draw("lsame");
       //gr_DELPHILimit->Draw("lsame");
-      gr_21003_obs->Draw("lsame");
+      //gr_21003_obs->Draw("lsame");
       gr_trilepLimit->Draw("lsame");
       gr_EWPD_mm->Draw("lsame");
       //gr_ATLAS_MuMu->Draw("lsame");

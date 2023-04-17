@@ -8,23 +8,23 @@ if os.getenv("FILE_MERGED_PATH") == "NULL":
 
 eras = ["2016preVFP", "2016postVFP", "2017", "2018"]
 
-MergeFake=True
-MergeCF=True
-MergeConv=True
-MergeMC=True
-MergeBkg=True
+MergeFake=False
+MergeCF=False
+MergeConv=False
+MergeMC=False
+MergeBkg=False
 
 Analyser="HNL_SignalRegionPlotter"
 InputPath=os.getenv("SKFlatOutputDir")+"/"+os.getenv("SKFlatV") + "/"+Analyser+"/"
 OutputPath=os.getenv("FILE_MERGED_PATH")+"/"+Analyser+"/"
 
 if not os.path.exists(OutputPath):
-    os.system("mkdir " + OutputPath)
+    os.system("mkdir -r " + OutputPath)
 
 for era in eras:
 
     if not os.path.exists(OutputPath + era):
-        os.system("mkdir " + OutputPath + era)
+        os.system("mkdir -r " + OutputPath + era)
 
 if MergeFake:
 

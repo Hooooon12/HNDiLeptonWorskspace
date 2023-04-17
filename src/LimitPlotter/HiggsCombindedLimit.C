@@ -59,7 +59,8 @@ void  HiggsCombindedLimit(int i=3, int j=1, TString dirname="", int ReturnWhat=0
   //filepath = filepath + WhichYear + "/"+ WhichDirectoryInCutop;
   //vector<TString> myWPs = {"InputForCombine","InputForCombine_beforeFixLowMass","Workshop","Workshop_FullRun2","Workshop_FullRun2_beforeFixLowMass"};
   //vector<TString> myWPs = {"Workshop_FixedSR1"};
-  vector<TString> myWPs = {"AddSyst_DividedBy1p87"};
+  //vector<TString> myWPs = {"AddSyst_DividedBy1p87"};
+  vector<TString> myWPs = {"KPS23Spr"};
   for(int i=0; i<myWPs.size(); i++){
     TString myWP = myWPs.at(i);
     TString this_filepath = filepath+myWP;
