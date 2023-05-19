@@ -74,7 +74,7 @@ m.DataDirectory = "DATA"
 m.Filename_prefix = Analyser
 m.Filename_suffix = ""
 #m.Filename_skim = "_SkimTree_HNMultiLep"
-m.Filename_data_skim = "_SkimTree_HNMultiLep"
+m.Filename_data_skim = "SkimTree_HNMultiLep"
 
 m.OutputDirectoryLocal = ENV_PLOT_PATH+"/"+dataset+"/"+Analyser+"/"+str_Era
 os.system('mkdir -p '+ m.OutputDirectoryLocal)

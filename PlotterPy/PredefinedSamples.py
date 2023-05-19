@@ -163,3 +163,53 @@ SampleGroup_VV_2017 = SampleGroup(
   LatexAlias='VV'
 )
 
+# OS2l CR
+
+SampleGroup_FakeOS_2017 = SampleGroup(
+  Name='Fake',
+  Type='Fake',
+  Samples=['Fake'],
+  Era = "2017",
+  Skim='_SkimTree_Dilepton',
+  Color=870,
+  Style=1,
+  TLatexAlias='Nonprompt',
+  LatexAlias='NonPrompt'
+)
+
+SampleGroup_DY_2017 = SampleGroup(
+  Name='DY',
+  Type='MC',
+  Samples=['DYJets'],
+  Era = "2017",
+  Skim='_SkimTree_Dilepton',
+  Color=ROOT.kYellow,
+  Style=1,
+  TLatexAlias='DY',
+  LatexAlias='DY'
+)
+
+SampleGroup_TTLL_2017 = SampleGroup(
+  Name='TTLL',
+  Type='MC',
+  Samples=['TTLL_powheg'],
+  Era = "2017",
+  Skim='_SkimTree_Dilepton',
+  Color=ROOT.kRed,
+  Style=1,
+  TLatexAlias='TTLL',
+  LatexAlias='TTLL'
+)
+
+SampleGroup_VV_pythia_2017 = SampleGroup(
+  Name='VV',
+  Type='MC',
+  Samples=['WW_pythia','WZ_pythia','ZZ_pythia'],
+  Era = "2017",
+  Skim='_SkimTree_Dilepton',
+  Color=ROOT.kGreen+1,
+  Style=1,
+  TLatexAlias='VV',
+  LatexAlias='VV'
+)
+
