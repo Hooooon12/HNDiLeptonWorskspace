@@ -487,7 +487,7 @@ class Plotter:
 
 
       ## Data file
-      datapath = Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+'_'+self.Filename_data_skim+self.Filename_suffix+'.root' #JH : /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_ControlRegionPlotter/2017/DATA/HNL_ControlRegionPlotter_SkimTree_HNMultiLep.root
+      datapath = Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+self.Filename_suffix+'.root' #JH : /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_ControlRegionPlotter/2017/DATA/HNL_ControlRegionPlotter_SkimTree_HNMultiLep.root
       f_Data = ROOT.TFile(datapath)
       if self.DoDebug:
         print ('[DEBUG] Trying to read from data file ' + datapath)

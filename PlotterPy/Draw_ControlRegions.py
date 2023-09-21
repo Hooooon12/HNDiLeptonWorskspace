@@ -176,11 +176,8 @@ from PredefinedSamples import *
 if args.Category==0:
   #### Define Samples
   if str_Era != 'YearCombined':
-    #exec('m.SampleGroups = [SampleGroup_NonPrompt_%s,SampleGroup_Conv_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    #exec('m.SampleGroups = [SampleGroup_NonPrompt_%s,SampleGroup_Conv_%s, SampleGroup_CF_%s, SampleGroup_XG_%s, SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    #exec('m.SampleGroups = [SampleGroup_NonPrompt_%s,SampleGroup_Conv_%s, SampleGroup_CF_%s, SampleGroup_XG_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra,m.DataEra, m.DataEra, m.DataEra))
-    #exec('m.SampleGroups = [SampleGroup_NonPrompt_%s,SampleGroup_Conv_%s, SampleGroup_CF_%s, SampleGroup_XG_%s, SampleGroup_WZJJ_%s, SampleGroup_WGJJ_%s, SampleGroup_WpWp_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    exec('m.SampleGroups = [SampleGroup_FakeOS_%s, SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_pythia_%s]'%(m.DataEra,m.DataEra,m.DataEra,m.DataEra))
+    #exec('m.SampleGroups = [SampleGroup_FakeOS_%s, SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_pythia_%s]'%(m.DataEra,m.DataEra,m.DataEra,m.DataEra))
+    exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_pythia_%s]'%(m.DataEra,m.DataEra,m.DataEra))
 #############Conversion variation#############
     #exec('m.SampleGroups = [SampleGroup_NonPrompt_%s,SampleGroup_Conv_DYonly_%s, SampleGroup_CF_%s, SampleGroup_XG_%s, SampleGroup_WZJJ_%s, SampleGroup_WGJJ_%s, SampleGroup_WpWp_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     #exec('m.SampleGroups = [SampleGroup_NonPrompt_%s,SampleGroup_Conv_MG_%s, SampleGroup_CF_%s, SampleGroup_XG_%s, SampleGroup_WZJJ_%s, SampleGroup_WGJJ_%s, SampleGroup_WpWp_%s, SampleGroup_VV_%s,  SampleGroup_VVV_%s , SampleGroup_Other_%s  ]'%(m.DataEra,m.DataEra, m.DataEra, m.DataEra,m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
@@ -383,12 +380,27 @@ if args.Category==0:
 
   #  ]
 
-  m.RegionsToDraw = [
-    Region('HNL_OS_Z_TwoLepton_CR', 'EE', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=0, TLatexAlias='#splitline{ee}{DY CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    Region('HNL_OS_Z_TwoLepton_CR', 'MuMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{DY CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    Region('HNL_OS_Top_TwoLepton_CR', 'EE', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=0, TLatexAlias='#splitline{ee}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    Region('HNL_OS_Top_TwoLepton_CR', 'MuMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-  ]
+  if SampleGroup_FakeOS_2017 in m.SampleGroups:
+    m.RegionsToDraw = [
+      Region('HNL_OS_Z_TwoLepton_CR', 'EMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{e#mu}{DY CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Z_TwoLepton_CR_Nolepveto', 'EMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{e#mu}{DY CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    ]
+  else:
+    m.RegionsToDraw = [
+      Region('HNL_OS_Z_TwoLepton_CR', 'EE', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{ee}{DY CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Z_TwoLepton_CR', 'MuMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{#mu#mu}{DY CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Z_TwoLepton_CR_Nolepveto', 'EE', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{ee}{DY CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Z_TwoLepton_CR_Nolepveto', 'MuMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{#mu#mu}{DY CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Top_TwoLepton_CR', 'EE', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{ee}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Top_TwoLepton_CR', 'MuMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{#mu#mu}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Top_TwoLepton_CR', 'EMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{e#mu}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Top_TwoLepton_CR_Nolepveto', 'EE', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{ee}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Top_TwoLepton_CR_Nolepveto', 'MuMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{#mu#mu}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Top_TwoLepton_CR_Nolepveto', 'EMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{e#mu}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Top_TwoLepton_CR_2jet', 'EE', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{ee}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Top_TwoLepton_CR_2jet', 'MuMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{#mu#mu}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+      Region('HNL_OS_Top_TwoLepton_CR_2jet', 'EMu', PNs[0], '', '', UnblindData=True, DrawData=True, Logy=1, TLatexAlias='#splitline{e#mu}{Top CR}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    ]
 
   m.PrintRegions()
 
@@ -416,14 +428,18 @@ m.VariablesToDraw = [
   Variable('Ev_PuppiMET_T1ULxyCorr', 'Puppi #slash{E}_{T}^{miss} xycorr. UL (GeV)', 'GeV'),
   Variable('Ev_PuppiMETphi_T1', 'Puppi #slash{E}_{#phi}^{miss}', 'GeV'),
   Variable('Ev_PuppiMETphi_T1xyCorr', 'Puppi #slash{E}_{#phi}^{miss} xycorr', 'GeV'),
+  Variable('Ev_PuppiMETphi_T1ULxyCorr', 'Puppi #slash{E}_{#phi}^{miss} xycorr UL', 'GeV'),
   Variable('Ev_pfMET_T1', 'PF #slash{E}_{T}^{miss} (GeV)', 'GeV'),
   Variable('Ev_pfMET_T1xyCorr', 'PF #slash{E}_{T}^{miss} xycorr. (GeV)', 'GeV'),
   Variable('Ev_pfMET_T1ULxyCorr', 'PF #slash{E}_{T}^{miss} xycorr. UL (GeV)', 'GeV'),
   Variable('Ev_pfMETphi_T1', 'PF #slash{E}_{#phi}^{miss}', 'GeV'),
   Variable('Ev_pfMETphi_T1xyCorr', 'PF #slash{E}_{#phi}^{miss} xycorr', 'GeV'),
+  Variable('Ev_pfMETphi_T1ULxyCorr', 'PF #slash{E}_{#phi}^{miss} xycorr UL', 'GeV'),
   Variable('M_ll', 'm_{ll}', 'GeV'),
   Variable('N_El', 'N_{e}', 'GeV'),
+  Variable('N_ElVeto', 'N_{e veto}', 'GeV'),
   Variable('N_Mu', 'N_{#mu}', 'GeV'),
+  Variable('N_MuVeto', 'N_{#mu veto}', 'GeV'),
   Variable('N_AK4Jets', 'N_{j}', 'GeV'),
   Variable('N_AK8Jets', 'N_{J}', 'GeV'),
   Variable('N_BJets', 'N_{Bjet}', 'GeV'),
