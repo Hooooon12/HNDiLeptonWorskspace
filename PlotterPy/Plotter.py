@@ -1134,7 +1134,6 @@ class Plotter:
             ## ratio allerr
             ## BinContent = 1
             ## BinError = Bkgd(Stat+Syst)Error/Bkgd
-
             gr_Bkgd_Ratio.SetPoint(i-1,h_Bkgd.GetXaxis().GetBinCenter(i), 1.)
             gr_Bkgd_Ratio.SetPointEYhigh( i-1, gr_Bkgd_Ratio.GetErrorYhigh(i-1) / h_Bkgd.GetBinContent(i) )
             gr_Bkgd_Ratio.SetPointEYlow( i-1,  gr_Bkgd_Ratio.GetErrorYlow(i-1) / h_Bkgd.GetBinContent(i) )
@@ -1187,10 +1186,10 @@ class Plotter:
         gr_Bkgd_Ratio.SetFillStyle(3013)
         gr_Bkgd_Ratio.SetFillColor(ROOT.kBlack)
         gr_Bkgd_Ratio.SetLineColor(0)
-        #gr_Bkgd_Ratio.Draw("sameE2")
+        gr_Bkgd_Ratio.Draw("sameE2") # tot Bkg error / tot Bkg
 
         h_Data_Ratio.Draw("p9histsame")
-        #gr_Data_Ratio.Draw("p0same") #JH : draw later
+        gr_Data_Ratio.Draw("p0same") # data error / tot Bkg
 
         ## y=1 graph
         g1_x = [-9000, 9000]
