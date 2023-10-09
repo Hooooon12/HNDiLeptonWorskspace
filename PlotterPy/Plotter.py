@@ -703,6 +703,9 @@ class Plotter:
         #print SystematicDowns
 
         ## Syst Up/Down . Max/Min
+        if not h_Bkgd:
+          print "No h_Bkgd ==> Skipping ..."
+          continue
         h_Bkgd_TotErr_Max = h_Bkgd.Clone() #JH : h_Bkgd now has included all backgrounds
         h_Bkgd_TotErr_Min = h_Bkgd.Clone()
         for SystKey in SystematicUps:

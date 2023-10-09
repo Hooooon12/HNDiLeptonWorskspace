@@ -228,11 +228,11 @@ m.VariablesToDraw = [
   #Variable('', 'Limit input', 'GeV'), #JH
   Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
   Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
-  #Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
+  Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
   #Variable('Lep_4_pt', 'p_{T} of the fourth lepton', 'GeV'),
   Variable('Lep_1_eta', '#eta of the leading lepton', ''),
   Variable('Lep_2_eta', '#eta of the second lepton', ''),
-  #Variable('Lep_3_eta', '#eta of the third lepton', 'GeV'),
+  Variable('Lep_3_eta', '#eta of the third lepton', 'GeV'),
   #Variable('Lep_4_eta', '#eta of the fourth lepton', 'GeV'),
   #Variable('Jet_1_pt', 'p_{T} of the leading jet', 'GeV'),
   #Variable('Jet_2_pt', 'p_{T} of the second jet', 'GeV'),
