@@ -3,47 +3,50 @@ from Plotter import SampleGroup
 
 #https://twiki.cern.ch/twiki/bin/viewauth/CMS/SNUHNTypeISeeSawDileptonRun2Legacy#Plot_Formatting
 
-SampleGroup_SSWW_2017_M1000 = SampleGroup(
-  Name='SSWW',
+SampleGroup_SSWWTypeI_2017_M1000 = SampleGroup(
+  Name='SSWWTypeI',
   Type='Signal',
   Samples=['SSWWTypeI_SF_M1000_private'],
   Era = "2017",
   Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kRed,
-  Style=3,
+  Color=ROOT.kBlue,
+  Style=1,
+  Width=1,
   TLatexAlias='SSWW M1000',
   LatexAlias='SSWW M1000',
-  Scale=5
+  Scale=10
 )
 
-SampleGroup_VBF_2017_M1000 = SampleGroup(
+SampleGroup_VBFTypeI_2017_M1000 = SampleGroup(
   Name='W#gamma',
   Type='Signal',
   Samples=['VBFTypeI_DF_M1000_private'],
   Era = "2017",
   Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kViolet+2,
-  Style=3,
+  Color=ROOT.kOrange,
+  Style=1,
+  Width=1,
   TLatexAlias='W#gamma M1000',
   LatexAlias='W#gamma M1000',
   Scale=1000
 )
 
-SampleGroup_DY_2017_M1000 = SampleGroup(
-  Name='DY',
+SampleGroup_DYTypeI_2017_M1000 = SampleGroup(
+  Name='DYTypeI',
   Type='Signal',
   Samples=['DYTypeI_DF_M1000_private'],
   Era = "2017",
   Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kViolet+1,
-  Style=3,
+  Color=ROOT.kRed,
+  Style=1,
+  Width=1,
   TLatexAlias='DY M1000',
   LatexAlias='DY M1000',
   Scale=1000
 )
 
-SampleGroup_DY_2017_M100 = SampleGroup(
-  Name='DY',
+SampleGroup_DYTypeI_2017_M100 = SampleGroup(
+  Name='DYTypeI',
   Type='Signal',
   Samples=['DYTypeI_DF_M100_private'],
   Era = "2017",
@@ -105,7 +108,7 @@ SampleGroup_WpWp_2017 = SampleGroup(
 
 SampleGroup_WZ_EWK_2017 = SampleGroup(
   Name='WZ_EWK',
-  Type='MC',
+  Type='Prompt',
   Samples=['WZ_EWK'],
   Era = "2017",
   Skim='_SkimTree_HNMultiLepBDT',
@@ -153,7 +156,7 @@ SampleGroup_Conv_2017 = SampleGroup(
 
 SampleGroup_VV_2017 = SampleGroup(
   Name='VV',
-  Type='MC',
+  Type='Prompt',
   Samples=['WZTo3LNu_amcatnlo', 'ZZTo4L_powheg'],
   Era = "2017",
   Skim='_SkimTree_HNMultiLepBDT',

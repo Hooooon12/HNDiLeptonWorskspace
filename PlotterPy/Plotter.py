@@ -10,7 +10,7 @@ from array import array
 
 ## SampleGroup ##
 class SampleGroup:
-  def __init__(self, Name, Type, Samples, Era, Skim, Color=0, Style=1, TLatexAlias="", LatexAlias="", Scale=1):
+  def __init__(self, Name, Type, Samples, Era, Skim, Color=0, Style=1, Width=1, TLatexAlias="", LatexAlias="", Scale=1):
 
     self.Name = Name
     self.Type = Type
@@ -26,6 +26,7 @@ class SampleGroup:
     self.Skim = Skim
     self.Color = Color
     self.Style = Style
+    self.Width = Width
     self.TLatexAlias = TLatexAlias
     self.LatexAlias = LatexAlias
     self.Scale = Scale
@@ -570,13 +571,15 @@ class Plotter:
               if self.DoDebug:
                 print ('[DEBUG] Trying to make histogram for Sample = '+Sample)
 
-              if 'Fake' in SampleGroup.Type: samplepath = Indir+'/RunFake__/DATA/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/RunFake__/DATA
-              elif 'Conv' in SampleGroup.Type: samplepath = Indir+'/RunConv__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/RunConv__
+              if 'Fake' in SampleGroup.Type: samplepath = Indir+'RunFake__/DATA/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/RunFake__/DATA
+              elif 'Conv' in SampleGroup.Type: samplepath = Indir+'RunConv__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/RunConv__
+              elif 'Prompt' in SampleGroup.Type: samplepath = Indir+'RunPrompt__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/RunConv__
               else: samplepath = Indir+'/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/HNL_SignalRegionPlotter_SkimTree_HNMultiLep_WZTo3LNu_amcatnlo.root
               f_Sample = ROOT.TFile(samplepath)
               print "opening", samplepath, '...'
 
               h_Sample = 0
+              histpath = 0
               #print Syst.Year, SampleGroup.Year
               ## Uncorrelated sources has Syst.Year = 2016 or 2017 or 2018
               ## For this cases, SampleGroup.Year should be matched
@@ -597,7 +600,8 @@ class Plotter:
               elif (Syst.Name in ["GetMCUncertainty"]):
                 h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ paramName + '/'+ Region.Name+'/'+Variable.Name)
               else: # Central
-                histpath = Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName+Region.HistTag + '/'+Variable.Name #JH : CR naming convention
+                if 'CR' in Region.Name or 'Presel' in Region.Name: histpath = Region.Name+'/' + Region.PrimaryDataset + '/'+ Region.ParamName + '/RegionPlots_' + Region.PrimaryDataset + '/' + Region.HistTag + '/' + Variable.Name #JH : CR naming convention
+                elif 'SR' in Region.Name: histpath = Region.Name+'/' + Region.PrimaryDataset + '_Channel/'+ Region.ParamName + '/RegionPlots_' + Region.PrimaryDataset + '/' + Region.HistTag + '/' + Variable.Name #JH : SR naming convention
                 #if "LimitInput" in Region.Name and not "BDT" in Region.Name:
                 #  histpath = Region.Name+'/'+paramName+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInput/Syst_JetResUpMVAUL_UL/FillEventCutflow/MuonSR"
                 #elif "LimitInput" in Region.Name and "BDT" in Region.Name:
@@ -747,7 +751,7 @@ class Plotter:
             print ('[DEBUG] Trying to get data histogram..')
             print (Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName + '/'+Variable.Name)
 
-          histpath = Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName+Region.HistTag + '/'+Variable.Name #JH : CR naming convention
+          histpath = Region.Name+'/' + Region.PrimaryDataset + '/'+ Region.ParamName + '/RegionPlots_' + Region.PrimaryDataset + '/' + Region.HistTag + '/' + Variable.Name #JH : CR naming convention
           #histpath = Region.PrimaryDataset+'/'+Region.ParamName+'/RegionPlots_'+Region.Name+'/'+Variable.Name #JH : MuMu/MVAUL_UL/RegionPlots_DiJetSR3/Lep_1_Pt; SR naming convention.
           #if "LimitInput" in Region.Name and not "BDT" in Region.Name:
           #  histpath = Region.Name+'/'+Region.ParamName+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInput/MVAUL_UL/FillEventCutflow/MuonSR"
@@ -1061,7 +1065,8 @@ class Plotter:
           fpullpath_Sig = Indir+'/'+self.Filename_prefix+Sig.Skim+'_'+Sig.Samples[0]+self.Filename_suffix+'.root'
 
           f_Sig = ROOT.TFile(fpullpath_Sig)
-          h_Sig = f_Sig.Get(Region.PrimaryDataset+'/'+Region.ParamName+'/RegionPlots_'+Region.Name+'/'+Variable.Name)
+          #h_Sig = f_Sig.Get(Region.PrimaryDataset+'/'+Region.ParamName+'/RegionPlots_'+Region.Name+'/'+Variable.Name)
+          h_Sig = f_Sig.Get(Region.Name+'/' + Region.PrimaryDataset + '_Channel/'+ Region.ParamName + '/RegionPlots_' + Region.PrimaryDataset + '/' + Region.HistTag + '/' + Variable.Name) #JH : SR naming convention
           if not h_Sig:
             print "no",(fpullpath_Sig),"==> Skipping ..."
             #print (Region.PrimaryDataset + '/'+ paramName + '/'+ Region.Name+'/'+Variable.Name)
@@ -1078,9 +1083,9 @@ class Plotter:
           h_Sig.Scale( Sig.Scale )
           
           ## Att
-          h_Sig.SetLineWidth(3)
           h_Sig.SetLineColor(Sig.Color)
           h_Sig.SetLineStyle(Sig.Style)
+          h_Sig.SetLineWidth(Sig.Width)
 
           ## legend
           lg.AddEntry(h_Sig, Sig.TLatexAlias + ' (V=1) #times'+str(float(Sig.Scale)), 'l')
@@ -1215,8 +1220,8 @@ class Plotter:
 
         ## Save
         #c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+Region.OutputTag+'.pdf')
-        c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+Region.OutputTag+'.png') #JH
-        print (Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+Region.OutputTag+'.png ==> Saved.')
+        c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'_'+Region.ParamName+Region.OutputTag+'.png') #JH
+        print (Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'_'+Region.ParamName+Region.OutputTag+'.png ==> Saved.')
 
         print(str(self.OutputDirectory))
         if not self.OutputDirectory =="":
@@ -1373,8 +1378,9 @@ class Plotter:
               if self.DoDebug:
                 print ('[DEBUG] Trying to make histogram for Sample = '+Sample)
 
-              if 'Fake' in SampleGroup.Type: samplepath = Indir+'/RunFake__/DATA/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
-              elif 'Conv' in SampleGroup.Type: samplepath = Indir+'/RunConv__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
+              if 'Fake' in SampleGroup.Type: samplepath = Indir+'RunFake__/DATA/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
+              elif 'Conv' in SampleGroup.Type: samplepath = Indir+'RunConv__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
+              elif 'Prompt' in SampleGroup.Type: samplepath = Indir+'RunPrompt__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
               else: samplepath = Indir+'/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
               #f_Sample = ROOT.TFile(Indir+'/'+str(SampleGroup.Era)+'/'+Region.ParamName+'/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root') #JH
               f_Sample = ROOT.TFile(samplepath) #JH : SR naming convention

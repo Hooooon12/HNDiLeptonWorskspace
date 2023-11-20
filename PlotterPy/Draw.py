@@ -29,8 +29,8 @@ parser.add_argument('--debug',action='store_true')
 parser.add_argument('--ScaleMC', action='store_true')
 args = parser.parse_args()
 
-#Analyser='HNL_SignalRegionPlotter'
-Analyser='HNL_ControlRegionPlotter' #FIXME analyzer name
+Analyser='HNL_SignalRegionPlotter' #SR
+#Analyser='HNL_ControlRegionPlotter' #CR
 OutPutOnLxplus=False
 ## Enviroment
 
@@ -71,7 +71,10 @@ if not m.DataEra in AllowedEras:
 
 str_Era=m.DataEra
 
-m.InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/Analyzer/Era. where the root itput files are stored.
+#CR
+#m.InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/SS_CR__" # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/Analyzer/Era. where the root itput files are stored.
+#SR
+m.InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/" # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/Analyzer/Era. where the root itput files are stored.
 
 m.DataDirectory = "DATA"
 # typical root file name convention --> Analyzer_Skim_SampleName(_suffix).root
@@ -80,7 +83,7 @@ m.Filename_suffix = ""
 #m.Filename_skim = "_SkimTree_HNMultiLep" #
 m.Filename_data_skim = "_SkimTree_HNMultiLepBDT" # use "" if no skim was used
 
-m.OutputDirectoryLocal = ENV_PLOT_PATH+"/"+dataset+"/"+Analyser+"/"+str_Era # HNDiLeptonWorkspace/Output/Plots/Run2UltraLegacy_v3/Analyzer/Era. where the output plots are stored.
+m.OutputDirectoryLocal = ENV_PLOT_PATH+"/"+dataset+"/"+Analyser+"/"+str_Era # HNDiLeptonWorkspace/Output/Plots/Run2UltraLegacy_v3/Analyzer/Era. where the output plots will be stored.
 os.system('mkdir -p '+ m.OutputDirectoryLocal)
 if args.ScaleMC:
   os.system('mkdir -p '+ m.OutputDirectoryLocal+'/ScaleMC/')
@@ -173,13 +176,18 @@ else: # binning per era
 #### Predef samples
 from PredefinedSamples import *
 
+#TODO make SampleGroups dependent on each regions to draw
+
 if args.Category==0: # ?
   #### Define Samples
   if str_Era != 'YearCombined':
-    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_WZ_%s, SampleGroup_ZZ_%s, SampleGroup_WpWp_%s, SampleGroup_WG_%s, SampleGroup_ZG_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_VV_%s, SampleGroup_Conv_%s, SampleGroup_WZ_EWK_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    #exec('m.SignalsToDraw = [SampleGroup_DY_%s_M100, SampleGroup_DY_%s_M1000, SampleGroup_VBF_%s_M1000, SampleGroup_SSWW_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    #exec('m.SignalsToDraw = [SampleGroup_DY_%s_M1000, SampleGroup_VBF_%s_M1000, SampleGroup_SSWW_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
+    ############## samples for SS CRs ##############
+    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_VV_%s, SampleGroup_Conv_%s, SampleGroup_WZ_EWK_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    ############## samples for OS CRs #######################
+    #exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_pythia_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    ############## samples for SRs #######################
+    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    exec('m.SignalsToDraw = [SampleGroup_DYTypeI_%s_M1000, SampleGroup_VBFTypeI_%s_M1000, SampleGroup_SSWWTypeI_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
   else:
     m.SampleGroups = [
       SampleGroup_TTLL_2016preVFP,SampleGroup_TTLL_2016postVFP,SampleGroup_TTLL_2017,SampleGroup_TTLL_2018,
@@ -192,57 +200,94 @@ if args.Category==0: # ?
   #### Print
   m.PrintSamples()
 
-  #PNs=["MVAUL_LFvsHF"] # parameter name (this is used in hist path)
-  PNs=["MVAUL_HNTightV2","MVAUL_HNL_ULID_2017","MVAUL_LFvsHF_HNTightV2","MVAUL_LFvsHF_HNL_ULID_2017"] # parameter name (this is used in hist path)
-  #PNs=["MVAUL_HNTightV2"] # parameter name (this is used in hist path)
+  #PNs=["MVAUL_PtCone_HNTightV2","MVAUL_HNTightV2","MVAUL_HNL_ULID_2017","MVAUL_LFvsHF_cut0_HNTightV2","MVAUL_LFvsHF_cut0_HNL_ULID_2017","MVAUL_LFvsHF_cut0p8_HNTightV2","MVAUL_LFvsHF_cut0p8_HNL_ULID_2017","MVAUL_TriLep_HNL_ULID_2017"] # parameter name (this is used in hist path)
+  PNs=["HNL_ULID_HNL_ULID_FO_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv2_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv3_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv4_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv5_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv6_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FO_BDTFlavour_PtCorr_NoPR"] # parameter name (this is used in hist path)
+  PNs=["HNL_ULID_HNL_ULID_FO_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv2_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv3_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv4_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv5_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv6_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FO_BDTFlavour_PtParton_NoPR"] # parameter name (this is used in hist path)
+  PNs=["HNL_ULID", "HNTightV2"] # parameter name (this is used in hist path)
+  #PNs=["HNL_ULID_HNL_ULID_FO_BDTFlavour_PtCorr_NoPR"] # parameter name (this is used in hist path)
   #### Define regions
   m.RegionsToDraw = [
 
-    #Region('LimitInput', 'MuonSR', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{LimitInput}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #Region('HNL_HighMassBJet_TwoLepton_CR', 'MuMu', PNs[0], '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True),
+
+  ]
+
+  for PN in PNs:
+    #CRs
+    #m.RegionsToDraw.append( Region('HNL_SSPresel_TwoLepton', 'MuMu', PN, 'Leptons', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SSPresel}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_SSVBFPresel_TwoLepton', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SSVBFPresel}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_HighMassSR3_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_HighMassSR3LowJet_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3LowJet_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_HighMassBJet_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{BJet_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_HighMassNP_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{0Jet_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_WZ_ThreeLepton_CR', 'MuMuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{WZ_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_ZZ_FourLepton_CR', 'MuMuMuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu#mu}{ZZ_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    ##m.RegionsToDraw.append( Region('HNL_WG_ThreeLepton_CR', 'MuMuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{WG_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_ZG_ThreeLepton_CR', 'MuMuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{ZG_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_OS_Z_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{Z_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_OS_ZAK8_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{ZAk8_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    #m.RegionsToDraw.append( Region('HNL_OS_Top_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{Top_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+
+    #SRs
+    #m.RegionsToDraw.append( Region('LimitInput', 'MuonSR', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{LimitInput}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
     #Region('LimitInputBDT_M100', 'MuonSR', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{LimitInputBDT_M100}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    #Region('DiJetSR3', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
+    #m.RegionsToDraw.append( Region('DiJetSR3', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR1', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR2', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR3', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    m.RegionsToDraw.append( Region('DiJetSR3', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    m.RegionsToDraw.append( Region('InclusiveSR1', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    m.RegionsToDraw.append( Region('InclusiveSR2', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    m.RegionsToDraw.append( Region('InclusiveSR3', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('DiJetSR3', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR1', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR2', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR3', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('DiJetSR3', 'MuE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mue}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR1', 'MuE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mue}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR2', 'MuE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mue}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR3', 'MuE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mue}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
     #Region('OneJetSR3', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{OneJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
     #Region('ZeroJetSR3', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{ZeroJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
     #Region('OneJetSR3', 'EE', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{OneJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
     #Region('ZeroJetSR3', 'EE', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{ZeroJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
     #Region('InclusiveSR1', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{Incl. SR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
     #Region('PassSR2', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    #Region('HNL_SSPresel_TwoLepton', 'MuMu', PNs[0], '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True),
-    #Region('HNL_SSVBFPresel_TwoLepton', 'MuMu', PNs[0], '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True),
-    #Region('HNL_WZ_ThreeLepton_CR', 'MuMuMu', PNs[0], '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{WZ_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True),
-    #Region('HNL_WG_ThreeLepton_CR', 'MuMu', PNs[0], '_ConvMethodPt', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{WG_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True),
-    #Region('HNL_ZG_ThreeLepton_CR', 'MuMu', PNs[0], '_ConvMethodPt', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{ZG_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True),
-    #Region('HNL_HighMassSR3_TwoLepton_CR', 'MuMu', PNs[0], '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True),
-    #Region('HNL_HighMassBJet_TwoLepton_CR', 'MuMu', PNs[0], '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True),
 
-  ]
 
-  for PN in PNs:
-    m.RegionsToDraw.append( Region('HNL_HighMassSR3_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
 
-  m.PrintRegions()
+  #m.PrintRegions()
 
 
 #### Define Variables
 m.VariablesToDraw = [
   #Variable('', 'Limit input', 'GeV'), #JH
+  #Variable('Lep_1_mva', 'MVA', ''),
+  #Variable('Lep_2_mva', 'MVA', ''),
+  #Variable('Lep_1_LFvsHF', 'LFvsHF', ''),
+  #Variable('Lep_2_LFvsHF', 'LFvsHF', ''),
   Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
   Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
-  Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
+  #Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
   #Variable('Lep_4_pt', 'p_{T} of the fourth lepton', 'GeV'),
+  #Variable('Lep_1_ptcone', 'p_{T}^{cone} of the leading lepton', 'GeV'),
+  #Variable('Lep_2_ptcone', 'p_{T}^{cone} of the second lepton', 'GeV'),
+  #Variable('Lep_3_ptcone', 'p_{T}^{cone} of the third lepton', 'GeV'),
+  #Variable('Lep_4_ptcone', 'p_{T}^{cone} of the fourth lepton', 'GeV'),
   Variable('Lep_1_eta', '#eta of the leading lepton', ''),
   Variable('Lep_2_eta', '#eta of the second lepton', ''),
-  Variable('Lep_3_eta', '#eta of the third lepton', 'GeV'),
+  #Variable('Lep_3_eta', '#eta of the third lepton', 'GeV'),
   #Variable('Lep_4_eta', '#eta of the fourth lepton', 'GeV'),
+  #Variable('M_ll', 'M_{ll}', 'GeV'),
   #Variable('Jet_1_pt', 'p_{T} of the leading jet', 'GeV'),
   #Variable('Jet_2_pt', 'p_{T} of the second jet', 'GeV'),
   #Variable('Jet_1_eta', '#eta of the leading jet', 'GeV'),
   #Variable('Jet_2_eta', '#eta of the second jet', 'GeV'),
-  Variable('Ev_MET', 'MET', 'GeV'),
+  #Variable('Ev_MET', 'MET', 'GeV'),
   #Variable('Ev_MET2_ST', 'MET^{2}/S_{T}', 'GeV'),
-  Variable('N_AK4Jets', 'N_{j}', ''),
+  #Variable('N_AK4Jets', 'N_{j}', ''),
+  #Variable('N_AK8Jets', 'N_{J}', ''),
   #Variable('N_bjetsM', 'N_{bj}', ''),
-  Variable('N_AK8Jets', 'N_{J}', ''),
   #Variable('Lep_3_pt', 'm(ll)','GeV'),
   #Variable('NJets', 'N_{j}',''),
   #Variable('NBJets', 'N_{bj}',''),
