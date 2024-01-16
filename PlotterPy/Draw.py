@@ -21,7 +21,7 @@ from GeneralSetup import check_lxplus_connection,GetFromConfig
 
 ## Arguments
 
-parser = argparse.ArgumentParser(description='CR plot commands')
+parser = argparse.ArgumentParser(description='CR, SR plot commands')
 parser.add_argument('-c', dest='Category', type=int, default=0)
 parser.add_argument('-y', dest='Year', type=int, default=0)
 parser.add_argument('-e', dest='Era', type=str, default='NULL')
@@ -29,8 +29,6 @@ parser.add_argument('--debug',action='store_true')
 parser.add_argument('--ScaleMC', action='store_true')
 args = parser.parse_args()
 
-Analyser='HNL_SignalRegionPlotter' #SR
-#Analyser='HNL_ControlRegionPlotter' #CR
 OutPutOnLxplus=False
 ## Enviroment
 
@@ -71,26 +69,11 @@ if not m.DataEra in AllowedEras:
 
 str_Era=m.DataEra
 
-#CR
-#m.InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/SS_CR__" # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/Analyzer/Era. where the root itput files are stored.
-#SR
-m.InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/" # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/Analyzer/Era. where the root itput files are stored.
-
 m.DataDirectory = "DATA"
 # typical root file name convention --> Analyzer_Skim_SampleName(_suffix).root
-m.Filename_prefix = Analyser
-m.Filename_suffix = ""
-#m.Filename_skim = "_SkimTree_HNMultiLep" #
-m.Filename_data_skim = "_SkimTree_HNMultiLepBDT" # use "" if no skim was used
-
-m.OutputDirectoryLocal = ENV_PLOT_PATH+"/"+dataset+"/"+Analyser+"/"+str_Era # HNDiLeptonWorkspace/Output/Plots/Run2UltraLegacy_v3/Analyzer/Era. where the output plots will be stored.
-os.system('mkdir -p '+ m.OutputDirectoryLocal)
-if args.ScaleMC:
-  os.system('mkdir -p '+ m.OutputDirectoryLocal+'/ScaleMC/')
-  
 
 # check connection to lxplus is open
-#check_lxplus_connection() #JH
+#check_lxplus_connection()
 
 #set username for lxplus
 #m.Lxplus_User = GetFromConfig('LXPLUS_USER')
@@ -99,14 +82,12 @@ if args.ScaleMC:
 #print m.Lxplus_User + " " + m.Lxplus_Dir
 #exit()
 
-
-
-if OutPutOnLxplus:
-  m.OutputDirectory = m.Lxplus_Dir
-  print "-"*40
-  print("ssh "+m.Lxplus_User+"@lxplus.cern.ch 'mkdir -p " + m.OutputDirectory + "'")
-  print "-"*40
-  os.system("ssh "+m.Lxplus_User+"@lxplus.cern.ch 'mkdir -p " + m.OutputDirectory + "'")
+#if OutPutOnLxplus:
+#  m.OutputDirectory = m.Lxplus_Dir
+#  print "-"*40
+#  print("ssh "+m.Lxplus_User+"@lxplus.cern.ch 'mkdir -p " + m.OutputDirectory + "'")
+#  print "-"*40
+#  os.system("ssh "+m.Lxplus_User+"@lxplus.cern.ch 'mkdir -p " + m.OutputDirectory + "'")
 
 
 #### Category
@@ -182,12 +163,12 @@ if args.Category==0: # ?
   #### Define Samples
   if str_Era != 'YearCombined':
     ############## samples for SS CRs ##############
-    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_VV_%s, SampleGroup_Conv_%s, SampleGroup_WZ_EWK_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_VV_%s, SampleGroup_Conv_%s, SampleGroup_WZ_EWK_%s, SampleGroup_WpWp_%s, SampleGroup_Others_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for OS CRs #######################
     #exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_pythia_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for SRs #######################
-    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    exec('m.SignalsToDraw = [SampleGroup_DYTypeI_%s_M1000, SampleGroup_VBFTypeI_%s_M1000, SampleGroup_SSWWTypeI_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
+    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    #exec('m.SignalsToDraw = [SampleGroup_DYTypeI_%s_M1000, SampleGroup_VBFTypeI_%s_M1000, SampleGroup_SSWWTypeI_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
   else:
     m.SampleGroups = [
       SampleGroup_TTLL_2016preVFP,SampleGroup_TTLL_2016postVFP,SampleGroup_TTLL_2017,SampleGroup_TTLL_2018,
@@ -204,29 +185,71 @@ if args.Category==0: # ?
   PNs=["HNL_ULID_HNL_ULID_FO_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv2_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv3_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv4_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv5_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv6_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FO_BDTFlavour_PtCorr_NoPR"] # parameter name (this is used in hist path)
   PNs=["HNL_ULID_HNL_ULID_FO_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv2_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv3_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv4_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv5_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv6_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FO_BDTFlavour_PtParton_NoPR"] # parameter name (this is used in hist path)
   PNs=["HNL_ULID", "HNTightV2"] # parameter name (this is used in hist path)
-  #PNs=["HNL_ULID_HNL_ULID_FO_BDTFlavour_PtCorr_NoPR"] # parameter name (this is used in hist path)
+  PNs=["HNL_ULID"] # parameter name (this is used in hist path)
+
+  RegionNames = {
+                 "HNL_SSPresel_TwoLepton" : "SSPresel",
+                 "HNL_HighMassSR3_TwoLepton_CR" : "SR3_CR",
+                 "HNL_HighMassBJet_TwoLepton_CR" : "BJet_CR",
+                 "HNL_HighMassNP_TwoLepton_CR" : "0Jet_CR",
+                 "HNL_WZ_ThreeLepton_CR" : "WZ_CR",
+                 "HNL_ZZ_FourLepton_CR"  : "ZZ_CR",
+                 "HNL_ZG_ThreeLepton_CR" : "ZG_CR",
+                 "HNL_WG_ThreeLepton_CR" : "WG_CR",
+                 #"LimitInput" : "", #FIXME SR later
+                }
+  MultiChannels = {
+                   "FourLepton" : {
+                                   "MuMuMuMu" : "#mu#mu#mu#mu",
+                                   "EEEE"     : "eeee",
+                                   "EMuLL"    : "e#mu+ll",
+                   },
+                   "ThreeLepton" : {
+                                   "MuMuMu" : "#mu#mu#mu",
+                                   "EEE"    : "eee",
+                                   "EMuL"   : "e#mu+l",
+                   },
+                   "TwoLepton" : {
+                                   "MuMu" : "#mu#mu",
+                                   "EE"   : "ee",
+                                   "EMu"  : "e#mu",
+                   },
+                  }
+
   #### Define regions
-  m.RegionsToDraw = [
+  m.RegionsToDraw = []
 
-    #Region('HNL_HighMassBJet_TwoLepton_CR', 'MuMu', PNs[0], '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True),
+  for RegionName, RegionLatex in RegionNames.items():
 
-  ]
+    # Analyser, Input files now depend on which region to draw.
+    if ("CR" in RegionName) or ("Presel" in RegionName):
+      Analyser='HNL_ControlRegionPlotter'
+    else:
+      Analyser='HNL_SignalRegionPlotter'
 
-  for PN in PNs:
-    #CRs
-    #m.RegionsToDraw.append( Region('HNL_SSPresel_TwoLepton', 'MuMu', PN, 'Leptons', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SSPresel}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_SSVBFPresel_TwoLepton', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SSVBFPresel}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_HighMassSR3_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_HighMassSR3LowJet_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR3LowJet_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_HighMassBJet_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{BJet_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_HighMassNP_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu}{0Jet_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_WZ_ThreeLepton_CR', 'MuMuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{WZ_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_ZZ_FourLepton_CR', 'MuMuMuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu#mu}{ZZ_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    ##m.RegionsToDraw.append( Region('HNL_WG_ThreeLepton_CR', 'MuMuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{WG_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_ZG_ThreeLepton_CR', 'MuMuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{ZG_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_OS_Z_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{Z_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_OS_ZAK8_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{ZAk8_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-    #m.RegionsToDraw.append( Region('HNL_OS_Top_TwoLepton_CR', 'MuMu', PN, '', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{#mu#mu#mu}{Top_CR}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+    m.Filename_prefix = Analyser
+    m.Filename_suffix = ""
+    m.Filename_data_skim = "_SkimTree_HNMultiLepBDT" # use "" if no skim was used
+    m.OutputDirectoryLocal = ENV_PLOT_PATH+"/"+dataset+"/"+Analyser+"/"+str_Era # HNDiLeptonWorkspace/Output/Plots/Run2UltraLegacy_v3/Analyzer/Era. where the output plots will be stored.
+    os.system('mkdir -p '+ m.OutputDirectoryLocal)
+    if args.ScaleMC:
+      os.system('mkdir -p '+ m.OutputDirectoryLocal+'/ScaleMC/')
+
+    # Define input directory depending on the region name.
+    if Analyser == 'HNL_ControlRegionPlotter':
+      if "ThreeLepton" in RegionName or "FourLepton" in RegionName:
+        InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/LLL_VR__" # where the root itput files are stored.
+      elif "TwoLepton" in RegionName and (("CR" in RegionName) or ("SSPresel" in RegionName)):
+        InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/SS_CR__" # where the root itput files are stored.
+    else:
+      InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/"
+
+    for PN in PNs:
+      for MultiChannel, Channels in MultiChannels.items():
+        if not MultiChannel in RegionName: continue
+        for Channel, ChannelLatex in Channels.items():
+          m.RegionsToDraw.append( Region(RegionName, Channel, PN, InputDirectory, 'Leptons', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{'+ChannelLatex+'}{'+RegionLatex+'}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+
 
     #SRs
     #m.RegionsToDraw.append( Region('LimitInput', 'MuonSR', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{LimitInput}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
@@ -235,10 +258,10 @@ if args.Category==0: # ?
     #m.RegionsToDraw.append( Region('InclusiveSR1', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
     #m.RegionsToDraw.append( Region('InclusiveSR2', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
     #m.RegionsToDraw.append( Region('InclusiveSR3', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    m.RegionsToDraw.append( Region('DiJetSR3', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    m.RegionsToDraw.append( Region('InclusiveSR1', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    m.RegionsToDraw.append( Region('InclusiveSR2', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    m.RegionsToDraw.append( Region('InclusiveSR3', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('DiJetSR3', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR1', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR2', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
+    #m.RegionsToDraw.append( Region('InclusiveSR3', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
     #m.RegionsToDraw.append( Region('DiJetSR3', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
     #m.RegionsToDraw.append( Region('InclusiveSR1', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
     #m.RegionsToDraw.append( Region('InclusiveSR2', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
@@ -268,16 +291,16 @@ m.VariablesToDraw = [
   #Variable('Lep_2_LFvsHF', 'LFvsHF', ''),
   Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
   Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
-  #Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
-  #Variable('Lep_4_pt', 'p_{T} of the fourth lepton', 'GeV'),
+  Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
+  Variable('Lep_4_pt', 'p_{T} of the fourth lepton', 'GeV'),
   #Variable('Lep_1_ptcone', 'p_{T}^{cone} of the leading lepton', 'GeV'),
   #Variable('Lep_2_ptcone', 'p_{T}^{cone} of the second lepton', 'GeV'),
   #Variable('Lep_3_ptcone', 'p_{T}^{cone} of the third lepton', 'GeV'),
   #Variable('Lep_4_ptcone', 'p_{T}^{cone} of the fourth lepton', 'GeV'),
   Variable('Lep_1_eta', '#eta of the leading lepton', ''),
   Variable('Lep_2_eta', '#eta of the second lepton', ''),
-  #Variable('Lep_3_eta', '#eta of the third lepton', 'GeV'),
-  #Variable('Lep_4_eta', '#eta of the fourth lepton', 'GeV'),
+  Variable('Lep_3_eta', '#eta of the third lepton', 'GeV'),
+  Variable('Lep_4_eta', '#eta of the fourth lepton', 'GeV'),
   #Variable('M_ll', 'M_{ll}', 'GeV'),
   #Variable('Jet_1_pt', 'p_{T} of the leading jet', 'GeV'),
   #Variable('Jet_2_pt', 'p_{T} of the second jet', 'GeV'),
@@ -300,6 +323,5 @@ m.PrintVariables()
 #### Draw
 m.Draw()
 #m.DoSystCheck()
-print (str(m.Filename_prefix))
 
 #m.DoCutFlow('NJets')

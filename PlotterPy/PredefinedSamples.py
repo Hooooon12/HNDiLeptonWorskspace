@@ -70,6 +70,18 @@ SampleGroup_Fake_2017 = SampleGroup(
   LatexAlias='NonPrompt'
 )
 
+SampleGroup_CF_2017 = SampleGroup(
+  Name='CF',
+  Type='CF',
+  Samples=['CF'],
+  Era = "2017",
+  Skim='_SkimTree_DileptonBDT',
+  Color=ROOT.kYellow,
+  Style=1,
+  TLatexAlias='ChargeFlip',
+  LatexAlias='ChargeFlip'
+)
+
 SampleGroup_WZ_2017 = SampleGroup(
   Name='WZ',
   Type='MC',
@@ -164,6 +176,20 @@ SampleGroup_VV_2017 = SampleGroup(
   Style=1,
   TLatexAlias='VV',
   LatexAlias='VV'
+)
+
+SampleGroup_Others_2017 = SampleGroup(
+  Name='Others',
+  Type='Prompt',
+  Samples=['GluGluHToTauTau_M125','GluGluHToZZTo4L','GluGluToZZto2e2mu','GluGluToZZto4e','GluGluToZZto4mu','TTTT',
+           'ttWToLNu','ttWToQQ','ttZToLLNuNu','ttZToQQ_ll','tZq',
+           'TTZZ','WWTo2L2Nu_DS','WWW','WWZ','WZZ','ZZZ'],
+  Era = "2017",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kOrange-3,
+  Style=1,
+  TLatexAlias='Others',
+  LatexAlias='Others'
 )
 
 # OS2l CR

@@ -76,7 +76,7 @@ class Variable:
 ## Region ##
 class Region:
   #def __init__(self, Name, PrimaryDataset, PName, UnblindData=True, Logy=-1, TLatexAlias="", CutFlowCaption="Test"):
-  def __init__(self, Name, PrimaryDataset, PName, HistTag, OutputTag, UnblindData=False, Logy=-1, TLatexAlias="", CutFlowCaption="Test", DrawData=False, DrawRatio=True): #JH
+  def __init__(self, Name, PrimaryDataset, PName, InputDirectory, HistTag, OutputTag, UnblindData=False, Logy=-1, TLatexAlias="", CutFlowCaption="Test", DrawData=False, DrawRatio=True): #JH
     self.Name = Name
     self.PrimaryDataset = PrimaryDataset
     self.ParamName = PName
@@ -86,6 +86,7 @@ class Region:
     self.Logy = Logy
     self.TLatexAlias = TLatexAlias
     self.CutFlowCaption = CutFlowCaption
+    self.InputDirectory = InputDirectory
 
     self.DrawData = DrawData
     self.DrawRatio = DrawRatio
@@ -130,7 +131,6 @@ class Plotter:
     self.SignalsToDraw = []
 
     self.Systematics = []
-    self.InputDirectory = ""
     self.Filename_prefix = ""
     self.Filename_suffix = ""
     self.Filename_data_skim = ""
@@ -249,7 +249,7 @@ class Plotter:
 
     for Region in self.RegionsToDraw:
       print Region.Name
-      Indir = self.InputDirectory
+      Indir = Region.InputDirectory
       Outdir = self.OutputDirectoryLocal+'/'+Region.ParamName+'/'+Region.Name+'/' #JH
       if self.ScaleMC:
         Outdir = self.OutputDirectoryLocal+'/ScaleMC/'+Region.Name+'/'
@@ -465,7 +465,7 @@ class Plotter:
         print XaxisRanges
 
       ## Input/Output directotry
-      Indir = self.InputDirectory
+      Indir = Region.InputDirectory
       Outdir = self.OutputDirectoryLocal+'/'+Region.ParamName+'/'+Region.Name+'/'+Region.PrimaryDataset+'/' #JH : /data6/Users/jihkim/HNDiLeptonWorskspace/Output/Plots/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/MVAUL_UL/DiJetSR3/MuMu
       if self.ScaleMC:
         Outdir = self.OutputDirectoryLocal+'/ScaleMC/'+Region.Name+'/'
@@ -488,7 +488,7 @@ class Plotter:
 
 
       ## Data file
-      datapath = Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+self.Filename_suffix+'.root' #JH : /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_ControlRegionPlotter/2017/DATA/HNL_ControlRegionPlotter_SkimTree_HNMultiLep.root
+      datapath = Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+self.Filename_data_skim+'_DATA'+self.Filename_suffix+'.root' #JH : /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_ControlRegionPlotter/2017/DATA/HNL_ControlRegionPlotter_SkimTree_HNMultiLep_DATA.root
       f_Data = ROOT.TFile(datapath)
       if self.DoDebug:
         print ('[DEBUG] Trying to read from data file ' + datapath)
@@ -572,6 +572,7 @@ class Plotter:
                 print ('[DEBUG] Trying to make histogram for Sample = '+Sample)
 
               if 'Fake' in SampleGroup.Type: samplepath = Indir+'RunFake__/DATA/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/RunFake__/DATA
+              elif 'CF' in SampleGroup.Type: samplepath = Indir+'RunCF__/DATA/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/RunCF__/DATA
               elif 'Conv' in SampleGroup.Type: samplepath = Indir+'RunConv__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/RunConv__
               elif 'Prompt' in SampleGroup.Type: samplepath = Indir+'RunPrompt__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/RunConv__
               else: samplepath = Indir+'/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/HNL_SignalRegionPlotter_SkimTree_HNMultiLep_WZTo3LNu_amcatnlo.root
@@ -1271,7 +1272,7 @@ class Plotter:
         print XaxisRanges
 
       ## Input/Output directotry
-      Indir = self.InputDirectory
+      Indir = Region.InputDirectory
       #Outdir = self.OutputDirectoryLocal+'/'+Region.Name+'/'
       Outdir = self.OutputDirectoryLocal+'/'+Region.ParamName+'/'+Region.Name+'/' #JH
       if self.ScaleMC:
@@ -1295,7 +1296,7 @@ class Plotter:
 
 
       ## Data file
-      datapath = Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+'_'+self.Filename_data_skim+self.Filename_suffix+'.root' #JH : /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_ControlRegionPlotter/2017/DATA/HNL_ControlRegionPlotter_SkimTree_HNMultiLep.root
+      datapath = Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+'_'+self.Filename_data_skim+'_DATA'+self.Filename_suffix+'.root' #JH : /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_ControlRegionPlotter/2017/DATA/HNL_ControlRegionPlotter_SkimTree_HNMultiLep.root
       f_Data = ROOT.TFile(datapath)
       if self.DoDebug:
         print ('[DEBUG] Trying to read from data file ' + datapath)
