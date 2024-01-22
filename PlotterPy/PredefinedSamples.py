@@ -60,7 +60,7 @@ SampleGroup_DYTypeI_2017_M100 = SampleGroup(
 
 SampleGroup_Fake_2017 = SampleGroup(
   Name='Fake',
-  Type='Fake',
+  Type=['Fake','Data'],
   Samples=['Fake'],
   Era = "2017",
   Skim='_SkimTree_HNMultiLepBDT',
@@ -72,7 +72,7 @@ SampleGroup_Fake_2017 = SampleGroup(
 
 SampleGroup_CF_2017 = SampleGroup(
   Name='CF',
-  Type='CF',
+  Type=['CF','Data'],
   Samples=['CF'],
   Era = "2017",
   Skim='_SkimTree_DileptonBDT',
@@ -164,6 +164,18 @@ SampleGroup_Conv_2017 = SampleGroup(
   Style=1,
   TLatexAlias='Conv',
   LatexAlias='Conv'
+)
+
+SampleGroup_MC_2017 = SampleGroup(
+  Name='MC',
+  Type='Prompt',
+  Samples=['MC'],
+  Era = "2017",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+1,
+  Style=1,
+  TLatexAlias='MC',
+  LatexAlias='MC'
 )
 
 SampleGroup_VV_2017 = SampleGroup(

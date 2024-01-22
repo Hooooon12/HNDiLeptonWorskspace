@@ -14,8 +14,12 @@ def IsCorrelated(syst):
     return False
   if "LSFSF" in syst:
     return False
-  #if "Lumi" in syst:
-  #  return False
+  if "Lumi" in syst:
+    return False
+  if "Muon" in syst:
+    return False
+  if "Electron" in syst:
+    return False
   if "DYNorm" in syst:
     return False
   if "NonPromptNorm" in syst:

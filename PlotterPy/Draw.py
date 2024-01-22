@@ -95,30 +95,30 @@ m.ScaleMC = args.ScaleMC
 
 #### Systematic
 tmp_Systematics = [
-  #"Lumi",
+  "Lumi",
+  "JetRes",
+  "JetEn",
+  "JetMass",
+  "JetMassSmear",
+  "MuonEn",
+  "MuonRecoSF",
+  "MuonIDSF",
+  "MuonISOSF",
+  "MuonTriggerSF",
+  "ElectronRecoSF",
+  "ElectronIDSF",
+  "ElectronTriggerSF",
+  "ElectronRes",
+  "ElectronEn",
+  "PU",
+  "Prefire",
+  "BTagSFHTag",
+  "BTagSFLTag",
   #"GetMCUncertainty",
-  #"JetRes",
-  #"JetEn",
-  #"JetMass",
-  #"JetMassSmear",
-  #"MuonEn",
-  #"MuonRecoSF",
-  #"MuonIDSF",
-  #"MuonISOSF",
-  #"MuonTriggerSF",
-  #"ElectronRecoSF",
-  #"ElectronIDSF",
-  #"ElectronTriggerSF",
-  #"ElectronRes",
-  #"ElectronEn",
-  #"PU",
-  #"Prefire",
   #"DYNorm",
   #"DYReshapeSyst",
   #"NonPromptNorm",
   #"OthersNorm",
-  #"BTagSFHTag",
-  #"BTagSFLTag",
 ]
 
 m.Systematics = [ Systematic(Name="Central", Direction=0, Year=-1) ]
@@ -163,11 +163,11 @@ if args.Category==0: # ?
   #### Define Samples
   if str_Era != 'YearCombined':
     ############## samples for SS CRs ##############
-    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_VV_%s, SampleGroup_Conv_%s, SampleGroup_WZ_EWK_%s, SampleGroup_WpWp_%s, SampleGroup_Others_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_VV_%s, SampleGroup_Conv_%s, SampleGroup_WZ_EWK_%s, SampleGroup_WpWp_%s, SampleGroup_Others_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for OS CRs #######################
     #exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_pythia_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for SRs #######################
-    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     #exec('m.SignalsToDraw = [SampleGroup_DYTypeI_%s_M1000, SampleGroup_VBFTypeI_%s_M1000, SampleGroup_SSWWTypeI_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
   else:
     m.SampleGroups = [
@@ -188,33 +188,45 @@ if args.Category==0: # ?
   PNs=["HNL_ULID"] # parameter name (this is used in hist path)
 
   RegionNames = {
-                 "HNL_SSPresel_TwoLepton" : "SSPresel",
-                 "HNL_HighMassSR3_TwoLepton_CR" : "SR3_CR",
-                 "HNL_HighMassBJet_TwoLepton_CR" : "BJet_CR",
-                 "HNL_HighMassNP_TwoLepton_CR" : "0Jet_CR",
-                 "HNL_WZ_ThreeLepton_CR" : "WZ_CR",
-                 "HNL_ZZ_FourLepton_CR"  : "ZZ_CR",
-                 "HNL_ZG_ThreeLepton_CR" : "ZG_CR",
-                 "HNL_WG_ThreeLepton_CR" : "WG_CR",
-                 #"LimitInput" : "", #FIXME SR later
+                 #"HNL_SSPresel_TwoLepton" : "SSPresel",
+                 #"HNL_HighMassSR3_TwoLepton_CR" : "SR3_CR",
+                 #"HNL_HighMassBJet_TwoLepton_CR" : "BJet_CR",
+                 #"HNL_HighMassNP_TwoLepton_CR" : "0Jet_CR",
+                 #"HNL_WZ_ThreeLepton_CR" : "WZ_CR",
+                 #"HNL_ZZ_FourLepton_CR"  : "ZZ_CR",
+                 #"HNL_ZG_ThreeLepton_CR" : "ZG_CR",
+                 #"HNL_WG_ThreeLepton_CR" : "WG_CR",
+                 "LimitInput" : "Limit Input (Cut-based)",
+                 #"LimitInputBDT_M100" : "Limit Input (M100)",
                 }
-  MultiChannels = {
-                   "FourLepton" : {
-                                   "MuMuMuMu" : "#mu#mu#mu#mu",
-                                   "EEEE"     : "eeee",
-                                   "EMuLL"    : "e#mu+ll",
-                   },
-                   "ThreeLepton" : {
-                                   "MuMuMu" : "#mu#mu#mu",
-                                   "EEE"    : "eee",
-                                   "EMuL"   : "e#mu+l",
-                   },
-                   "TwoLepton" : {
+  RegionChannels = {
+                   #"FourLepton" : {
+                   #                "MuMuMuMu" : "#mu#mu#mu#mu",
+                   #                "EEEE"     : "eeee",
+                   #                "EMuLL"    : "e#mu+ll",
+                   #},
+                   #"ThreeLepton" : {
+                   #                "MuMuMu" : "#mu#mu#mu",
+                   #                "EEE"    : "eee",
+                   #                "EMuL"   : "e#mu+l",
+                   #},
+                   #"TwoLepton" : {
+                   #                "MuMu" : "#mu#mu",
+                   #                "EE"   : "ee",
+                   #                "EMu"  : "e#mu",
+                   #},
+                   "LimitInput" : {
                                    "MuMu" : "#mu#mu",
                                    "EE"   : "ee",
                                    "EMu"  : "e#mu",
                    },
                   }
+  #ObjectTypes = ["DeltaR","Leptons","NObj","SKEvent",""] # For now, the lepton pt, eta in stored in "Leptons" directory, etc.
+  ObjectTypes = [""] # For now, the lepton pt, eta in stored in "Leptons" directory, etc.
+  UnblindData = {
+                 'HNL_ControlRegionPlotter' : True,
+                 'HNL_SignalRegionPlotter' : False,
+                }
 
   #### Define regions
   m.RegionsToDraw = []
@@ -245,10 +257,13 @@ if args.Category==0: # ?
       InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/"
 
     for PN in PNs:
-      for MultiChannel, Channels in MultiChannels.items():
-        if not MultiChannel in RegionName: continue
+
+      for RegionChannel, Channels in RegionChannels.items():
+        if not RegionChannel in RegionName: continue #The region name must include the RegionChannel name.
         for Channel, ChannelLatex in Channels.items():
-          m.RegionsToDraw.append( Region(RegionName, Channel, PN, InputDirectory, 'Leptons', '', UnblindData=True, Logy=0, TLatexAlias='#splitline{'+ChannelLatex+'}{'+RegionLatex+'}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+
+          for ObjectType in ObjectTypes:
+            m.RegionsToDraw.append( Region(RegionName, Channel, PN, InputDirectory, ObjectType, '', UnblindData[Analyser], Logy=0, TLatexAlias='#splitline{'+ChannelLatex+'}{'+RegionLatex+'}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
 
 
     #SRs
@@ -284,14 +299,19 @@ if args.Category==0: # ?
 
 #### Define Variables
 m.VariablesToDraw = [
-  #Variable('', 'Limit input', 'GeV'), #JH
+  #Variable('MuonCR', '', ''),
+  #Variable('ElectronCR', '', ''),
+  #Variable('ElectronMuonCR', '', ''),
+  #Variable('MuonSR', '', ''),
+  Variable('ElectronSR', '', ''),
+  #Variable('ElectronMuonSR', '', ''),
   #Variable('Lep_1_mva', 'MVA', ''),
   #Variable('Lep_2_mva', 'MVA', ''),
   #Variable('Lep_1_LFvsHF', 'LFvsHF', ''),
   #Variable('Lep_2_LFvsHF', 'LFvsHF', ''),
   #Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
   #Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
-  Variable('Leps_pt',  'p_{T} of all leptons', 'GeV'),
+  #Variable('Leps_pt',  'p_{T} of all leptons', 'GeV'),
   #Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
   #Variable('Lep_4_pt', 'p_{T} of the fourth lepton', 'GeV'),
   #Variable('Lep_1_ptcone', 'p_{T}^{cone} of the leading lepton', 'GeV'),
@@ -300,7 +320,7 @@ m.VariablesToDraw = [
   #Variable('Lep_4_ptcone', 'p_{T}^{cone} of the fourth lepton', 'GeV'),
   #Variable('Lep_1_eta', '#eta of the leading lepton', ''),
   #Variable('Lep_2_eta', '#eta of the second lepton', ''),
-  Variable('Leps_eta',  '#eta of all leptons', ''),
+  #Variable('Leps_eta',  '#eta of all leptons', ''),
   #Variable('Lep_3_eta', '#eta of the third lepton', ''),
   #Variable('Lep_4_eta', '#eta of the fourth lepton', ''),
   #Variable('M_ll', 'M_{ll}', 'GeV'),
@@ -323,7 +343,7 @@ m.VariablesToDraw = [
 m.PrintVariables()
 
 #### Draw
-m.Draw()
-#m.DoSystCheck()
+#m.Draw()
+m.DoSystCheck()
 
 #m.DoCutFlow('NJets')

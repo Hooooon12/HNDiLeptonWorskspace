@@ -1,4 +1,4 @@
-import os,ROOT,time
+import os,sys,ROOT,time
 import mylib
 import ctypes
 import canvas_margin
@@ -33,7 +33,7 @@ class SampleGroup:
 
   def Print(self):
     print ('Sample group name = '+self.Name)
-    print (  'Type = '+self.Type)
+    print (  'Type = ',self.Type)
     print (  'Samples = '),
     print (self.Samples)
     print (  'Year = '+str(self.Year))
@@ -563,7 +563,7 @@ class Plotter:
             Color = SampleGroup.Color
             LegendAdded = False
 
-            if 'Fake' in SampleGroup.Type: paramName = Region.ParamName #JH : no syst hist for fake for now.
+            if 'Data' in SampleGroup.Type: paramName = Region.ParamName #JH : no syst hist for data-driven bkg.
 
             ## Loop over samples in each sample group
             for Sample in SampleGroup.Samples:
@@ -595,7 +595,7 @@ class Plotter:
 
               ## 1) Lumi, MC normalizaion
               ## Use central and scale them later
-              elif (Syst.Name in ["Lumi"]):
+              elif (Syst.Name in ["Lumi"]): # Lumi is set correlated, so Syst.Year == -1.
                 h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ paramName + '/'+ Region.Name+'/'+Variable.Name)
               ## For all other cases
               elif (Syst.Name in ["GetMCUncertainty"]):
@@ -640,9 +640,8 @@ class Plotter:
 
               ## Manual systematic
               ## 1) [Lumi] Uncorrelated
-              #if (Syst.Name=="Lumi") and (Syst.Year==SampleGroup.Year):
-              if (Syst.Name=="Lumi") and (Syst.Year==self.DataYear):
-                lumierr = mylib.LumiError(0)
+              if (Syst.Name=="Lumi") and (Syst.Year==SampleGroup.Year):
+                lumierr = mylib.LumiError(Syst.Year)
                 for ix in range(0,h_Sample.GetXaxis().GetNbins()):
                   y = h_Sample.GetBinContent(ix+1)
                   y_new = y + y*float(Syst.Direction)*lumierr
@@ -798,10 +797,10 @@ class Plotter:
         xBins = array("d",xBins)
 
         ## hist => gr
-        gr_Bkgd_TotErr = mylib.GetAsymmError(h_Bkgd_TotErr_Max,h_Bkgd_TotErr_Min) #JH : stat + syst error contained with total bkgd contents
-        gr_Data = ROOT.TGraphAsymmErrors(h_Data) #JH
+        gr_Bkgd_TotErr = mylib.GetAsymmError(h_Bkgd_TotErr_Max,h_Bkgd_TotErr_Min) # stat + syst error contained with total bkgd contents
+        gr_Data = ROOT.TGraphAsymmErrors(h_Data)
 
-        ## Error from shape
+        ## Error from shape # FIXME False as default
         if self.ErrorFromShape:
           if self.DoDebug:
             print ('Total background :')
@@ -889,10 +888,6 @@ class Plotter:
           lg.AddEntry(h_lg,tlatexaliax,"f")
 
         ## Prepare canvas
-
-        if self.DoDebug:
-          print ('[DEBUG] Preparing canvas..')
-
         c1 = ROOT.TCanvas('c1', '', 800, 800)
 
         c1_up = ROOT.TPad("c1_up", "", 0, 0.25, 1, 1)
@@ -1254,11 +1249,14 @@ class Plotter:
 ###########################################################################################################################################################
   def DoSystCheck(self):
 
+    # Error print verbosity
     ROOT.gErrorIgnoreLevel = ROOT.kFatal
 
     tdrstyle.setTDRStyle()
     ROOT.TH1.AddDirectory(False)
     lxplus_dir=[]
+
+    # Loop over regions
     for Region in self.RegionsToDraw:
 
       print ('## Drawing '+Region.Name)
@@ -1273,8 +1271,7 @@ class Plotter:
 
       ## Input/Output directotry
       Indir = Region.InputDirectory
-      #Outdir = self.OutputDirectoryLocal+'/'+Region.Name+'/'
-      Outdir = self.OutputDirectoryLocal+'/'+Region.ParamName+'/'+Region.Name+'/' #JH
+      Outdir = self.OutputDirectoryLocal+'/'+Region.ParamName+'/'+Region.Name+'/'+Region.PrimaryDataset+'/' #JH : /data6/Users/jihkim/HNDiLeptonWorskspace/Output/Plots/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/HNL_ULID/LimitInput/MuMu
       if self.ScaleMC:
         Outdir = self.OutputDirectoryLocal+'/ScaleMC/'+Region.Name+'/'
 
@@ -1286,7 +1283,6 @@ class Plotter:
           OutdirLXPLUS= self.OutputDirectory +'/ScaleMC/'+Region.Name+'/'
           os.system("ssh "+self.Lxplus_User + "@lxplus.cern.ch 'mkdir -p " + OutdirLXPLUS + "'")
 
-
       print ('##   Outputs => '+Outdir)
       
       os.system('mkdir -p '+Outdir)
@@ -1294,34 +1290,30 @@ class Plotter:
         print('scp ' + os.getenv('HTML_DIR') + '/index.php ' + ''+self.Lxplus_User + '@lxplus.cern.ch:'+ OutdirLXPLUS+'/')
         os.system('scp ' + os.getenv('HTML_DIR') + '/index.php ' + ''+self.Lxplus_User + '@lxplus.cern.ch:'+ OutdirLXPLUS+'/')
 
-
-      ## Data file
-      datapath = Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+'_'+self.Filename_data_skim+'_DATA'+self.Filename_suffix+'.root' #JH : /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_ControlRegionPlotter/2017/DATA/HNL_ControlRegionPlotter_SkimTree_HNMultiLep.root
+      ## Call the data file
+      datapath = Indir+'/'+self.DataDirectory+'/'+self.Filename_prefix+'_'+self.Filename_data_skim+'_DATA'+self.Filename_suffix+'.root' #JH : /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_ControlRegionPlotter/2017/DATA/HNL_ControlRegionPlotter_SkimTree_HNMultiLep_DATA.root
       f_Data = ROOT.TFile(datapath)
       if self.DoDebug:
         print ('[DEBUG] Trying to read from data file ' + datapath)
 
-
       ## Loop over variables
-
       for Variable in self.VariablesToDraw:
 
         ## BinInfo
         nRebin = 1
         
+        # Rebin if variable is explicitly defined
         if  Variable.Name in  Rebins.keys():
           print(Variable.Name + ' rebinning to ' + str(Rebins[Variable.Name]))
           nRebin = Rebins[Variable.Name]
 
-          
         xMin= 0
         xMax=100000.
 
-
+        # Set X axis range if explicitly defined
         if  Variable.Name in  XaxisRanges.keys():
           xMin = XaxisRanges[Variable.Name][0]
           xMax = XaxisRanges[Variable.Name][1]
-        yMax = -999
 
         if self.DoDebug:
           print ('[DEBUG] Trying to draw variable = '+Variable.Name)
@@ -1335,6 +1327,12 @@ class Plotter:
           else:
             xtitle = "m_{lJ} (GeV)"
 
+        # Extra control for LimitBin histograms
+        if "Muon"         in Variable.Name and "Electron" not in Variable.Name and "MuMu" not in Region.PrimaryDataset: continue
+        if "Electron"     in Variable.Name and "Muon"     not in Variable.Name and "EE"   not in Region.PrimaryDataset: continue
+        if "ElectronMuon" in Variable.Name                                     and "EMu"  not in Region.PrimaryDataset: continue
+
+
         ## Save hists
         ## For legend later..
         HistsToDraw = dict()
@@ -1343,79 +1341,71 @@ class Plotter:
         ## For Legend, save 
         HistsForLegend = []
         AliasForLegend = [] ## Prevent double-counting
-        stack_Bkgd = ROOT.THStack("stack_Bkgd", "")
-        h_Bkgd = 0
+        stack_Bkgd = ROOT.THStack("stack_Bkgd", "") # THStack for stacking the backgrounds
+        h_Bkgd = 0 # This is also TH1 for total background, will be useful later with total error calculation, ratio devision, ...
+
         ## Save systematic
         SystematicUps = dict()
         SystematicDowns = dict()
-        ## If we take errors fro shapes
+        ## If we take errors from shapes
         h_TotalBackgroundFromShape = 0
 
-        ## Loop over systematics
-        for Syst in self.Systematics:
+        ## Loop over each sample group.
+        for SampleGroup in self.SampleGroups:
+          Color = SampleGroup.Color
+          LegendAdded = False
 
-          if self.DoDebug:
-            print ('[DEBUG] Trying to make histogram for Syst = '),
-            Syst.Print()
+          ## Loop over each sample in this sample group.
+          for Sample in SampleGroup.Samples:
 
-          h_Bkgd_ForSyst = 0
-          paramName = Region.ParamName
+            if self.DoDebug:
+              print ('[DEBUG] Trying to make histogram for Sample = '+Sample)
 
-          if Syst.Name!="Central":
+            if 'Fake' in SampleGroup.Type: samplepath = Indir+'RunFake__/DATA/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
+            elif 'CF' in SampleGroup.Type: samplepath = Indir+'RunCF__/DATA/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root' # /data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/RunCF__/DATA/HNL_SignalRegionPlotter_SkimTree_DileptonBDT_CF.root
+            elif 'Conv' in SampleGroup.Type: samplepath = Indir+'RunConv__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
+            elif 'Prompt' in SampleGroup.Type: samplepath = Indir+'RunPrompt__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
+            else: samplepath = Indir+'/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
+            f_Sample = ROOT.TFile(samplepath)
+            print "opening", samplepath, '...'
 
-            if Syst.Direction>0:
-              paramName = "Syst_"+Syst.Name+"Up"+Region.ParamName
-            else:
-              paramName = "Syst_"+Syst.Name+"Down"+Region.ParamName
+            h_Sample = 0
 
-          for SampleGroup in self.SampleGroups:
-            Color = SampleGroup.Color
-            LegendAdded = False
-
-            if 'Fake' in SampleGroup.Type: paramName = Region.ParamName #JH : no syst hist for fake for now.
-
-            for Sample in SampleGroup.Samples:
+            ## Loop over systematics
+            for Syst in self.Systematics:
 
               if self.DoDebug:
-                print ('[DEBUG] Trying to make histogram for Sample = '+Sample)
+                print ('[DEBUG] Trying to make histogram for Syst = '),
+                Syst.Print()
 
-              if 'Fake' in SampleGroup.Type: samplepath = Indir+'RunFake__/DATA/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
-              elif 'Conv' in SampleGroup.Type: samplepath = Indir+'RunConv__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
-              elif 'Prompt' in SampleGroup.Type: samplepath = Indir+'RunPrompt__/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
-              else: samplepath = Indir+'/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root'
-              #f_Sample = ROOT.TFile(Indir+'/'+str(SampleGroup.Era)+'/'+Region.ParamName+'/'+self.Filename_prefix+SampleGroup.Skim+'_'+Sample+self.Filename_suffix+'.root') #JH
-              f_Sample = ROOT.TFile(samplepath) #JH : SR naming convention
-              print "opening", samplepath, '...'
+              paramName = Region.ParamName
 
-              h_Sample = 0
-              #print Syst.Year, SampleGroup.Year
+              # if syst is defined, then call Up or Down shape depending on its Direction.
+              if Syst.Name!="Central":
+                if not ('Data' in SampleGroup.Type or Syst.Name=="Lumi" or Syst.Name=="GetMCUncertainty"): # Data Bkg has no shape uncertainty. Also Lumi and MC uncert is flat.
+                  if Syst.Direction>0:
+                    paramName = "Syst_"+Syst.Name+"Up"+Region.ParamName #Syst_JetResUpHNL_ULID
+                  else:
+                    paramName = "Syst_"+Syst.Name+"Down"+Region.ParamName
+
+              # Define the hist path
+              if "LimitInput" in Region.Name and not "BDT" in Region.Name:
+                histpath = Region.Name+'/'+Region.PrimaryDataset+'/'+paramName+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/Syst_JetResUpHNL_ULID/LimitBins/MuonSR"
+              elif "LimitInput" in Region.Name and "BDT" in Region.Name:
+                histpath = Region.Name.split('_')[0]+'/'+Region.PrimaryDataset+'/'+paramName+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/Syst_JetResUpHNL_ULID/M100/LimitBins/MuonSR"
+              else:
+                histpath = Region.Name+'/'+Region.PrimaryDataset+'/'+paramName+'/RegionPlots_'+Region.PrimaryDataset+'/'+Region.HistTag+'/'+Variable.Name # DiJetSR3/MuMu/Syst_JetResUpHNL_ULID/RegionPlots_MuMu/Leptons/Lep_1_pt
+
+              ## Correlated sources has Syst.Year = -1
               ## Uncorrelated sources has Syst.Year = 2016 or 2017 or 2018
               ## For this cases, SampleGroup.Year should be matched
-              if (Syst.Year>0) and (Syst.Year==SampleGroup.Year):
-                if "LimitInput" in Region.Name and not "BDT" in Region.Name:
-                  histpath = Region.Name+'/'+paramName+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInput/Syst_JetResUpMVAUL_UL/FillEventCutflow/MuonSR"
-                elif "LimitInput" in Region.Name and "BDT" in Region.Name:
-                  histpath = Region.Name.split('_')[0]+'/'+paramName+'/'+Region.Name.split('_')[1]+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInputBDT/Syst_JetResUpMVAUL_UL/M100/FillEventCutflow/MuonSR"
-                else:
-                  histpath = Region.PrimaryDataset + '/'+ paramName + '/RegionPlots_'+ Region.Name+'/'+Variable.Name # MuMu/Syst_JetResUpMVAUL_UL/RegionPlots_DiJetSR3/Lep_1_Pt
-                h_Sample = f_Sample.Get(histpath)
-
-              ## 1) Lumi, MC normalizaion
-              ## Use central and scale them later
-              elif (Syst.Name in ["Lumi"]):
-                h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ paramName + '/'+ Region.Name+'/'+Variable.Name)
-              ## For all other cases
-              elif (Syst.Name in ["GetMCUncertainty"]):
-                h_Sample = f_Sample.Get(Region.PrimaryDataset + '/'+ paramName + '/'+ Region.Name+'/'+Variable.Name)
+              if (Syst.Year>0) and (Syst.Year!=SampleGroup.Year):
+                print "Systematic year doesn't match to Sample year :"
+                print Syst.Year,"vs",SampleGroup.Year
+                print "Exiting..."
+                sys.exit()
               else:
-                #h_Sample = f_Sample.Get(Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName+Region.HistTag + '/'+Variable.Name) #JH
-                if "LimitInput" in Region.Name and not "BDT" in Region.Name:
-                  histpath = Region.Name+'/'+paramName+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInput/Syst_JetResUpMVAUL_UL/FillEventCutflow/MuonSR"
-                elif "LimitInput" in Region.Name and "BDT" in Region.Name:
-                  histpath = Region.Name.split('_')[0]+'/'+paramName+'/'+Region.Name.split('_')[1]+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInputBDT/Syst_JetResUpMVAUL_UL/M100/FillEventCutflow/MuonSR"
-                else:
-                  histpath = Region.PrimaryDataset + '/'+ paramName + '/RegionPlots_'+ Region.Name+'/'+Variable.Name # MuMu/Syst_JetResUpMVAUL_UL/RegionPlots_DiJetSR3/Lep_1_Pt
-                h_Sample = f_Sample.Get(histpath) #JH
+                h_Sample = f_Sample.Get(histpath)
               print "opening",histpath,"..."
 
               print h_Sample
@@ -1444,21 +1434,19 @@ class Plotter:
 
               ## Manual systematic
               ## 1) [Lumi] Uncorrelated
-              if (Syst.Name=="Lumi") and (Syst.Year==SampleGroup.Year):
-                lumierr = mylib.LumiError(0)
+              if Syst.Name=="Lumi":
+                lumierr = mylib.LumiError(Syst.Year)
                 for ix in range(0,h_Sample.GetXaxis().GetNbins()):
                   y = h_Sample.GetBinContent(ix+1)
                   y_new = y + y*float(Syst.Direction)*lumierr
-                  h_Sample.SetBinContent(ix+1, y_new)
-                  
-              if (Syst.Name=="GetMCUncertainty") and (Syst.Year==SampleGroup.Year):
+                  h_Sample.SetBinContent(ix+1, y_new) 
+              ## 2) [GetMCUncertainty]
+              elif Syst.Name=="GetMCUncertainty":
                 mcerr = mylib.GetMCUncertainty(SampleGroup.Name)
                 for ix in range(0,h_Sample.GetXaxis().GetNbins()):
                   y = h_Sample.GetBinContent(ix+1)
                   y_new = y + y*float(Syst.Direction)*mcerr
                   h_Sample.SetBinContent(ix+1, y_new)
-                  
-                  
                   
               ## AddError option
               AddErrorOption = ''
@@ -1466,7 +1454,7 @@ class Plotter:
                 AddErrorOption = 'L'
 
               ## If central, add to h_Bkgd
-              if Syst.Name=="Central" and Sample=='total_background':
+              if Syst.Name=="Central" and Sample=='total_background': #FIXME Not used for now.
                 if not h_TotalBackgroundFromShape:
                   h_TotalBackgroundFromShape = h_Sample.Clone()
                 else:
@@ -1474,66 +1462,50 @@ class Plotter:
                 HistsToDraw[Sample] = h_Sample.Clone()
 
               elif Syst.Name=="Central":
-
-                stack_Bkgd.Add( h_Sample )
+                stack_Bkgd.Add( h_Sample ) # Add this sample to the THStack.
                 if not h_Bkgd:
                   h_Bkgd = h_Sample.Clone()
                 else:
-                  h_Bkgd = mylib.AddHistograms( h_Bkgd, h_Sample, AddErrorOption)
+                  h_Bkgd = mylib.AddHistograms( h_Bkgd, h_Sample, AddErrorOption) # Add this sample to the h_Bkgd.
 
                 HistsToDraw[Sample] = h_Sample.Clone()
                 if (not LegendAdded) and (SampleGroup.TLatexAlias not in AliasForLegend):
                   HistsForLegend.append( [HistsToDraw[Sample],SampleGroup.TLatexAlias] )
                   AliasForLegend.append(SampleGroup.TLatexAlias)
                   LegendAdded = True
-              ## else (i.e., systematic), add to h_Bkgd_ForSyst
+              ## else (i.e., systematic), add to Total SystUp/Down
               else:
-                print ("Adding hist to syst " + Syst.Name + ", direction : " + str(Syst.Direction))
-                if not h_Bkgd_ForSyst:
-                  h_Bkgd_ForSyst = h_Sample.Clone()
+                print ("Adding "+SampleGroup.Name+" to syst " + Syst.Name + ", direction : " + str(Syst.Direction))
+                if Syst.Direction>0:
+                  if not (Syst.FullName() in SystematicUps.keys()):
+                    SystematicUps[Syst.FullName()] = h_Sample.Clone()
+                  else:
+                    SystematicUps[Syst.FullName()] = mylib.AddHistograms(SystematicUps[Syst.FullName()], h_Sample, AddErrorOption)
                 else:
-                  h_Bkgd_ForSyst = mylib.AddHistograms(h_Bkgd_ForSyst, h_Sample, AddErrorOption)
+                  if not (Syst.FullName() in SystematicDowns.keys()):
+                    SystematicDowns[Syst.FullName()] = h_Sample.Clone()
+                  else:
+                    SystematicDowns[Syst.FullName()] = mylib.AddHistograms(SystematicDowns[Syst.FullName()], h_Sample, AddErrorOption)
 
-              ## Close file
-              f_Sample.Close()
+            ##==>End Syst loop
 
-            ##==>End Sample loop
-          ##==>End SampleGroup loop
+            ## Close file
+            f_Sample.Close()
 
-          if Syst.Name!="Central":
-            if Syst.Direction>0:
-              SystematicUps[Syst.FullName()] = h_Bkgd_ForSyst
-            else:
-              SystematicDowns[Syst.FullName()] = h_Bkgd_ForSyst
-
-        ##==>End Syst loop
-        #print SystematicUps
-        #print SystematicDowns
-
+          ##==>End Sample loop
+        ##==>End SampleGroup loop
+ 
         ## Now call data hist
         if not Region.UnblindData:
-          #h_Data = h_Bkgd.Clone(h_Data.GetName())
-          h_Data = h_Bkgd.Clone() #JH : data is now the same with the total bkgds
+          h_Data = h_Bkgd.Clone() # Data is now the same with the total bkgds
           h_Data.SetMarkerStyle(20)
           h_Data.SetMarkerSize(1.2)
           h_Data.SetMarkerColor(ROOT.kBlack)
           h_Data.SetLineColor(ROOT.kBlack)
         else:
-          if self.DoDebug:
-            print ('[DEBUG] Trying to get data histogram..')
-            print (Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName + '/'+Variable.Name)
-
-          #histpath = Region.Name+'/'+'RegionPlots_'+Region.PrimaryDataset + '/'+ Region.ParamName+Region.HistTag + '/'+Variable.Name #JH : CR naming convention
-          histpath = Region.PrimaryDataset+'/'+Region.ParamName+'/RegionPlots_'+Region.Name+'/'+Variable.Name #JH : MuMu/MVAUL_UL/RegionPlots_DiJetSR3/Lep_1_Pt; SR naming convention.
-          if "LimitInput" in Region.Name and not "BDT" in Region.Name:
-            histpath = Region.Name+'/'+Region.ParamName+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInput/MVAUL_UL/FillEventCutflow/MuonSR"
-          elif "LimitInput" in Region.Name and "BDT" in Region.Name:
-            histpath = Region.Name.split('_')[0]+'/'+Region.ParamName+'/'+Region.Name.split('_')[1]+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInputBDT/MVAUL_UL/M100/FillEventCutflow/MuonSR"
-          else:
-            histpath = Region.PrimaryDataset + '/'+ Region.ParamName + '/RegionPlots_'+ Region.Name+'/'+Variable.Name # MuMu/Syst_JetResUpMVAUL_UL/RegionPlots_DiJetSR3/Lep_1_Pt
           h_Data = f_Data.Get(histpath)
           if not h_Data:
-            print ("in "+datapath+",") #JH
+            print ("in "+datapath+",")
             print ("No "+histpath)
             print ("==> Skipping ...")
             continue
@@ -1569,7 +1541,7 @@ class Plotter:
         xBins = array("d",xBins)
 
         ## hist => gr
-        gr_Data = ROOT.TGraphAsymmErrors(h_Data) #JH
+        gr_Data = ROOT.TGraphAsymmErrors(h_Data)
 
         err_up_tmp = []
         err_down_tmp = []
@@ -1609,10 +1581,6 @@ class Plotter:
               gr_Data.SetPointEXhigh(i, 0)
 
         ## Prepare canvas
-
-        if self.DoDebug:
-          print ('[DEBUG] Preparing canvas..')
-
         c1 = ROOT.TCanvas('c1', '', 800, 800)
 
         c1_up = ROOT.TPad("c1_up", "", 0, 0.25, 1, 1)
@@ -1655,7 +1623,6 @@ class Plotter:
         latex_Lumi.DrawLatex(0.73, 0.96, mylib.TotalLumiByEra(str(self.DataEra))+" fb^{-1} (13 TeV)")
 
         #### axis histograms
-
         h_dummy_up = ROOT.TH1D('h_dummy_up', '', nBin, xBins)
         h_dummy_up.GetXaxis().SetRangeUser(xMin, xMax)
         if nRebin>0:
@@ -1670,8 +1637,8 @@ class Plotter:
           h_dummy_up.GetYaxis().SetTitle('Events / bin')
 
         h_dummy_down = ROOT.TH1D('h_dumy_down', '', nBin, xBins)
-        #h_dummy_down.GetYaxis().SetRangeUser(0.9,1.1) #JH
-        h_dummy_down.GetYaxis().SetRangeUser(0,2) #JH
+        #h_dummy_down.GetYaxis().SetRangeUser(0.9,1.1)
+        h_dummy_down.GetYaxis().SetRangeUser(0,2) #FIXME
 
         if ('DYCR' in Region.Name):
           h_dummy_down.GetYaxis().SetRangeUser(0.70,1.30)
@@ -1708,7 +1675,6 @@ class Plotter:
           h_dummy_up.GetXaxis().SetTitle(xtitle)
 
         ## Exception control
-
         if (Variable.Name=="NCand_Mass"):
 
           if ("_SR" in Region.Name) and ("EMu" not in Region.Name):
@@ -1735,8 +1701,11 @@ class Plotter:
         if self.DoDebug:
           print ('[DEBUG] Canvas is ready')
 
-        ## Loop over systematic sources
+        ## Loop over systematic sources ==> Why we need syst loop twice? The first one is just calling, then this is to draw it...
         for SystKey in SystematicUps:
+          #print SystematicUps
+          #print SystKey
+          this_systName = SystKey.split('_')[1]
 
           ## Stat. + Syst. err band
           h_Bkgd_ThisErr_Max = h_Bkgd.Clone()
@@ -1768,7 +1737,7 @@ class Plotter:
           gr_Bkgd_ThisErr = mylib.GetAsymmError(h_Bkgd_ThisErr_Max,h_Bkgd_ThisErr_Min)
 
           ## Get Y maximum according to this stat. + syst. error
-          yMax = max( yMax, mylib.GetMaximum(gr_Bkgd_ThisErr) )
+          yMax = mylib.GetMaximum(gr_Bkgd_ThisErr)
           ## Yaxis range
           yMin = 0.
           yMaxScale = 1.2
@@ -1780,21 +1749,139 @@ class Plotter:
             yMin = Region.Logy
           h_dummy_up.GetYaxis().SetRangeUser( yMin, yMaxScale*yMax )
 
+          ## Set legend
+          lg = 0
+          ## No signal
+          if len(self.SignalsToDraw)==0:
+            #lg = ROOT.TLegend(0.55, 0.45, 0.92, 0.90)
+            lg = ROOT.TLegend(0.67, 0.55, 0.92, 0.90)
+          ## With Signal
+          else:
+            if Region.DrawRatio:
+              #lg = ROOT.TLegend(0.55, 0.46, 0.92, 0.90)
+              lg = ROOT.TLegend(0.65, 0.56, 0.95, 0.90)
+            else:
+              lg = ROOT.TLegend(0.50, 0.56, 0.92, 0.90)
+          lg.SetBorderSize(0)
+          lg.SetFillStyle(0)
+
+          if not self.NoErrorBand:
+            lg.AddEntry(gr_Bkgd_ThisErr, "Stat.+syst. uncert.", "f")
+          ## dummy graph for legend..
+          ## this is because h_Data does not have horizontal error bars,
+          ## and gr_data does not have points
+          gr_Data_dummy = ROOT.TGraphAsymmErrors(gr_Data)
+          gr_Data_dummy.SetMarkerStyle(20)
+          gr_Data_dummy.SetMarkerSize(1.2)
+          dataLegendGOption="ep"
+          if Variable.Name=="NCand_Mass":
+            dataLegendGOption="lpe"
+          if Region.DrawData:
+            if Region.UnblindData:
+              lg.AddEntry(gr_Data_dummy, "Data", dataLegendGOption)
+            else:
+              lg.AddEntry(gr_Data_dummy, "Total background", dataLegendGOption)
+          for i_lg in range(0,len(HistsForLegend)):
+            h_lg = HistsForLegend[ len(HistsForLegend)-1-i_lg ][0]
+            tlatexaliax = HistsForLegend[ len(HistsForLegend)-1-i_lg ][1]
+            lg.AddEntry(h_lg,tlatexaliax,"f")
+
+          lg.AddEntry(h_Up,   this_systName+" Up", 'l')
+          lg.AddEntry(h_Down, this_systName+" Down", 'l')
+
+          ## Draw up
+          c1_up.cd()
+
+          h_dummy_up.Draw("hist")
+          stack_Bkgd.Draw("histsame")
+
+          h_Up = SystematicUps[SystKey]
+          h_Up.SetFillColor(0)
+          h_Up.SetLineWidth(2)
+          h_Up.SetLineColor(ROOT.kRed)
+          h_Up.Draw("histsame")
+          h_Down = SystematicDowns[SystKey]
+          h_Down.SetFillColor(0)
+          h_Down.SetLineWidth(2)
+          h_Down.SetLineColor(ROOT.kBlue)
+          h_Down.Draw("histsame")
+          #print SystKey
+          #print h_Up
+          #for i in range(h_Up.GetNbinsX()) : print h_Up.GetBinContent(i)
+
+          gr_Bkgd_ThisErr.SetMarkerColor(0)
+          gr_Bkgd_ThisErr.SetMarkerSize(0)
+          gr_Bkgd_ThisErr.SetFillStyle(3013)
+          gr_Bkgd_ThisErr.SetFillColor(ROOT.kBlack)
+          gr_Bkgd_ThisErr.SetLineColor(0)
+          if not self.NoErrorBand:
+            gr_Bkgd_ThisErr.Draw("sameE2")
+
+          gr_Data.SetLineWidth(2)
+          gr_Data.SetMarkerSize(0.)
+          gr_Data.SetMarkerColor(ROOT.kBlack)
+          gr_Data.SetLineColor(ROOT.kBlack)
+          if Region.DrawData:
+            h_Data.Draw("phistsame")
+            gr_Data.Draw("p0same")
+
+          h_dummy_up.Draw("axissame")
+
+          ## Legend
+          lg.Draw()
+
+          ## Draw down
+          c1_down.cd()
+          #h_dummy_down.Draw("histsame")
+          h_dummy_down.Draw("hist")
+
+          h_SystUp_Ratio = SystematicUps[SystKey].Clone()
+          h_SystUp_Ratio.Divide(h_Bkgd)
+          h_SystUp_Ratio.SetMarkerSize(0.)
+          h_SystUp_Ratio.SetLineColor(ROOT.kRed)
+          h_SystUp_Ratio.SetLineWidth(2)
+          h_SystUp_Ratio.Draw("histsame")
+          h_SystDown_Ratio = SystematicDowns[SystKey].Clone()
+          h_SystDown_Ratio.Divide(h_Bkgd)
+          h_SystDown_Ratio.SetMarkerSize(0.)
+          h_SystDown_Ratio.SetLineColor(ROOT.kBlue)
+          h_SystDown_Ratio.SetLineWidth(2)
+          h_SystDown_Ratio.Draw("histsame")
+
+          ## y=1 graph
+          g1_x = [-9000, 9000]
+          g1_y = [1, 1]
+          g1 = ROOT.TGraph(2, array("d", g1_x ), array("d", g1_y ))
+          g1.Draw("same")
+
+          ## TLatex
+          c1.cd()
+          channelname = ROOT.TLatex()
+          channelname.SetNDC()
+          channelname.SetTextSize(0.037)
+          channelname.DrawLatex(0.2, 0.88, "#font[42]{"+Region.TLatexAlias+"}")
+          if not Region.UnblindData:
+            this_TLatexAlias = Region.TLatexAlias[0:-1]+" (Blinded)}"
+            channelname.DrawLatex(0.2, 0.88, "#font[42]{"+this_TLatexAlias+"}")
+
           ## Signal
           for Sig in self.SignalsToDraw:
-            fpullpath_Sig = Indir+'/'+self.Filename_prefix+Sig.Skim+'_'+Sig.Samples[0]+self.Filename_suffix+'.root'
+            fpullpath_Sig = Indir+'/'+self.Filename_prefix+Sig.Skim+'_'+Sig.Samples[0]+self.Filename_suffix+'.root' #/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/2017/HNL_SignalRegionPlotter_SkimTree_HNMultiLepBDT_DYTypeI_DF_M1000_private.root
+
+            # if syst is defined, then call Up or Down shape depending on its Direction.
+            paramName_Sig = Region.ParamName
+            paramNameUp_Sig = "Syst_"+this_systName+"Up"+Region.ParamName #Syst_JetResUpHNL_ULID
+            paramNameDown_Sig = "Syst_"+this_systName+"Down"+Region.ParamName
+
+            # Define the hist path
             if "LimitInput" in Region.Name and not "BDT" in Region.Name:
-              histpath = Region.Name+'/'+Region.ParamName+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInput/MVAUL_UL/FillEventCutflow/MuonSR"
-              histpathUp = Region.Name+'/'+'Syst_'+SystKey.split('_')[1]+'Up'+Region.ParamName+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInput/Syst_JetResUpMVAUL_UL/FillEventCutflow/MuonSR"
-              histpathDown = Region.Name+'/'+'Syst_'+SystKey.split('_')[1]+'Down'+Region.ParamName+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInput/Syst_JetResDownMVAUL_UL/FillEventCutflow/MuonSR"
+              histpath_Sig = Region.Name+'/'+Region.PrimaryDataset+'/'+paramName_Sig+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/HNL_ULID/LimitBins/MuonSR"
             elif "LimitInput" in Region.Name and "BDT" in Region.Name:
-              histpath = Region.Name.split('_')[0]+'/'+Region.ParamName+'/'+Region.Name.split('_')[1]+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInputBDT/Syst_JetResUpMVAUL_UL/M100/FillEventCutflow/MuonSR"
-              histpathUp = Region.Name.split('_')[0]+'/'+'Syst_'+SystKey.split('_')[1]+'Up'+Region.ParamName+'/'+Region.Name.split('_')[1]+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInputBDT/Syst_JetResUpMVAUL_UL/M100/FillEventCutflow/MuonSR"
-              histpathDown = Region.Name.split('_')[0]+'/'+'Syst_'+SystKey.split('_')[1]+'Down'+Region.ParamName+'/'+Region.Name.split('_')[1]+'/FillEventCutflow/'+Region.PrimaryDataset #JH : "LimitInputBDT/Syst_JetResUpMVAUL_UL/M100/FillEventCutflow/MuonSR"
+              histpath_Sig = Region.Name.split('_')[0]+'/'+Region.PrimaryDataset+'/'+paramName_Sig+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/HNL_ULID/M100/LimitBins/MuonSR"
             else:
-              histpath = Region.PrimaryDataset + '/'+ Region.ParamName + '/RegionPlots_'+ Region.Name+'/'+Variable.Name # MuMu/Syst_JetResUpMVAUL_UL/RegionPlots_DiJetSR3/Lep_1_Pt
-              histpathUp = Region.PrimaryDataset + '/'+ 'Syst_'+SystKey.split('_')[1]+'Up'+Region.ParamName + '/RegionPlots_'+ Region.Name+'/'+Variable.Name # MuMu/Syst_JetResUpMVAUL_UL/RegionPlots_DiJetSR3/Lep_1_Pt
-              histpathDown = Region.PrimaryDataset + '/'+ 'Syst_'+SystKey.split('_')[1]+'Down'+Region.ParamName + '/RegionPlots_'+ Region.Name+'/'+Variable.Name # MuMu/Syst_JetResUpMVAUL_UL/RegionPlots_DiJetSR3/Lep_1_Pt
+              histpath_Sig = Region.Name+'/'+Region.PrimaryDataset+'/'+paramName_Sig+'/RegionPlots_'+Region.PrimaryDataset+'/'+Region.HistTag+'/'+Variable.Name # DiJetSR3/MuMu/HNL_ULID/RegionPlots_MuMu/Leptons/Lep_1_pt
+            histpathUp_Sig   = histpath_Sig.replace(paramName_Sig,paramNameUp_Sig)
+            histpathDown_Sig = histpath_Sig.replace(paramName_Sig,paramNameDown_Sig)
 
             f_Sig = ROOT.TFile(fpullpath_Sig)
             h_Sig = f_Sig.Get(histpath)
@@ -1831,81 +1918,6 @@ class Plotter:
             h_SigDown.SetLineWidth(3)
             h_SigDown.SetLineStyle(3)
             h_SigDown.SetLineColor(ROOT.kBlue)
-
-            ## Set legend
-            lg = 0
-            ## No signal
-            if len(self.SignalsToDraw)==0:
-              #lg = ROOT.TLegend(0.55, 0.45, 0.92, 0.90)
-              lg = ROOT.TLegend(0.6, 0.55, 0.92, 0.90)
-            ## With Signal
-            else:
-              if Region.DrawRatio:
-                #lg = ROOT.TLegend(0.55, 0.46, 0.92, 0.90)
-                lg = ROOT.TLegend(0.65, 0.56, 0.95, 0.90) #JH
-              else:
-                lg = ROOT.TLegend(0.50, 0.56, 0.92, 0.90)
-            lg.SetBorderSize(0)
-            lg.SetFillStyle(0)
-
-            if not self.NoErrorBand:
-              lg.AddEntry(gr_Bkgd_ThisErr, "Stat.+syst. uncert.", "f")
-            ## dummy graph for legend..
-            ## this is because h_Data does not have horizontal error bars,
-            ## and gr_data does not have points
-            gr_Data_dummy = ROOT.TGraphAsymmErrors(gr_Data)
-            gr_Data_dummy.SetMarkerStyle(20)
-            gr_Data_dummy.SetMarkerSize(1.2) #JH
-            dataLegendGOption="ep"
-            if Variable.Name=="NCand_Mass":
-              dataLegendGOption="lpe"
-            if Region.DrawData:
-              if Region.UnblindData:
-                lg.AddEntry(gr_Data_dummy, "Data", dataLegendGOption)
-              else:
-                lg.AddEntry(gr_Data_dummy, "Total background", dataLegendGOption)
-            for i_lg in range(0,len(HistsForLegend)):
-              h_lg = HistsForLegend[ len(HistsForLegend)-1-i_lg ][0]
-              tlatexaliax = HistsForLegend[ len(HistsForLegend)-1-i_lg ][1]
-              lg.AddEntry(h_lg,tlatexaliax,"f")
-
-            lg.AddEntry(h_Up, SystKey.split('_')[1]+" Up", 'l')
-            lg.AddEntry(h_Down, SystKey.split('_')[1]+" Down", 'l') #JH
-
-            ## Draw up
-            c1_up.cd()
-
-            #h_dummy_up.Draw("histsame")
-            h_dummy_up.Draw("hist")
-            stack_Bkgd.Draw("histsame")
-
-            h_Up = SystematicUps[SystKey]
-            h_Up.SetFillColor(0)
-            h_Up.SetLineWidth(2)
-            h_Up.SetLineColor(ROOT.kRed)
-            h_Up.Draw("histsame")
-            h_Down = SystematicDowns[SystKey]
-            h_Down.SetFillColor(0)
-            h_Down.SetLineWidth(2)
-            h_Down.SetLineColor(ROOT.kBlue)
-            h_Down.Draw("histsame")
-            #print SystKey
-
-            gr_Bkgd_ThisErr.SetMarkerColor(0)
-            gr_Bkgd_ThisErr.SetMarkerSize(0)
-            gr_Bkgd_ThisErr.SetFillStyle(3013)
-            gr_Bkgd_ThisErr.SetFillColor(ROOT.kBlack)
-            gr_Bkgd_ThisErr.SetLineColor(0)
-            if not self.NoErrorBand:
-              gr_Bkgd_ThisErr.Draw("sameE2")
-
-            gr_Data.SetLineWidth(2)
-            gr_Data.SetMarkerSize(0.)
-            gr_Data.SetMarkerColor(ROOT.kBlack)
-            gr_Data.SetLineColor(ROOT.kBlack)
-            if Region.DrawData:
-              h_Data.Draw("phistsame")
-              gr_Data.Draw("p0same")
 
             ## signal legend
             lg.AddEntry(h_Sig, Sig.TLatexAlias + ' (V=1) #times'+str(float(Sig.Scale)), 'l') # Note that the signal xsec were already set to V=1, even though not generated so.
@@ -1990,29 +2002,6 @@ class Plotter:
             h_Sig.Draw("histsame")
             """
 
-            h_dummy_up.Draw("axissame")
-
-            ## Legend
-            lg.Draw()
-
-            ## Draw down
-            c1_down.cd()
-            #h_dummy_down.Draw("histsame")
-            h_dummy_down.Draw("hist")
-
-            h_SystUp_Ratio = SystematicUps[SystKey].Clone()
-            h_SystUp_Ratio.Divide(h_Bkgd)
-            h_SystUp_Ratio.SetMarkerSize(0.)
-            h_SystUp_Ratio.SetLineColor(ROOT.kRed)
-            h_SystUp_Ratio.SetLineWidth(2)
-            h_SystUp_Ratio.Draw("histsame")
-            h_SystDown_Ratio = SystematicDowns[SystKey].Clone()
-            h_SystDown_Ratio.Divide(h_Bkgd)
-            h_SystDown_Ratio.SetMarkerSize(0.)
-            h_SystDown_Ratio.SetLineColor(ROOT.kBlue)
-            h_SystDown_Ratio.SetLineWidth(2)
-            h_SystDown_Ratio.Draw("histsame")
-
             h_SigSystUp_Ratio = h_SigUp.Clone()
             h_SigSystUp_Ratio.Divide(h_Sig)
             h_SigSystUp_Ratio.SetMarkerSize(0.)
@@ -2028,33 +2017,11 @@ class Plotter:
             h_SigSystDown_Ratio.SetLineWidth(3)
             h_SigSystDown_Ratio.Draw("histsame")
 
-
-            ## y=1 graph
-            g1_x = [-9000, 9000]
-            g1_y = [1, 1]
-            g1 = ROOT.TGraph(2, array("d", g1_x ), array("d", g1_y ))
-            g1.Draw("same")
-
-            ## TLatex
-            c1.cd()
-            channelname = ROOT.TLatex()
-            channelname.SetNDC()
-            channelname.SetTextSize(0.037)
-            channelname.DrawLatex(0.2, 0.88, "#font[42]{"+Region.TLatexAlias+"}")
-            if not Region.UnblindData:
-              this_TLatexAlias = Region.TLatexAlias[0:-1]+" (Blinded)}"
-              channelname.DrawLatex(0.2, 0.88, "#font[42]{"+this_TLatexAlias+"}") #JH
-
             ## Extra lines
             exec(self.ExtraLines)
 
             ## Save
-            if "LimitInput" in Region.Name:
-              outname = Region.Name+'_'+Region.PrimaryDataset+'_'+SystKey.split('_')[1]+'_'+Sig.Samples[0]+Region.HistTag+Region.OutputTag+'.png'
-            else:
-              outname = Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'_'+SystKey.split('_')[1]+'_'+Sig.Samples[0]+Region.HistTag+Region.OutputTag+'.png'
-            #c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+Region.OutputTag+'.pdf')
-            #c1.SaveAs(Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+Region.HistTag+Region.OutputTag+'.png') #JH
+            outname = Region.Name+'_'+Region.PrimaryDataset+'_'+this_systName+'_'+Sig.Samples[0]+Region.HistTag+Region.OutputTag+'_'+Variable.Name+'.png'
             c1.SaveAs(Outdir+outname)
             print (outname+' ==> Saved.')
           ##==>End Signal loop
@@ -2065,7 +2032,11 @@ class Plotter:
             os.system('scp ' + Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'.pdf  '+self.Lxplus_User + '@lxplus.cern.ch:'+OutdirLXPLUS+'/')
             os.system('scp ' + Outdir+Variable.Name+'_'+Region.PrimaryDataset+'_'+Region.Name+'.png  '+self.Lxplus_User + '@lxplus.cern.ch:'+OutdirLXPLUS+'/')
             lxplus_dir.append(OutdirLXPLUS)
-            
+           
+          # Save with no signal
+          outname = Region.Name+'_'+Region.PrimaryDataset+'_'+this_systName+'_'+Region.HistTag+Region.OutputTag+Variable.Name+'.png'
+          c1.SaveAs(Outdir+outname)
+          print (outname+' ==> Saved.')
 
         ##==>End Syst loop
         c1.Close()
