@@ -1249,6 +1249,15 @@ class Plotter:
 ###########################################################################################################################################################
   def DoSystCheck(self):
 
+    ObjectTypes = {
+                   "DeltaR"  : ["dR_ll"],
+                   "Leptons" : ["BScore_BB","BScore_EC","Lep_1_pt","Lep_1_eta","Lep_2_pt","Lep_2_eta"],
+                   "Mass"    : ["DiJet_M_W","DiJet_M_l1W","DiJet_M_l2W","DiJet_M_llW"],
+                   "NObj"    : ["N_AK4J","N_El","N_Mu"],
+                   "SKEvent" : ["Ev_MET","Ev_MET2_ST","Ev_PuppiMET_T1","Ev_PuppiMET_T1ULxyCorr","HToLepPt1","Mt_lep1"],
+                   ""        : ["MuonCR","ElectronCR","ElectronMuonCR","MuonSR","ElectronSR","ElectronMuonSR"],
+                  }
+
     # Error print verbosity
     ROOT.gErrorIgnoreLevel = ROOT.kFatal
 
@@ -1327,11 +1336,21 @@ class Plotter:
           else:
             xtitle = "m_{lJ} (GeV)"
 
-        # Extra control for LimitBin histograms
+        # Extra controls for LimitBins
         if "Muon"         in Variable.Name and "Electron" not in Variable.Name and "MuMu" not in Region.PrimaryDataset: continue
         if "Electron"     in Variable.Name and "Muon"     not in Variable.Name and "EE"   not in Region.PrimaryDataset: continue
         if "ElectronMuon" in Variable.Name                                     and "EMu"  not in Region.PrimaryDataset: continue
 
+        # Extra control for Object hist directory matching
+        TestInt = 0
+        for ObjectType in ObjectTypes.keys():
+          if Variable.Name in ObjectTypes[ObjectType]:
+            Region.HistTag = ObjectType
+            TestInt += 1
+        if not TestInt:
+          print "[ERROR] There is no matched variable",Variable.Name,"in Object directories."
+          print "[ERROR] Please check. Exiting..."
+          sys.exit()
 
         ## Save hists
         ## For legend later..

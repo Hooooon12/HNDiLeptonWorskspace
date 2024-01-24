@@ -196,33 +196,31 @@ if args.Category==0: # ?
                  #"HNL_ZZ_FourLepton_CR"  : "ZZ_CR",
                  #"HNL_ZG_ThreeLepton_CR" : "ZG_CR",
                  #"HNL_WG_ThreeLepton_CR" : "WG_CR",
-                 "LimitInput" : "Limit Input (Cut-based)",
+                 #"LimitInput" : "Limit Input (Cut-based)",
                  #"LimitInputBDT_M100" : "Limit Input (M100)",
+                 #"DiJetSR3" : "DiJetSR3",
+                 "InclusiveSR1" : "InclusiveSR1",
+                 "FinalSR1" : "FinalSR1",
                 }
+
   RegionChannels = {
-                   #"FourLepton" : {
-                   #                "MuMuMuMu" : "#mu#mu#mu#mu",
-                   #                "EEEE"     : "eeee",
-                   #                "EMuLL"    : "e#mu+ll",
-                   #},
-                   #"ThreeLepton" : {
-                   #                "MuMuMu" : "#mu#mu#mu",
-                   #                "EEE"    : "eee",
-                   #                "EMuL"   : "e#mu+l",
-                   #},
-                   #"TwoLepton" : {
-                   #                "MuMu" : "#mu#mu",
-                   #                "EE"   : "ee",
-                   #                "EMu"  : "e#mu",
-                   #},
-                   "LimitInput" : {
-                                   "MuMu" : "#mu#mu",
-                                   "EE"   : "ee",
-                                   "EMu"  : "e#mu",
-                   },
-                  }
-  #ObjectTypes = ["DeltaR","Leptons","NObj","SKEvent",""] # For now, the lepton pt, eta in stored in "Leptons" directory, etc.
-  ObjectTypes = [""] # For now, the lepton pt, eta in stored in "Leptons" directory, etc.
+                    "FourLepton"  : {
+                                     "MuMuMuMu" : "#mu#mu#mu#mu",
+                                     "EEEE"     : "eeee",
+                                     "EMuLL"    : "e#mu+ll",
+                                    },
+                    "ThreeLepton" : {
+                                     "MuMuMu" : "#mu#mu#mu",
+                                     "EEE"    : "eee",
+                                     "EMuL"   : "e#mu+l",
+                                    },
+                    "TwoLepton"   : {
+                                     "MuMu" : "#mu#mu",
+                                     "EE"   : "ee",
+                                     "EMu"  : "e#mu",
+                                    },
+                   }
+
   UnblindData = {
                  'HNL_ControlRegionPlotter' : True,
                  'HNL_SignalRegionPlotter' : False,
@@ -259,11 +257,10 @@ if args.Category==0: # ?
     for PN in PNs:
 
       for RegionChannel, Channels in RegionChannels.items():
-        if not RegionChannel in RegionName: continue #The region name must include the RegionChannel name.
+        if RegionChannel is "FourLepton" or RegionChannel is "ThreeLepton":
+          if not RegionChannel in RegionName: continue #The ThreeLepton, FourLepton must be included in the Region Name. TwoLepton is default.
         for Channel, ChannelLatex in Channels.items():
-
-          for ObjectType in ObjectTypes:
-            m.RegionsToDraw.append( Region(RegionName, Channel, PN, InputDirectory, ObjectType, '', UnblindData[Analyser], Logy=0, TLatexAlias='#splitline{'+ChannelLatex+'}{'+RegionLatex+'}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
+          m.RegionsToDraw.append( Region(RegionName, Channel, PN, InputDirectory, '', '', UnblindData[Analyser], Logy=0, TLatexAlias='#splitline{'+ChannelLatex+'}{'+RegionLatex+'}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
 
 
     #SRs
@@ -302,9 +299,9 @@ m.VariablesToDraw = [
   #Variable('MuonCR', '', ''),
   #Variable('ElectronCR', '', ''),
   #Variable('ElectronMuonCR', '', ''),
-  Variable('MuonSR', '', ''),
-  Variable('ElectronSR', '', ''),
-  Variable('ElectronMuonSR', '', ''),
+  #Variable('MuonSR', '', ''),
+  #Variable('ElectronSR', '', ''),
+  #Variable('ElectronMuonSR', '', ''),
   #Variable('Lep_1_mva', 'MVA', ''),
   #Variable('Lep_2_mva', 'MVA', ''),
   #Variable('Lep_1_LFvsHF', 'LFvsHF', ''),
@@ -323,12 +320,12 @@ m.VariablesToDraw = [
   #Variable('Leps_eta',  '#eta of all leptons', ''),
   #Variable('Lep_3_eta', '#eta of the third lepton', ''),
   #Variable('Lep_4_eta', '#eta of the fourth lepton', ''),
-  #Variable('M_ll', 'M_{ll}', 'GeV'),
+  #Variable('DiJet_M_llW', 'M_{llW}', 'GeV'),
   #Variable('Jet_1_pt', 'p_{T} of the leading jet', 'GeV'),
   #Variable('Jet_2_pt', 'p_{T} of the second jet', 'GeV'),
   #Variable('Jet_1_eta', '#eta of the leading jet', 'GeV'),
   #Variable('Jet_2_eta', '#eta of the second jet', 'GeV'),
-  #Variable('Ev_MET', 'MET', 'GeV'),
+  Variable('Ev_MET', 'MET', 'GeV'),
   #Variable('Ev_MET2_ST', 'MET^{2}/S_{T}', 'GeV'),
   #Variable('N_AK4Jets', 'N_{j}', ''),
   #Variable('N_AK8Jets', 'N_{J}', ''),
