@@ -526,11 +526,11 @@ def FoMScan(SR, SP): # SignalRegion, SignalProcess (TBC)
 
 
 
-#CheckNevent()
-#CheckFoM('Combined_SR',"")
-#CheckFoM('SR1',"")
-#CheckFoM('SR2',"")
-#CheckFoM('SR3',"")
+CheckNevent()
+CheckFoM('Combined_SR',"")
+CheckFoM('SR1',"")
+CheckFoM('SR2',"")
+CheckFoM('SR3',"")
 FoMScan('Combined_SR',"")
 FoMScan('SR1',"")
 FoMScan('SR2',"")
