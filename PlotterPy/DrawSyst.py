@@ -28,7 +28,7 @@ TH1.AddDirectory(False)
 eras = ["2017"]
 channels = ["MuMu","EE","EMu"]
 #channels = ["MuMu","EE"]
-#channels = ["EMu"]
+#channels = ["EE"]
 exp_channel = {
                'MuMu' : '#mu#mu',
                'EE'   : 'ee',
@@ -38,6 +38,7 @@ exp_channel = {
 #masses = ["M100"]
 #masses = ["M20000"]
 masses = ["M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
+#masses = ["M800"]
 tags = ["CRtest_HNL_ULID"]
 SystList = [
             "JetRes",
@@ -60,14 +61,16 @@ def FoM(sig, bkg):
   if this_sqrt <= 0.:
     print "[FoM] !!!!WARNING : negative sqrt!!!!"
     print "[FoM] Check out the value :",this_sqrt
-    if abs(this_sqrt) > 0.01:
-      print "[FoM] Too much discrepancy."
+    if this_sqrt < -0.01:
+      print "[FoM] Too low sqrt."
       print "[FoM] Exiting ..."
       sys.exit(1)
     else:
       print "[FoM] Returning 0 ..."
       return 0.
   else:
+    print "this bkg :", bkg
+    print "this FoM :", sqrt( 2.*((sig+bkg)*log(1+(sig/bkg)) - sig) )
     return sqrt( 2.*((sig+bkg)*log(1+(sig/bkg)) - sig) )
 
 def MassScanHist(MassList, SR, era, channel):
@@ -115,14 +118,13 @@ def MassScanHist(MassList, SR, era, channel):
       if this_bkg <= 0.:
         print "============While counting nominal in",SR,"...============="
         print "[WARNING] bin",this_label,"bkg_cent :",this_bkg
+        print "[WARNING] bin",this_label,"sig_cent :",this_sig
         if this_sig <= 0.:
-          print "[WARNING] bin",this_label,"sig_cent :",this_sig
           print "[WARNING] Will skip this bin, but should check."
           continue
         else:
-          print "[WARNING] bin",this_label,"sig_cent :",this_sig
-          print "[WARNING] changing",this_bkg,"to 1 ..."
-          this_bkg = 1.
+          print "[WARNING] changing",this_bkg,"to 0.1 ..."
+          this_bkg = 0.1
       FoM_cent += FoM(this_sig,this_bkg)
     h_cent.SetBinContent(i+1,FoM_cent)
     h_cent.GetXaxis().SetBinLabel(i+1,MassList[i])
@@ -131,22 +133,33 @@ def MassScanHist(MassList, SR, era, channel):
 
   return h_cent, yMin, yMax
 
-def CheckNevent():
+def CheckNevent(Type): # Type : "DYVBF", "SSWW", "bkg"
   for tag, era, mass, channel in [[tag, era, mass, channel] for tag in tags for era in eras for mass in masses for channel in channels]:
-  
-    h_up = TH1D('h_up', '', nSystBin, 0, nSystBin)
-    h_down = TH1D('h_down', '', nSystBin, 0, nSystBin)
-  
-    N_up = []
-    N_down = []
-  
-    os.system('mkdir -p Out/'+tag+'/'+era+'/Nevent')
+
+    os.system('mkdir -p Out/'+tag+'/'+era+'/Nevent/'+Type)
     InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/LimitInputs/CRtest_HNL_ULID/"+era
     print "Opening...",InputPath+"/"+mass+"_"+channel+"_card_input.root"
     f1 = TFile.Open(InputPath+"/"+mass+"_"+channel+"_card_input.root")
-    
-    h_Asimov = f1.Get("data_obs")
-    N_Tot = h_Asimov.Integral()
+
+    # hists to draw
+    h_up = TH1D('h_up', '', nSystBin, 0, nSystBin)
+    h_down = TH1D('h_down', '', nSystBin, 0, nSystBin)
+
+    # numbers to calculate
+    N_up = []
+    N_down = []
+
+    # Mapping Type to the input hist name
+    Dict_hist = {}
+    Dict_hist["bkg"] = "data_obs"
+    Dict_hist["DYVBF"] = "signalDYVBF"
+    Dict_hist["SSWW"]  = "signalSSWW"
+
+    h_Tot = f1.Get(Dict_hist[Type])
+    try:
+      N_Tot = h_Tot.Integral()
+    except AttributeError:
+      continue
     h_Fake = f1.Get("fake")
     N_Fake = h_Fake.Integral()
     if "Mu" in channel:
@@ -154,27 +167,33 @@ def CheckNevent():
     else:
       h_CF = f1.Get("cf")
       N_CF = h_CF.Integral()
-  
+
     for syst in SystList:
       h_conv_up     = f1.Get("conv_"+syst+"Up")
       h_prompt_up   = f1.Get("prompt_"+syst+"Up")
+      h_sig_up      = f1.Get(Dict_hist[Type]+"_"+syst+"Up")
       h_conv_down   = f1.Get("conv_"+syst+"Down")
       h_prompt_down = f1.Get("prompt_"+syst+"Down")
-  
-      N_up.append(h_conv_up.Integral() + h_prompt_up.Integral() + N_Fake + N_CF)
-      N_down.append(h_conv_down.Integral() + h_prompt_down.Integral() + N_Fake + N_CF)
-    
+      h_sig_down    = f1.Get(Dict_hist[Type]+"_"+syst+"Down")
+
+      if "bkg" in Type:
+        N_up.append(h_conv_up.Integral() + h_prompt_up.Integral() + N_Fake + N_CF)
+        N_down.append(h_conv_down.Integral() + h_prompt_down.Integral() + N_Fake + N_CF)
+      else:
+        N_up.append(h_sig_up.Integral())
+        N_down.append(h_sig_down.Integral())
+
     for i in range(nSystBin):
       h_up.SetBinContent(i+1,N_up[i]/N_Tot)
       h_up.GetXaxis().SetBinLabel(i+1,SystList[i])
       h_down.SetBinContent(i+1,N_down[i]/N_Tot)
       h_down.GetXaxis().SetBinLabel(i+1,SystList[i])
-    
+
     ## CANVAS
     c1 = TCanvas('c1', '', 1000, 800)
     c1.Draw()
     c1.cd()
-    
+
     c1_up = TPad("c1_up", "", 0, 0, 1, 1)
     c1_up.SetTopMargin( 0.052 )
     c1_up.SetBottomMargin( 0.13 )
@@ -183,7 +202,7 @@ def CheckNevent():
     c1_up.Draw()
     c1_up.cd()
     #c1_up.SetLogy()
-  
+
     h_up.SetStats(0)
     h_up.SetLineColor(kRed)
     h_up.SetMarkerColor(kRed)
@@ -192,27 +211,31 @@ def CheckNevent():
     h_up.GetYaxis().SetTitle("#frac{Syst. variation}{Nominal}")
     h_up.Draw("hist")
     h_up.Draw("same p")
-   
+ 
     h_down.SetStats(0)
     h_down.SetLineColor(kBlue)
     h_down.SetMarkerColor(kBlue)
     h_down.SetMarkerStyle(21)
     h_down.Draw("same hist")
     h_down.Draw("same p")
-  
+
+    LineAt1 = TLine(0,1,12,1)
+    LineAt1.SetLineStyle(7) # dashed line
+    LineAt1.Draw("same")
+
     lg = TLegend(0.6, 0.67, 0.95, 0.90)
     lg.SetBorderSize(0)
     lg.SetFillStyle(0)
-    lg.SetHeader("#bf{Sum of the Nbkgs}", "c")
+    lg.SetHeader("#bf{Sum of the N_"+Type+"}", "c")
     lg.AddEntry(h_up, "syst up", "lp")
     lg.AddEntry(h_down, "syst down", "lp")
     lg.Draw()
-  
+
     latex_CMSPriliminary = TLatex()
     latex_CMSPriliminary.SetNDC()
     latex_CMSPriliminary.SetTextSize(0.035)
     latex_CMSPriliminary.DrawLatex(0.15, 0.96, "#font[62]{CMS} #font[42]{#it{#scale[0.8]{Preliminary}}}")
-    
+
     latex_Lumi = TLatex()
     latex_Lumi.SetNDC()
     latex_Lumi.SetTextSize(0.035)
@@ -224,18 +247,18 @@ def CheckNevent():
     latex_channel.SetNDC()
     latex_channel.SetTextSize(0.037)
     latex_channel.DrawLatex(0.2, 0.88, "#splitline{"+exp_channel[channel]+"}{#splitline{"+mass+"}{Combined_SR}}")
-  
-    c1.SaveAs("Out/"+tag+"/"+era+"/Nevent/"+mass+"_"+channel+"_bkg.png")
+
+    c1.SaveAs("Out/"+tag+"/"+era+"/Nevent/"+Type+"/"+mass+"_"+channel+"_"+Type+".png")
 
 def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
   for tag, era, mass, channel in [[tag, era, mass, channel] for tag in tags for era in eras for mass in masses for channel in channels]:
-  
+
     h_up = TH1D('h_up', '', nSystBin, 0, nSystBin)
     h_down = TH1D('h_down', '', nSystBin, 0, nSystBin)
-  
+
     FoM_up = []
     FoM_down = []
-  
+
     os.system('mkdir -p Out/'+tag+'/'+era+'/FoM/'+SR)
     InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/LimitInputs/CRtest_HNL_ULID/"+era
     print "Opening...",InputPath+"/"+mass+"_"+channel+"_card_input.root"
@@ -256,7 +279,9 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
                  'Combined_SR' : range(nBinSR),
                 }
 
+    NegBkgBins = []
     FoM_cent = 0.
+    print "In Central,"
     for i in nBinRange[SR]:
       this_sig = 0.
       this_bkg = h_Asimov.GetBinContent(i+1)
@@ -273,20 +298,23 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
       if this_bkg <= 0.:
         print "============While counting nominal in",SR,"...============="
         print "[WARNING] bin",this_label,"bkg_cent :",this_bkg
+        print "[WARNING] bin",this_label,"sig_cent :",this_sig
         if this_sig <= 0.:
-          print "[WARNING] bin",this_label,"sig_cent :",this_sig
           print "[WARNING] Will skip this bin, but should check."
           continue
         else:
-          print "[WARNING] bin",this_label,"sig_cent :",this_sig
-          print "[WARNING] changing",this_bkg,"to 1 ..."
-          this_bkg = 1.
+          #print "[WARNING] Adding 0.1 to",this_bkg,"..."
+          #this_bkg += 0.1
+          print "[WARNING] Adding 1. to",this_bkg,"..."
+          this_bkg += 1.
+          NegBkgBins.append(i)
       FoM_cent += FoM(this_sig,this_bkg)
 
     h_Fake = f1.Get("fake")
     h_CF = f1.Get("cf")
-  
+
     for syst in SystList:
+      print "In", syst+","
       h_conv_up     = f1.Get("conv_"+syst+"Up")
       h_prompt_up   = f1.Get("prompt_"+syst+"Up")
       h_DYVBF_up    = f1.Get("signalDYVBF_"+syst+"Up")
@@ -321,24 +349,34 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
         except AttributeError:
           pass
 
+        if i in NegBkgBins:
+          #print "[WARNING] Adding 0.1 to",this_bkg,"..."
+          #this_bkg_up += 0.1
+          #this_bkg_down += 0.1
+          print "[WARNING] Adding 1. to",this_bkg,"..."
+          this_bkg_up += 1.
+          this_bkg_down += 1.
+
         if this_bkg_up <= 0. or this_bkg_down <= 0.:
-          print "============While counting",syst,"...============="
+          print "============While counting",syst,"in",SR,"...============="
           print "[WARNING] bin",this_label,"bkg_up :",this_bkg_up
           print "[WARNING] bin",this_label,"bkg_down :",this_bkg_down
+          print "[WARNING] bin",this_label,"sig_up :",this_sig_up
+          print "[WARNING] bin",this_label,"sig_down :",this_sig_down
           if this_sig_up <= 0. or this_sig_down <= 0.:
-            print "[WARNING] bin",this_label,"sig_up :",this_sig_up
-            print "[WARNING] bin",this_label,"sig_down :",this_sig_down
             print "[WARNING] Will skip this bin, but should check."
             continue
           else:
-            print "[WARNING] bin",this_label,"sig_up :",this_sig_up
-            print "[WARNING] bin",this_label,"sig_down :",this_sig_down
-            print "[WARNING] changing",this_bkg_up,"to 1 ..."
-            print "[WARNING] changing",this_bkg_down,"to 1 ..."
-            this_bkg_up = 1.
-            this_bkg_down = 1.
+            if this_bkg_up <= 0.:
+              print "[WARNING] this_bkg_up is negative :",this_bkg_up,"--> skipping ..."
+              continue
+            if this_bkg_down <= 0.:
+              print "[WARNING] this_bkg_down is negative :",this_bkg_down,"--> skipping ..."
+              continue
 
+        print i+1,"th Up:"
         this_FoM_up += FoM(this_sig_up,this_bkg_up)
+        print i+1,"th Down:"
         this_FoM_down += FoM(this_sig_down,this_bkg_down)
 
       #print syst,"FoM_up :",this_FoM_up,", FoM_down :",this_FoM_down
@@ -355,12 +393,12 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
     yMax *= 1.2
     yMin = 1.-yMax
     yMax += 1.
-    
+
     ## CANVAS
     c1 = TCanvas('c1', '', 1000, 800)
     c1.Draw()
     c1.cd()
-    
+
     c1_up = TPad("c1_up", "", 0, 0, 1, 1)
     c1_up.SetTopMargin( 0.052 )
     c1_up.SetBottomMargin( 0.13 )
@@ -369,7 +407,7 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
     c1_up.Draw()
     c1_up.cd()
     #c1_up.SetLogy()
-  
+
     h_up.SetStats(0)
     h_up.SetLineColor(kRed)
     h_up.SetMarkerColor(kRed)
@@ -378,14 +416,18 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
     h_up.GetYaxis().SetTitle("#frac{Syst. variation}{Nominal}")
     h_up.Draw("hist")
     h_up.Draw("same p")
-   
+ 
     h_down.SetStats(0)
     h_down.SetLineColor(kBlue)
     h_down.SetMarkerColor(kBlue)
     h_down.SetMarkerStyle(21)
     h_down.Draw("same hist")
     h_down.Draw("same p")
-  
+
+    LineAt1 = TLine(0,1,12,1)
+    LineAt1.SetLineStyle(7) # dashed line
+    LineAt1.Draw("same")
+
     lg = TLegend(0.6, 0.67, 0.95, 0.88)
     lg.SetBorderSize(0)
     lg.SetFillStyle(0)
@@ -393,12 +435,12 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
     lg.AddEntry(h_up, "syst up", "lp")
     lg.AddEntry(h_down, "syst down", "lp")
     lg.Draw()
-  
+
     latex_CMSPriliminary = TLatex()
     latex_CMSPriliminary.SetNDC()
     latex_CMSPriliminary.SetTextSize(0.035)
     latex_CMSPriliminary.DrawLatex(0.15, 0.96, "#font[62]{CMS} #font[42]{#it{#scale[0.8]{Preliminary}}}")
-    
+
     latex_Lumi = TLatex()
     latex_Lumi.SetNDC()
     latex_Lumi.SetTextSize(0.035)
@@ -410,10 +452,10 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
     latex_channel.SetNDC()
     latex_channel.SetTextSize(0.037)
     latex_channel.DrawLatex(0.2, 0.88, "#splitline{"+exp_channel[channel]+"}{#splitline{"+mass+"}{"+SR+"}}")
-  
+
     c1.SaveAs("Out/"+tag+"/"+era+"/FoM/"+SR+"/"+mass+"_"+channel+".png")
 
-def FoMScan(SR, SP): # SignalRegion, SignalProcess (TBC)
+def FoMScan(SR, SP): # SignalRegion, SignalProcess(TBC). FoM scan wrt signal mass
 
   FullMass = ["M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
   nMassBin = len(FullMass)
@@ -439,7 +481,7 @@ def FoMScan(SR, SP): # SignalRegion, SignalProcess (TBC)
     c1_up.Draw()
     c1_up.cd()
     c1_up.SetLogy()
-  
+
     h_cent.SetStats(0)
     h_cent.SetLineColor(9)
     h_cent.SetLineWidth(3)
@@ -448,7 +490,7 @@ def FoMScan(SR, SP): # SignalRegion, SignalProcess (TBC)
     h_cent.GetYaxis().SetRangeUser(yMin,yMax)
     h_cent.GetYaxis().SetTitle("Figure of Merit")
     h_cent.Draw("lp")
-   
+
     if "Combined" in SR: 
       h_cent.SetLineColor(kBlack)
       h_cent.SetLineWidth(2)
@@ -501,7 +543,7 @@ def FoMScan(SR, SP): # SignalRegion, SignalProcess (TBC)
       lg.AddEntry(h_cent_SR2, "SR2", "lp")
       lg.AddEntry(h_cent_SR3, "SR3", "lp")
       lg.Draw()
-  
+
     latex_CMSPriliminary = TLatex()
     latex_CMSPriliminary.SetNDC()
     latex_CMSPriliminary.SetTextSize(0.035)
@@ -518,7 +560,7 @@ def FoMScan(SR, SP): # SignalRegion, SignalProcess (TBC)
     latex_channel.SetNDC()
     latex_channel.SetTextSize(0.037)
     latex_channel.DrawLatex(0.15, 0.88, "#splitline{"+exp_channel[channel]+"}{"+SR+"}")
-  
+
     c1.SaveAs("Out/"+tag+"/"+era+"/FoM/"+SR+"/Scan_"+channel+".png")
 
 
@@ -526,13 +568,14 @@ def FoMScan(SR, SP): # SignalRegion, SignalProcess (TBC)
 
 
 
-CheckNevent()
+#CheckNevent('bkg')
+#CheckNevent('DYVBF')
+#CheckNevent('SSWW')
 CheckFoM('Combined_SR',"")
-CheckFoM('SR1',"")
-CheckFoM('SR2',"")
-CheckFoM('SR3',"")
-FoMScan('Combined_SR',"")
-FoMScan('SR1',"")
-FoMScan('SR2',"")
-FoMScan('SR3',"")
-
+#CheckFoM('SR1',"")
+#CheckFoM('SR2',"")
+#CheckFoM('SR3',"")
+#FoMScan('Combined_SR',"")
+#FoMScan('SR1',"")
+#FoMScan('SR2',"")
+#FoMScan('SR3',"")

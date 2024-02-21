@@ -3,6 +3,51 @@ from Plotter import SampleGroup
 
 #https://twiki.cern.ch/twiki/bin/viewauth/CMS/SNUHNTypeISeeSawDileptonRun2Legacy#Plot_Formatting
 
+SampleGroup_TypeI_2017_M500 = SampleGroup( # For JA
+  Name='TypeI',
+  Type='Signal',
+  Samples=['TypeI_M500_private'],
+  Era = "2017",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kRed,
+  Style=1,
+  Width=2,
+  Marker=20,
+  TLatexAlias='Signal M500',
+  LatexAlias='Signal M500',
+  Scale=1
+)
+
+SampleGroup_TypeI_2017_M1000 = SampleGroup( # For JA
+  Name='TypeI',
+  Type='Signal',
+  Samples=['TypeI_M1000_private'],
+  Era = "2017",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kOrange+8,
+  Style=1,
+  Width=2,
+  Marker=21,
+  TLatexAlias='Signal M1000',
+  LatexAlias='Signal M1000',
+  Scale=2.5
+)
+
+SampleGroup_TypeI_2017_M2000 = SampleGroup( # For JA
+  Name='TypeI',
+  Type='Signal',
+  Samples=['TypeI_M2000_private'],
+  Era = "2017",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue,
+  Style=1,
+  Width=2,
+  Marker=22,
+  TLatexAlias='Signal M2000',
+  LatexAlias='Signal M2000',
+  Scale=5
+)
+
 SampleGroup_SSWWTypeI_2017_M1000 = SampleGroup(
   Name='SSWWTypeI',
   Type='Signal',
@@ -157,7 +202,8 @@ SampleGroup_WG_2017 = SampleGroup(
 SampleGroup_Conv_2017 = SampleGroup(
   Name='Conv',
   Type='Conv',
-  Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'],
+  #Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'],
+  Samples=['Conv'], # Which one would be nicer?
   Era = "2017",
   Skim='_SkimTree_HNMultiLepBDT',
   Color=ROOT.kGreen+3,

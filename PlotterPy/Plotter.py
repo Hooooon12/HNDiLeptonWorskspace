@@ -10,7 +10,7 @@ from array import array
 
 ## SampleGroup ##
 class SampleGroup:
-  def __init__(self, Name, Type, Samples, Era, Skim, Color=0, Style=1, Width=1, TLatexAlias="", LatexAlias="", Scale=1):
+  def __init__(self, Name, Type, Samples, Era, Skim, Color=0, Style=1, Width=1, Marker=0, TLatexAlias="", LatexAlias="", Scale=1):
 
     self.Name = Name
     self.Type = Type
@@ -27,6 +27,7 @@ class SampleGroup:
     self.Color = Color
     self.Style = Style
     self.Width = Width
+    self.Marker = Marker
     self.TLatexAlias = TLatexAlias
     self.LatexAlias = LatexAlias
     self.Scale = Scale
@@ -1255,6 +1256,7 @@ class Plotter:
                    "Mass"    : ["DiJet_M_W","DiJet_M_l1W","DiJet_M_l2W","DiJet_M_llW"],
                    "NObj"    : ["N_AK4J","N_El","N_Mu"],
                    "SKEvent" : ["Ev_MET","Ev_MET2_ST","Ev_PuppiMET_T1","Ev_PuppiMET_T1ULxyCorr","HToLepPt1","Mt_lep1"],
+                   "AK8"     : ["AK8J_Tagger_particleNet_WvsQCD","AK8J_tau21"], # for JA PNet check
                    ""        : ["MuonCR","ElectronCR","ElectronMuonCR","MuonSR","ElectronSR","ElectronMuonSR"],
                   }
 
@@ -1903,9 +1905,9 @@ class Plotter:
             histpathDown_Sig = histpath_Sig.replace(paramName_Sig,paramNameDown_Sig)
 
             f_Sig = ROOT.TFile(fpullpath_Sig)
-            h_Sig = f_Sig.Get(histpath)
-            h_SigUp = f_Sig.Get(histpathUp)
-            h_SigDown = f_Sig.Get(histpathDown)
+            h_Sig = f_Sig.Get(histpath_Sig)
+            h_SigUp = f_Sig.Get(histpathUp_Sig)
+            h_SigDown = f_Sig.Get(histpathDown_Sig)
             if not h_Sig:
               print "no", histpath, "in", fpullpath_Sig,"==> Skipping ..."
               continue
