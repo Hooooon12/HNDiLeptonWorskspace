@@ -95,25 +95,25 @@ m.ScaleMC = args.ScaleMC
 
 #### Systematic
 tmp_Systematics = [
-  "Lumi",
-  "JetRes",
-  "JetEn",
-  "JetMass",
-  "JetMassSmear",
-  "MuonEn",
-  "MuonRecoSF",
-  "MuonIDSF",
-  "MuonISOSF",
-  "MuonTriggerSF",
-  "ElectronRecoSF",
-  "ElectronIDSF",
-  "ElectronTriggerSF",
-  "ElectronRes",
-  "ElectronEn",
-  "PU",
-  "Prefire",
-  "BTagSFHTag",
-  "BTagSFLTag",
+  #"Lumi",
+  #"JetRes",
+  #"JetEn",
+  #"JetMass",
+  #"JetMassSmear",
+  #"MuonEn",
+  #"MuonRecoSF",
+  #"MuonIDSF",
+  #"MuonISOSF",
+  #"MuonTriggerSF",
+  #"ElectronRecoSF",
+  #"ElectronIDSF",
+  #"ElectronTriggerSF",
+  #"ElectronRes",
+  #"ElectronEn",
+  #"PU",
+  #"Prefire",
+  #"BTagSFHTag",
+  #"BTagSFLTag",
   #"GetMCUncertainty",
   #"DYNorm",
   #"DYReshapeSyst",
@@ -165,9 +165,9 @@ if args.Category==0: # ?
     ############## samples for SS CRs ##############
     #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_VV_%s, SampleGroup_Conv_%s, SampleGroup_WZ_EWK_%s, SampleGroup_WpWp_%s, SampleGroup_Others_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for OS CRs #######################
-    #exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_pythia_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_pythia_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for SRs #######################
-    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     #exec('m.SignalsToDraw = [SampleGroup_DYTypeI_%s_M1000, SampleGroup_VBFTypeI_%s_M1000, SampleGroup_SSWWTypeI_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
   else:
     m.SampleGroups = [
@@ -182,9 +182,9 @@ if args.Category==0: # ?
   m.PrintSamples()
 
   #PNs=["MVAUL_PtCone_HNTightV2","MVAUL_HNTightV2","MVAUL_HNL_ULID_2017","MVAUL_LFvsHF_cut0_HNTightV2","MVAUL_LFvsHF_cut0_HNL_ULID_2017","MVAUL_LFvsHF_cut0p8_HNTightV2","MVAUL_LFvsHF_cut0p8_HNL_ULID_2017","MVAUL_TriLep_HNL_ULID_2017"] # parameter name (this is used in hist path)
-  PNs=["HNL_ULID_HNL_ULID_FO_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv2_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv3_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv4_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv5_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv6_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FO_BDTFlavour_PtCorr_NoPR"] # parameter name (this is used in hist path)
-  PNs=["HNL_ULID_HNL_ULID_FO_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv2_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv3_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv4_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv5_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv6_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FO_BDTFlavour_PtParton_NoPR"] # parameter name (this is used in hist path)
-  PNs=["HNL_ULID", "HNTightV2"] # parameter name (this is used in hist path)
+  #PNs=["HNL_ULID_HNL_ULID_FO_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv2_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv3_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv4_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv5_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FOv6_Standard_PtCorr_NoPR","HNL_ULID_HNL_ULID_FO_BDTFlavour_PtCorr_NoPR"] # parameter name (this is used in hist path)
+  #PNs=["HNL_ULID_HNL_ULID_FO_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv2_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv3_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv4_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv5_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FOv6_Standard_PtParton_NoPR","HNL_ULID_HNL_ULID_FO_BDTFlavour_PtParton_NoPR"] # parameter name (this is used in hist path)
+  #PNs=["HNL_ULID", "HNTightV2"] # parameter name (this is used in hist path)
   PNs=["HNL_ULID"] # parameter name (this is used in hist path)
 
   RegionNames = {
@@ -196,11 +196,16 @@ if args.Category==0: # ?
                  #"HNL_ZZ_FourLepton_CR"  : "ZZ_CR",
                  #"HNL_ZG_ThreeLepton_CR" : "ZG_CR",
                  #"HNL_WG_ThreeLepton_CR" : "WG_CR",
+                 "HNL_OS_Z_TwoLepton_CR"      : "Z_CR",
+                 "HNL_OS_Top_TwoLepton_CR"    : "Top_CR",
+                 "HNL_OS_Top2b_TwoLepton_CR"  : "Top2b_CR",
+                 "HNL_OS_ZAK8_TwoLepton_CR"   : "ZAK8_CR",
+                 "HNL_OS_TopAK8_TwoLepton_CR" : "TopAK8_CR",
                  #"LimitInput" : "Limit Input (Cut-based)",
                  #"LimitInputBDT_M100" : "Limit Input (M100)",
                  #"DiJetSR3" : "DiJetSR3",
-                 "InclusiveSR1" : "InclusiveSR1",
-                 "FinalSR1" : "FinalSR1",
+                 #"InclusiveSR1" : "InclusiveSR1",
+                 #"FinalSR1" : "FinalSR1",
                 }
 
   RegionChannels = {
@@ -222,8 +227,8 @@ if args.Category==0: # ?
                    }
 
   UnblindData = {
-                 'HNL_ControlRegionPlotter' : True,
-                 'HNL_SignalRegionPlotter' : False,
+                 'HNL_ControlRegion_Plotter' : True,
+                 'HNL_SignalRegion_Plotter' : False,
                 }
 
   #### Define regions
@@ -233,24 +238,27 @@ if args.Category==0: # ?
 
     # Analyser, Input files now depend on which region to draw.
     if ("CR" in RegionName) or ("Presel" in RegionName):
-      Analyser='HNL_ControlRegionPlotter'
+      Analyser='HNL_ControlRegion_Plotter'
     else:
-      Analyser='HNL_SignalRegionPlotter'
+      Analyser='HNL_SignalRegion_Plotter'
 
     m.Filename_prefix = Analyser
     m.Filename_suffix = ""
-    m.Filename_data_skim = "_SkimTree_HNMultiLepBDT" # use "" if no skim was used
+    #m.Filename_data_skim = "_SkimTree_HNMultiLepBDT" # use "" if no skim was used
+    m.Filename_data_skim = "_SkimTree_DileptonBDT" # use "" if no skim was used
     m.OutputDirectoryLocal = ENV_PLOT_PATH+"/"+dataset+"/"+Analyser+"/"+str_Era # HNDiLeptonWorkspace/Output/Plots/Run2UltraLegacy_v3/Analyzer/Era. where the output plots will be stored.
     os.system('mkdir -p '+ m.OutputDirectoryLocal)
     if args.ScaleMC:
       os.system('mkdir -p '+ m.OutputDirectoryLocal+'/ScaleMC/')
 
     # Define input directory depending on the region name.
-    if Analyser == 'HNL_ControlRegionPlotter':
+    if Analyser == 'HNL_ControlRegion_Plotter':
       if "ThreeLepton" in RegionName or "FourLepton" in RegionName:
         InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/LLL_VR__" # where the root itput files are stored.
-      elif "TwoLepton" in RegionName and (("CR" in RegionName) or ("SSPresel" in RegionName)):
+      elif "TwoLepton" in RegionName and (("CR" in RegionName and not "OS" in RegionName) or ("SSPresel" in RegionName)):
         InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/SS_CR__" # where the root itput files are stored.
+      elif "TwoLepton" in RegionName and ("CR" in RegionName and "OS" in RegionName):
+        InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/OS_VR__" # where the root itput files are stored.
     else:
       InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/"
 
@@ -258,7 +266,7 @@ if args.Category==0: # ?
 
       for RegionChannel, Channels in RegionChannels.items():
         if RegionChannel is "FourLepton" or RegionChannel is "ThreeLepton":
-          if not RegionChannel in RegionName: continue #The ThreeLepton, FourLepton must be included in the Region Name. TwoLepton is default.
+          if not RegionChannel in RegionName: continue #The ThreeLepton, FourLepton must be included in the Region Name. If not, TwoLepton is assumed.
         for Channel, ChannelLatex in Channels.items():
           m.RegionsToDraw.append( Region(RegionName, Channel, PN, InputDirectory, '', '', UnblindData[Analyser], Logy=0, TLatexAlias='#splitline{'+ChannelLatex+'}{'+RegionLatex+'}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
 
@@ -306,8 +314,8 @@ m.VariablesToDraw = [
   #Variable('Lep_2_mva', 'MVA', ''),
   #Variable('Lep_1_LFvsHF', 'LFvsHF', ''),
   #Variable('Lep_2_LFvsHF', 'LFvsHF', ''),
-  #Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
-  #Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
+  Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
+  Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
   #Variable('Leps_pt',  'p_{T} of all leptons', 'GeV'),
   #Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
   #Variable('Lep_4_pt', 'p_{T} of the fourth lepton', 'GeV'),
@@ -315,8 +323,8 @@ m.VariablesToDraw = [
   #Variable('Lep_2_ptcone', 'p_{T}^{cone} of the second lepton', 'GeV'),
   #Variable('Lep_3_ptcone', 'p_{T}^{cone} of the third lepton', 'GeV'),
   #Variable('Lep_4_ptcone', 'p_{T}^{cone} of the fourth lepton', 'GeV'),
-  #Variable('Lep_1_eta', '#eta of the leading lepton', ''),
-  #Variable('Lep_2_eta', '#eta of the second lepton', ''),
+  Variable('Lep_1_eta', '#eta of the leading lepton', ''),
+  Variable('Lep_2_eta', '#eta of the second lepton', ''),
   #Variable('Leps_eta',  '#eta of all leptons', ''),
   #Variable('Lep_3_eta', '#eta of the third lepton', ''),
   #Variable('Lep_4_eta', '#eta of the fourth lepton', ''),
@@ -327,7 +335,9 @@ m.VariablesToDraw = [
   #Variable('Jet_2_eta', '#eta of the second jet', 'GeV'),
   Variable('Ev_MET', 'MET', 'GeV'),
   #Variable('Ev_MET2_ST', 'MET^{2}/S_{T}', 'GeV'),
-  #Variable('N_AK4Jets', 'N_{j}', ''),
+  Variable('N_AK4J', 'N_{j}', ''),
+  Variable('N_Mu', 'N_{#mu}', ''),
+  Variable('N_El', 'N_{e}', ''),
   #Variable('N_AK8Jets', 'N_{J}', ''),
   #Variable('N_bjetsM', 'N_{bj}', ''),
   #Variable('Lep_3_pt', 'm(ll)','GeV'),
@@ -335,12 +345,12 @@ m.VariablesToDraw = [
   #Variable('NBJets', 'N_{bj}',''),
   #Variable('nPV', 'N_{pv}',''),
   #Variable('PuppiMETType1XY', '#slash{E}_{T}^{miss} (GeV)', 'GeV'),
+  #Variable('M_ll', 'M_{ll}', 'GeV'),
 
 ]
 m.PrintVariables()
 
 #### Draw
-#m.Draw()
 m.DoSystCheck()
 
 #m.DoCutFlow('NJets')
