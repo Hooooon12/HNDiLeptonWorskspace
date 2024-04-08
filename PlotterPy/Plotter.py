@@ -1984,7 +1984,7 @@ class Plotter:
           this_TLatexAlias = Region.TLatexAlias[0:-1]+" (Blinded)}"
           channelname.DrawLatex(0.2, 0.88, "#font[42]{"+this_TLatexAlias+"}")
 
-        outname = Region.Name+'_'+Region.PrimaryDataset+'_'+Region.HistTag+Region.OutputTag+Variable.Name+'.png'
+        outname = Region.Name+'_'+Region.PrimaryDataset+'_'+Region.OutputTag+Variable.Name+'.png'
         c1.SaveAs(Outdir+outname)
         print (Outdir+outname+' ==> Saved.')
 
@@ -2309,7 +2309,7 @@ class Plotter:
             exec(self.ExtraLines)
 
             ## Save
-            outname = Region.Name+'_'+Region.PrimaryDataset+'_'+this_systName+'_'+Sig.Samples[0]+Region.HistTag+Region.OutputTag+'_'+Variable.Name+'.png'
+            outname = Region.Name+'_'+Region.PrimaryDataset+'_'+this_systName+'_'+Sig.Samples[0]+Region.OutputTag+'_'+Variable.Name+'.png'
             c1.SaveAs(Outdir+outname)
             print (outname+' ==> Saved.')
           ##==>End Signal loop
@@ -2322,7 +2322,7 @@ class Plotter:
             lxplus_dir.append(OutdirLXPLUS)
            
           # Save with no signal
-          outname = Region.Name+'_'+Region.PrimaryDataset+'_'+this_systName+'_'+Region.HistTag+Region.OutputTag+Variable.Name+'.png'
+          outname = Region.Name+'_'+Region.PrimaryDataset+'_'+this_systName+'_'+Region.OutputTag+Variable.Name+'.png'
           c1.SaveAs(Outdir+outname)
           print (outname+' ==> Saved.')
 
