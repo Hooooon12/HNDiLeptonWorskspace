@@ -276,6 +276,30 @@ SampleGroup_DY_2017 = SampleGroup(
   LatexAlias='DY'
 )
 
+SampleGroup_DYtau_2017 = SampleGroup(
+  Name='DYtau',
+  Type='MC',
+  Samples=['DYJets'],
+  Era = "2017",
+  Skim='_SkimTree_DileptonBDT',
+  Color=ROOT.kOrange-3,
+  Style=1,
+  TLatexAlias='DYto#tau#tau',
+  LatexAlias='DYto#tau#tau'
+)
+
+SampleGroup_WJets_MG_2017 = SampleGroup(
+  Name='WJets_MG',
+  Type='MC',
+  Samples=['WJets_MG'],
+  Era = "2017",
+  Skim='_SkimTree_DileptonBDT',
+  Color=ROOT.kBlue,
+  Style=1,
+  TLatexAlias='WJets_MG',
+  LatexAlias= 'WJets_MG'
+)
+
 SampleGroup_TTLL_2017 = SampleGroup(
   Name='TTLL',
   Type='MC',
@@ -300,3 +324,38 @@ SampleGroup_VV_pythia_2017 = SampleGroup(
   LatexAlias='VV'
 )
 
+SampleGroup_VV_2017 = SampleGroup(
+  Name='VV',
+  Type='MC',
+  Samples=['WWTo2L2Nu_powheg','WZ_pythia','ZZ_pythia'],
+  Era = "2017",
+  Skim='_SkimTree_DileptonBDT',
+  Color=ROOT.kGreen+1,
+  Style=1,
+  TLatexAlias='VV',
+  LatexAlias='VV'
+)
+
+SampleGroup_SingleTop_2017 = SampleGroup(
+  Name='SingleTop',
+  Type='MC',
+  Samples=['SingleTop_sch_Lep','SingleTop_tch_antitop_Incl','SingleTop_tch_top_Incl', 'SingleTop_tW_antitop_NoFullyHad', 'SingleTop_tW_top_NoFullyHad'],
+  Era = "2017",
+  Skim='',
+  Color=ROOT.kViolet+1,
+  Style=1,
+  TLatexAlias='SingleTop',
+  LatexAlias='SingleTop'
+)
+
+SampleGroup_tW_2017 = SampleGroup(
+  Name='tW',
+  Type='MC',
+  Samples=['SingleTop_tW_antitop_NoFullyHad', 'SingleTop_tW_top_NoFullyHad'],
+  Era = "2017",
+  Skim='',
+  Color=ROOT.kViolet+1,
+  Style=1,
+  TLatexAlias='tW',
+  LatexAlias= 'tW'
+)
