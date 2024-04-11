@@ -224,7 +224,7 @@ SampleGroup_MC_2017 = SampleGroup(
   LatexAlias='MC'
 )
 
-SampleGroup_VV_2017 = SampleGroup(
+SampleGroup_VV_Prompt_2017 = SampleGroup(
   Name='VV',
   Type='Prompt',
   Samples=['WZTo3LNu_amcatnlo', 'ZZTo4L_powheg'],
