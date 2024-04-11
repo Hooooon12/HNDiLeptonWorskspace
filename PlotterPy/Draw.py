@@ -164,9 +164,9 @@ if args.Category==0: # ?
   if str_Era != 'YearCombined':
     ############## samples for SS CRs ##############
     #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_VV_%s, SampleGroup_Conv_%s, SampleGroup_WZ_EWK_%s, SampleGroup_WpWp_%s, SampleGroup_Others_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for OS CRs #######################
-    #exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_TTLL_%s, SampleGroup_VV_pythia_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_DYtau_%s, SampleGroup_WJets_MG_%s, SampleGroup_TTLL_%s, SampleGroup_VV_%s, SampleGroup_tW_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    #exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_DYtau_%s, SampleGroup_WJets_MG_%s, SampleGroup_TTLL_%s, SampleGroup_VV_%s, SampleGroup_tW_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for SRs #######################
     #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     #exec('m.SignalsToDraw = [SampleGroup_DYTypeI_%s_M1000, SampleGroup_VBFTypeI_%s_M1000, SampleGroup_SSWWTypeI_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
@@ -189,19 +189,24 @@ if args.Category==0: # ?
   PNs=["HNL_ULID"] # parameter name (this is used in hist path)
 
   RegionNames = {
-                 #"HNL_SSPresel_TwoLepton" : "SSPresel",
+                 "HNL_SSPresel_TwoLepton" : "SSPresel",
+                 #"HNL_HighMassSR1_TwoLepton_CR" : "SR1_CR",
+                 #"HNL_HighMassCR2_TwoLepton_CR" : "SR2_CR", #FIXME later to SR2
                  #"HNL_HighMassSR3_TwoLepton_CR" : "SR3_CR",
+                 #"HNL_HighMassSR3LowJet_TwoLepton_CR" : "SR3_01Jet_CR",
+                 #"HNL_HighMassSR3_2J_TwoLepton_CR" : "SR3_2Jet_CR",
+                 #"HNL_HighMass1Jet_TwoLepton_CR" : "1Jet_CR",
                  #"HNL_HighMassBJet_TwoLepton_CR" : "BJet_CR",
                  #"HNL_HighMassNP_TwoLepton_CR" : "0Jet_CR",
                  #"HNL_WZ_ThreeLepton_CR" : "WZ_CR",
                  #"HNL_ZZ_FourLepton_CR"  : "ZZ_CR",
                  #"HNL_ZG_ThreeLepton_CR" : "ZG_CR",
                  #"HNL_WG_ThreeLepton_CR" : "WG_CR",
-                 "HNL_OS_Z_TwoLepton_CR"      : "Z_CR",
-                 "HNL_OS_Top_TwoLepton_CR"    : "Top_CR",
-                 "HNL_OS_Top2b_TwoLepton_CR"  : "Top2b_CR",
-                 "HNL_OS_ZAK8_TwoLepton_CR"   : "ZAK8_CR",
-                 "HNL_OS_TopAK8_TwoLepton_CR" : "TopAK8_CR",
+                 #"HNL_OS_Z_TwoLepton_CR"      : "Z_CR",
+                 #"HNL_OS_Top_TwoLepton_CR"    : "Top_CR",
+                 #"HNL_OS_Top2b_TwoLepton_CR"  : "Top2b_CR",
+                 #"HNL_OS_ZAK8_TwoLepton_CR"   : "ZAK8_CR",
+                 #"HNL_OS_TopAK8_TwoLepton_CR" : "TopAK8_CR",
                  #"LimitInput" : "Limit Input (Cut-based)",
                  #"LimitInputBDT_M100" : "Limit Input (M100)",
                  #"DiJetSR3" : "DiJetSR3",
@@ -245,8 +250,6 @@ if args.Category==0: # ?
 
     m.Filename_prefix = Analyser
     m.Filename_suffix = ""
-    #m.Filename_data_skim = "_SkimTree_HNMultiLepBDT" # use "" if no skim was used
-    m.Filename_data_skim = "_SkimTree_DileptonBDT" # use "" if no skim was used
     m.OutputDirectoryLocal = ENV_PLOT_PATH+"/"+dataset+"/"+Analyser+"/"+str_Era # HNDiLeptonWorkspace/Output/Plots/Run2UltraLegacy_v3/Analyzer/Era. where the output plots will be stored.
     os.system('mkdir -p '+ m.OutputDirectoryLocal)
     if args.ScaleMC:
@@ -262,6 +265,12 @@ if args.Category==0: # ?
         InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/OS_VR__" # where the root itput files are stored.
     else:
       InputDirectory = '/data6/Users/jihkim/SKFlatOutput/'+dataset+"/"+Analyser+"/"+str_Era+"/"
+
+    # Define data skim following the region
+    if "OS_VR" in InputDirectory:
+      m.Filename_data_skim = "_SkimTree_DileptonBDT" # use "" if no skim was used
+    else:
+      m.Filename_data_skim = "_SkimTree_HNMultiLepBDT" # use "" if no skim was used
 
     for PN in PNs:
 
@@ -317,6 +326,8 @@ m.VariablesToDraw = [
   #Variable('Lep_2_LFvsHF', 'LFvsHF', ''),
   Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
   Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
+  Variable('Lep_1_eta', '#eta of the leading lepton', ''),
+  Variable('Lep_2_eta', '#eta of the second lepton', ''),
   #Variable('Leps_pt',  'p_{T} of all leptons', 'GeV'),
   #Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
   #Variable('Lep_4_pt', 'p_{T} of the fourth lepton', 'GeV'),
@@ -324,8 +335,6 @@ m.VariablesToDraw = [
   #Variable('Lep_2_ptcone', 'p_{T}^{cone} of the second lepton', 'GeV'),
   #Variable('Lep_3_ptcone', 'p_{T}^{cone} of the third lepton', 'GeV'),
   #Variable('Lep_4_ptcone', 'p_{T}^{cone} of the fourth lepton', 'GeV'),
-  Variable('Lep_1_eta', '#eta of the leading lepton', ''),
-  Variable('Lep_2_eta', '#eta of the second lepton', ''),
   #Variable('Leps_eta',  '#eta of all leptons', ''),
   #Variable('Lep_3_eta', '#eta of the third lepton', ''),
   #Variable('Lep_4_eta', '#eta of the fourth lepton', ''),
@@ -334,11 +343,6 @@ m.VariablesToDraw = [
   #Variable('Jet_2_pt', 'p_{T} of the second jet', 'GeV'),
   #Variable('Jet_1_eta', '#eta of the leading jet', 'GeV'),
   #Variable('Jet_2_eta', '#eta of the second jet', 'GeV'),
-  Variable('Ev_MET', 'MET', 'GeV'),
-  #Variable('Ev_MET2_ST', 'MET^{2}/S_{T}', 'GeV'),
-  Variable('N_AK4J', 'N_{j}', ''),
-  Variable('N_Mu', 'N_{#mu}', ''),
-  Variable('N_El', 'N_{e}', ''),
   #Variable('N_AK8Jets', 'N_{J}', ''),
   #Variable('N_bjetsM', 'N_{bj}', ''),
   #Variable('Lep_3_pt', 'm(ll)','GeV'),
@@ -346,7 +350,12 @@ m.VariablesToDraw = [
   #Variable('NBJets', 'N_{bj}',''),
   #Variable('nPV', 'N_{pv}',''),
   #Variable('PuppiMETType1XY', '#slash{E}_{T}^{miss} (GeV)', 'GeV'),
-  Variable('M_ll', 'M_{ll}', 'GeV'),
+  #Variable('M_ll', 'M_{ll}', 'GeV'),
+  #Variable('Ev_MET', 'MET', 'GeV'),
+  #Variable('Ev_MET2_ST', 'MET^{2}/S_{T}', 'GeV'),
+  #Variable('N_AK4J', 'N_{j}', ''),
+  #Variable('N_Mu', 'N_{#mu}', ''),
+  #Variable('N_El', 'N_{e}', ''),
 
 ]
 m.PrintVariables()
