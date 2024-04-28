@@ -71,9 +71,9 @@ HNL_HighMassNP_TwoLepton_CR	Lep_1_ptcone   	10
 HNL_HighMassNP_TwoLepton_CR	Leps_ptcone   	10
 HNL_HighMassNP_TwoLepton_CR	Lep_2_ptcone   	10
 HNL_HighMassNP_TwoLepton_CR	Ev_MET			10
-HNL_HighMassBJet_TwoLepton_CR	Lep_1_pt  10
+HNL_HighMassBJet_TwoLepton_CR	Lep_1_pt  2
 HNL_HighMassBJet_TwoLepton_CR	Leps_pt  10
-HNL_HighMassBJet_TwoLepton_CR	Lep_2_pt  10
+HNL_HighMassBJet_TwoLepton_CR	Lep_2_pt  2
 HNL_HighMassBJet_TwoLepton_CR	Lep_1_ptcone  10
 HNL_HighMassBJet_TwoLepton_CR	Leps_ptcone  10
 HNL_HighMassBJet_TwoLepton_CR	Lep_2_ptcone  10

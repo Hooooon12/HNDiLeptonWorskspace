@@ -288,7 +288,7 @@ SampleGroup_DYtau_2017 = SampleGroup(
   LatexAlias='DYto#tau#tau'
 )
 
-SampleGroup_WJets_MG_2017 = SampleGroup(
+SampleGroup_WJets_MG_OS_2017 = SampleGroup(
   Name='WJets_MG',
   Type='MC',
   Samples=['WJets_MG'],
@@ -298,6 +298,30 @@ SampleGroup_WJets_MG_2017 = SampleGroup(
   Style=1,
   TLatexAlias='WJets_MG',
   LatexAlias= 'WJets_MG'
+)
+
+SampleGroup_WG_OS_2017 = SampleGroup(
+  Name='WG',
+  Type='MC',
+  Samples=['WGToLNuG'],
+  Era = "2017",
+  Skim='_SkimTree_DileptonBDT',
+  Color=ROOT.kBlue-5,
+  Style=1,
+  TLatexAlias='W#gamma',
+  LatexAlias= 'W#gamma'
+)
+
+SampleGroup_ZG_OS_2017 = SampleGroup(
+  Name='ZG',
+  Type='MC',
+  Samples=['ZGToLLG'],
+  Era = "2017",
+  Skim='_SkimTree_DileptonBDT',
+  Color=ROOT.kBlue+4,
+  Style=1,
+  TLatexAlias='Z#gamma',
+  LatexAlias= 'Z#gamma'
 )
 
 SampleGroup_TTLL_2017 = SampleGroup(
@@ -312,7 +336,7 @@ SampleGroup_TTLL_2017 = SampleGroup(
   LatexAlias='TTLL'
 )
 
-SampleGroup_VV_pythia_2017 = SampleGroup(
+SampleGroup_VV_pythia_OS_2017 = SampleGroup(
   Name='VV',
   Type='MC',
   Samples=['WW_pythia','WZ_pythia','ZZ_pythia'],
@@ -324,7 +348,7 @@ SampleGroup_VV_pythia_2017 = SampleGroup(
   LatexAlias='VV'
 )
 
-SampleGroup_VV_2017 = SampleGroup(
+SampleGroup_VV_OS_2017 = SampleGroup(
   Name='VV',
   Type='MC',
   Samples=['WWTo2L2Nu_powheg','WZ_pythia','ZZ_pythia'],
@@ -359,3 +383,67 @@ SampleGroup_tW_2017 = SampleGroup(
   TLatexAlias='tW',
   LatexAlias= 'tW'
 )
+
+####################### 2018 ##############################
+
+SampleGroup_Fake_2018 = SampleGroup(
+  Name='Fake',
+  Type=['Fake','Data'],
+  Samples=['Fake'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=870,
+  Style=1,
+  TLatexAlias='Nonprompt',
+  LatexAlias='NonPrompt'
+)
+
+SampleGroup_CF_2018 = SampleGroup(
+  Name='CF',
+  Type=['CF','Data'],
+  Samples=['CF'],
+  Era = "2018",
+  Skim='_SkimTree_DileptonBDT',
+  Color=ROOT.kYellow,
+  Style=1,
+  TLatexAlias='ChargeFlip',
+  LatexAlias='ChargeFlip'
+)
+
+SampleGroup_Conv_2018 = SampleGroup(
+  Name='Conv',
+  Type='Conv',
+  #Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'],
+  Samples=['Conv'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+3,
+  Style=1,
+  TLatexAlias='Conv',
+  LatexAlias='Conv'
+)
+
+SampleGroup_DYJets_MG_2018 = SampleGroup(
+  Name='DYJets_MG',
+  Type='Conv',
+  Samples=['DYJets_MG'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue,
+  Style=1,
+  TLatexAlias='DYJets_MG',
+  LatexAlias= 'DYJets_MG'
+)
+
+SampleGroup_MC_2018 = SampleGroup(
+  Name='MC',
+  Type='Prompt',
+  Samples=['MC'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+1,
+  Style=1,
+  TLatexAlias='MC',
+  LatexAlias='MC'
+)
+
