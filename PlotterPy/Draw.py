@@ -163,10 +163,9 @@ if args.Category==0: # ?
   #### Define Samples
   if str_Era != 'YearCombined':
     ############## samples for SS_CR, VBF_CR, LLL_VR ##############
-    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_VV_%s, SampleGroup_Conv_%s, SampleGroup_WZ_EWK_%s, SampleGroup_WpWp_%s, SampleGroup_Others_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    ############## samples for LLL_VR ##############
-    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_Conv_%s, SampleGroup_DYJets_MG_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_VV_%s, SampleGroup_VVV_%s, SampleGroup_SingleTop_%s, SampleGroup_ttV_%s, SampleGroup_TTXX_%s, SampleGroup_tZq_%s, SampleGroup_Higgs_%s, SampleGroup_VBFHiggs_%s, SampleGroup_WW_%s, SampleGroup_WZ_EWK_%s, SampleGroup_ggH_%s, SampleGroup_ggZZ_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_Conv_%s, SampleGroup_DYJets_MG_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for OS_VR #######################
     #exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_DYtau_%s, SampleGroup_WJets_MG_OS_%s, SampleGroup_WG_OS_%s, SampleGroup_ZG_OS_%s, SampleGroup_TTLL_%s, SampleGroup_VV_OS_%s, SampleGroup_tW_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for SRs #######################
@@ -192,22 +191,22 @@ if args.Category==0: # ?
 
   RegionNames = {
                  ## VBF_CR ##
-                 #"HNL_WpWp_TwoLepton_CR1" : "WpWp_CR1",
-                 #"HNL_WpWp_TwoLepton_CR2" : "WpWp_CR2",
-                 #"HNL_WpWpNP_TwoLepton_CR" : "WpWpNP_CR",
-                 #"HNL_WpWpNP2_TwoLepton_CR" : "WpWpNP2_CR",
-                 #"HNL_WpWpNP3_TwoLepton_CR" : "WpWpNP3_CR",
+                 "HNL_WpWp_TwoLepton_CR1" : "WpWp_CR1",
+                 "HNL_WpWp_TwoLepton_CR2" : "WpWp_CR2",
+                 "HNL_WpWpNP_TwoLepton_CR" : "WpWpNP_CR",
+                 "HNL_WpWpNP2_TwoLepton_CR" : "WpWpNP2_CR",
+                 "HNL_WpWpNP3_TwoLepton_CR" : "WpWpNP3_CR",
                  ## SS_CR ##
-                 #"HNL_SSPresel_TwoLepton" : "SSPresel",
-                 #"HNL_HighMassSR1_TwoLepton_CR" : "SR1_CR",
-                 #"HNL_HighMassSR2_TwoLepton_CR" : "SR2_CR",
-                 #"HNL_HighMassSR3_TwoLepton_CR" : "SR3_CR",
-                 #"HNL_HighMassSR3LowJet_TwoLepton_CR" : "SR3_01Jet_CR",
-                 #"HNL_HighMassSR3_2J_TwoLepton_CR" : "SR3_2Jet_CR",
-                 #"HNL_HighMass1Jet_TwoLepton_CR" : "1Jet_CR",
-                 #"HNL_HighMassBJet_TwoLepton_CR" : "BJet_CR",
-                 #"HNL_HighMassNP_TwoLepton_CR" : "0Jet_CR",
-                 #"HNL_HighMassSSZPeak_TwoLepton_CR" : "SSZpeak_CR",
+                 "HNL_SSPresel_TwoLepton" : "SSPresel",
+                 "HNL_HighMassSR1_TwoLepton_CR" : "SR1_CR",
+                 "HNL_HighMassSR2_TwoLepton_CR" : "SR2_CR",
+                 "HNL_HighMassSR3_TwoLepton_CR" : "SR3_CR",
+                 "HNL_HighMassSR3LowJet_TwoLepton_CR" : "SR3_01Jet_CR",
+                 "HNL_HighMassSR3_2J_TwoLepton_CR" : "SR3_2Jet_CR",
+                 "HNL_HighMass1Jet_TwoLepton_CR" : "1Jet_CR",
+                 "HNL_HighMassBJet_TwoLepton_CR" : "BJet_CR",
+                 "HNL_HighMassNP_TwoLepton_CR" : "0Jet_CR",
+                 "HNL_HighMassSSZPeak_TwoLepton_CR" : "SSZpeak_CR",
                  ## LLL_VR ###
                  "HNL_WZ_ThreeLepton_CR" : "WZ_CR",
                  "HNL_ZZ_FourLepton_CR"  : "ZZ_CR",

@@ -22,22 +22,22 @@ export ROOT_INCLUDE_PATH=$ROOT_INCLUDE_PATH:$HNDILEPTONWORKSPACE_DIR/include/:$H
 export PYTHONPATH=$PYTHONPATH:$HNDILEPTONWORKSPACE_DIR/python/:$HNDILEPTONWORKSPACE_DIR/include/
 export SCRIPT_DIR=$HNDILEPTONWORKSPACE_DIR/script/
 
-if [[ $HOSTNAME == "tamsa1" ]];
-then
-    
-    export INFILE_PATH=$SKFlatOutputDir/$SKFlatV/
-    export LIMIT_PATH=$HNDILEPTONWORKSPACE_DIR/LimitCode/CMS-StatisticalTools/:$HNDILEPTONWORKSPACE_DIR/Limits/MakeShapeInput:"/data6/Users/jalmond/Limits/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/2016_HNDiLepton/batch/"
-    
-
-else
-
-
-    export PLOT_PATH=/Users/john/Dropbox/HNL_13TeV/DiLepton/plots/
-    export WWW_PLOT_PATH=/tmp/www/html/HNL_13TeV/
-    alias pl='rsync -auv --delete-excluded '$PLOT_PATH/$FLATVERSION' '$WWW_PLOT_PATH
-    alias plforce='rsync -auv -I --delete-excluded output/'$FLATVERSION' '$WWW_PLOT_PATH
-  
-fi
+#if [[ $HOSTNAME == "tamsa1" ]];
+#then
+#    
+#    export INFILE_PATH=$SKFlatOutputDir/$SKFlatV/
+#    export LIMIT_PATH=$HNDILEPTONWORKSPACE_DIR/LimitCode/CMS-StatisticalTools/:$HNDILEPTONWORKSPACE_DIR/Limits/MakeShapeInput:"/data6/Users/jalmond/Limits/CMSSW_10_2_13/src/HiggsAnalysis/CombinedLimit/data/2016_HNDiLepton/batch/"
+#    
+#
+#else
+#
+#
+#    export PLOT_PATH=/Users/john/Dropbox/HNL_13TeV/DiLepton/plots/
+#    export WWW_PLOT_PATH=/tmp/www/html/HNL_13TeV/
+#    alias pl='rsync -auv --delete-excluded '$PLOT_PATH/$FLATVERSION' '$WWW_PLOT_PATH
+#    alias plforce='rsync -auv -I --delete-excluded output/'$FLATVERSION' '$WWW_PLOT_PATH
+#  
+#fi
 
 
 alias lqout='cd '$PLOT_PATH
