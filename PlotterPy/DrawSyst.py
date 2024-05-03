@@ -25,7 +25,8 @@ gROOT.SetBatch(True)
 TH1.AddDirectory(False)
 
 #eras = ["2016preVFP","2016postVFP","2017","2018"]
-eras = ["2017"]
+#eras = ["2017"]
+eras = ["2018"]
 #channels = ["MuMu","EE","EMu"]
 #channels = ["MuMu","EE"]
 channels = ["EE"]
@@ -39,20 +40,21 @@ expr_channel = {
 #masses = ["M20000"]
 #masses = ["M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
 masses = ["M100"]
-tags = ["CRtest_HNL_ULID"]
+#tags = ["CRtest_HNL_ULID"]
+tags = ["HNL_ULID"]
 SystList = [
             "JetRes",
             "JetMass",
             "JetMassSmear",
             "JetEn",
-            "MuonEn",
-            "ElectronRes",
-            "ElectronEn",
-            "BTagSFHTag",
-            "BTagSFLTag",
-            "METUncl",
-            "Prefire",
-            "PU",
+            #"MuonEn",
+            #"ElectronRes",
+            #"ElectronEn",
+            #"BTagSFHTag",
+            #"BTagSFLTag",
+            #"METUncl",
+            #"Prefire",
+            #"PU",
            ]
 nSystBin = len(SystList)
 
@@ -75,7 +77,7 @@ def FoM(sig, bkg):
     return sqrt( 2.*((sig+bkg)*log(1+(sig/bkg)) - sig) )
 
 def MassScanHist(MassList, SR, era, channel):
-  InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/LimitInputs/CRtest_HNL_ULID/"+era
+  InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegion_Plotter/LimitInputs/CRtest_HNL_ULID/"+era
 
   nMassBin = len(MassList)
 
@@ -136,7 +138,7 @@ def CheckNevent(SR, Type): # Type : "DYVBF", "SSWW", "bkg"
   for tag, era, mass, channel in [[tag, era, mass, channel] for tag in tags for era in eras for mass in masses for channel in channels]:
 
     os.system('mkdir -p Out/'+tag+'/'+era+'/Nevent/'+Type+'/'+SR)
-    InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/LimitInputs/CRtest_HNL_ULID/"+era
+    InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegion_Plotter/LimitInputs/CRtest_HNL_ULID/"+era
     print "Opening...",InputPath+"/"+mass+"_"+channel+"_card_input.root"
     f1 = TFile.Open(InputPath+"/"+mass+"_"+channel+"_card_input.root")
 
@@ -283,7 +285,7 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
     FoM_down = []
 
     os.system('mkdir -p Out/'+tag+'/'+era+'/FoM/'+SR)
-    InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegionPlotter/LimitInputs/CRtest_HNL_ULID/"+era
+    InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegion_Plotter/LimitInputs/CRtest_HNL_ULID/"+era
     print "Opening...",InputPath+"/"+mass+"_"+channel+"_card_input.root"
     f1 = TFile.Open(InputPath+"/"+mass+"_"+channel+"_card_input.root")
     
