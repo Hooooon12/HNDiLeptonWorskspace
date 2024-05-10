@@ -4,15 +4,15 @@ from ROOT import *
 import os
 import commands as cmd
 
-workdir = "/data6/Users/jihkim/CombineTool/CMSSW_10_2_13/src/DataCardsShape/HNL_SignalRegion_Plotter/Batch/exo17028"
+workdir = "/data6/Users/jihkim/CombineTool/CMSSW_10_2_13/src/DataCardsShape/HNL_SignalRegion_Plotter/Batch/exo17028_noSSWW"
 masses = ["100","125","200","250","300","400","500","600","700","800","900","1000","1100","1200","1500"]
 channels = ["MuMu","EE"]
 
-os.system("mkdir -p out/240503_exo17028")
+os.system("mkdir -p out/240503_exo17028_noSSWW")
 
 for channel in channels:
 
-  with open("out/240503_exo17028/"+channel+"_HNTightV2_Run2_Asym_limit.txt", 'w') as f:
+  with open("out/240503_exo17028_noSSWW/"+channel+"_HNTightV2_Run2_Asym_limit.txt", 'w') as f:
     for mass in masses:
       if int(mass) <= 100:
   	    scale_ = 0.1

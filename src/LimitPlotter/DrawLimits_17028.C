@@ -21,7 +21,8 @@ void DrawLimits_17028(TString channel="", bool CompareLimits=false, bool Logy=tr
   //gStyle->SetOptStat(0);
 
   TString WP_nom = "EXO17028_Legacy"; // nominal working point
-  TString tag_nom = "EXO17028_Run2"; // nominal working point
+  //TString tag_nom = "EXO17028_Run2"; // nominal working point
+  TString tag_nom = "EXO17028_Run2_noSSWW"; // nominal working point
 
   TString this_plotpath = plotpath+WP_nom;
   if( !gSystem->mkdir(plotpath+WP_nom, kTRUE) ){
@@ -40,7 +41,8 @@ void DrawLimits_17028(TString channel="", bool CompareLimits=false, bool Logy=tr
   };
   scales.push_back(scale_17028);
   if(channel=="EE"||channel=="MuMu"){
-    files.push_back(filepath+"240503_exo17028/"+channel+"_HNTightV2_Run2_Asym_limit.txt"); // add additional files
+    //files.push_back(filepath+"240503_exo17028/"+channel+"_HNTightV2_Run2_Asym_limit.txt"); // add additional files
+    files.push_back(filepath+"240503_exo17028_noSSWW/"+channel+"_HNTightV2_Run2_Asym_limit.txt"); // add additional files
     vector<double> scale = {1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,1.,};
     scales.push_back(scale); // already scaled when extracting limits...
   }
