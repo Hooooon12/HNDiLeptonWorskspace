@@ -360,18 +360,6 @@ SampleGroup_VV_OS_2017 = SampleGroup(
   LatexAlias='VV'
 )
 
-#SampleGroup_SingleTop_2017 = SampleGroup(
-#  Name='SingleTop',
-#  Type='MC',
-#  Samples=['SingleTop_sch_Lep','SingleTop_tch_antitop_Incl','SingleTop_tch_top_Incl', 'SingleTop_tW_antitop_NoFullyHad', 'SingleTop_tW_top_NoFullyHad'],
-#  Era = "2017",
-#  Skim='',
-#  Color=ROOT.kViolet+1,
-#  Style=1,
-#  TLatexAlias='SingleTop',
-#  LatexAlias='SingleTop'
-#)
-
 SampleGroup_tW_2017 = SampleGroup(
   Name='tW',
   Type='MC',
@@ -434,7 +422,7 @@ SampleGroup_VVV_2017 = SampleGroup(
   LatexAlias='VVV'
 )
 
-SampleGroup_SingleTop_2017 = SampleGroup(
+SampleGroup_SingleTop_2017 = SampleGroup( # SS events --> 0.1 level. Maybe OS events still need this
   Name='SingleTop',
   Type='Prompt',
   Samples=['SingleTop_sch_Lep','SingleTop_tch_antitop_Incl','SingleTop_tch_top_Incl','SingleTop_tW_antitop_NoFullyHad','SingleTop_tW_top_NoFullyHad'],
@@ -497,7 +485,7 @@ SampleGroup_Higgs_2017 = SampleGroup(
 SampleGroup_VBFHiggs_2017 = SampleGroup(
   Name='VBFHiggs',
   Type='Prompt',
-  Samples=['VBFHToWWTo2L2Nu','VBF_HToZZTo4L'], #VBFHToTauTau_M125 : no events
+  Samples=['VBF_HToZZTo4L'], #VBFHToTauTau_M125, VBFHToWWTo2L2Nu : no events
   Era = "2017",
   Skim='_SkimTree_HNMultiLepBDT',
   Color=ROOT.kBlue-6,
@@ -770,7 +758,7 @@ SampleGroup_Higgs_2016preVFP = SampleGroup(
 SampleGroup_VBFHiggs_2016preVFP = SampleGroup(
   Name='VBFHiggs',
   Type='Prompt',
-  Samples=['VBFHToWWTo2L2Nu','VBF_HToZZTo4L'], #VBFHToTauTau_M125 : no events
+  Samples=['VBF_HToZZTo4L'], #VBFHToTauTau_M125, VBFHToWWTo2L2Nu : no events
   Era = "2016preVFP",
   Skim='_SkimTree_HNMultiLepBDT',
   Color=ROOT.kBlue-6,
