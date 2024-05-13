@@ -11,7 +11,11 @@ parser = argparse.ArgumentParser(description='Script for systematics summary')
 parser.add_argument('-b', dest='Bkg', type=str)
 parser.add_argument('-s', dest='Sig', type=str)
 parser.add_argument('-r', dest='Region', type=str)
-args = parser.parse_args()
+args = parser.parse_args() # to be used later, for now just run without argument
+
+dataset = os.environ['FLATVERSION']
+ENV_PLOT_PATH = os.environ['PLOT_PATH']
+Outpath = ENV_PLOT_PATH+"/"+dataset+"/HNL_SignalRegion_Plotter/SystCheck"
 
 # Error printing verbosity
 #gErrorIgnoreLevel = kFatal
@@ -25,8 +29,8 @@ gROOT.SetBatch(True)
 TH1.AddDirectory(False)
 
 #eras = ["2016preVFP","2016postVFP","2017","2018"]
-#eras = ["2017"]
-eras = ["2018"]
+eras = ["2017"]
+#eras = ["2018"]
 #channels = ["MuMu","EE","EMu"]
 #channels = ["MuMu","EE"]
 channels = ["EE"]
@@ -36,27 +40,35 @@ expr_channel = {
                'EMu'  : 'e#mu',
               }
 #masses = ["M90","M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
-#masses = ["M100"]
+masses = ["M100"]
 #masses = ["M20000"]
 #masses = ["M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
-masses = ["M100"]
+#masses = ["M100","M1000","M10000"]
 #tags = ["CRtest_HNL_ULID"]
-tags = ["HNL_ULID"]
+tags = ["PR48_rateParam_HNL_ULID"]
 SystList = [
             "JetRes",
-            "JetMass",
-            "JetMassSmear",
+            #"JetMass",
+            #"JetMassSmear",
             "JetEn",
             #"MuonEn",
             #"ElectronRes",
             #"ElectronEn",
-            #"BTagSFHTag",
+            "BTagSFHTag",
             #"BTagSFLTag",
             #"METUncl",
             #"Prefire",
             #"PU",
            ]
 nSystBin = len(SystList)
+
+SRnameMap = {}
+SRnameMap["SR1"] = "sr1"
+SRnameMap["SR2"] = "sr2"
+SRnameMap["SR3"] = "sr3"
+SRnameMap["Combined_SR"] = "sr"
+
+bkgProc = ["zg","conv","wz","zz","ww","wzewk","prompt"] #FIXME might change later?
 
 def FoM(sig, bkg):
   this_sqrt = ((sig+bkg)*log(1+(sig/bkg)) - sig)
@@ -76,8 +88,8 @@ def FoM(sig, bkg):
     print "this FoM :", sqrt( 2.*((sig+bkg)*log(1+(sig/bkg)) - sig) )
     return sqrt( 2.*((sig+bkg)*log(1+(sig/bkg)) - sig) )
 
-def MassScanHist(MassList, SR, era, channel):
-  InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegion_Plotter/LimitInputs/CRtest_HNL_ULID/"+era
+def MassScanHist(MassList, SR, tag, era, channel):
+  InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegion_Plotter/LimitExtraction/"+tag+"/"+era+"/"+SRnameMap[SR]
 
   nMassBin = len(MassList)
 
@@ -93,7 +105,7 @@ def MassScanHist(MassList, SR, era, channel):
     h_DYVBF = f1.Get("signalDYVBF")
     h_SSWW = f1.Get("signalSSWW")
     nBinSR = h_Asimov.GetNbinsX()
-    nBinSR1 = 8
+    nBinSR1 = 6 #FIXME
     nBinSR2 = 2
     nBinRange = {
                  'SR1' : range(nBinSR1),
@@ -137,8 +149,8 @@ def MassScanHist(MassList, SR, era, channel):
 def CheckNevent(SR, Type): # Type : "DYVBF", "SSWW", "bkg"
   for tag, era, mass, channel in [[tag, era, mass, channel] for tag in tags for era in eras for mass in masses for channel in channels]:
 
-    os.system('mkdir -p Out/'+tag+'/'+era+'/Nevent/'+Type+'/'+SR)
-    InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegion_Plotter/LimitInputs/CRtest_HNL_ULID/"+era
+    os.system('mkdir -p '+Outpath+'/'+tag+'/'+era+'/Nevent/'+Type+'/'+SR)
+    InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegion_Plotter/LimitExtraction/"+tag+"/"+era+"/"+SRnameMap[SR]
     print "Opening...",InputPath+"/"+mass+"_"+channel+"_card_input.root"
     f1 = TFile.Open(InputPath+"/"+mass+"_"+channel+"_card_input.root")
 
@@ -160,42 +172,64 @@ def CheckNevent(SR, Type): # Type : "DYVBF", "SSWW", "bkg"
     try:
       nBinSR = h_Tot.GetNbinsX()
     except AttributeError:
+      print "[!!WARNING!!] There is no hist named "+Type_hist[Type]+" in "+InputPath+"/"+mass+"_"+channel+"_card_input.root"+" ."
+      print "Skipping",Type_hist[Type],"..."
       continue
-    nBinSR1 = 8
-    nBinSR2 = 2
-    nBinRange = {
-                 'SR1' : [1,nBinSR1],
-                 'SR2' : [nBinSR1+1,nBinSR1+nBinSR2],
-                 'SR3' : [nBinSR1+nBinSR2+1,nBinSR],
-                 'Combined_SR' : [1,nBinSR],
-                }
-    N_Tot = h_Tot.Integral(nBinRange[SR][0],nBinRange[SR][-1])
+    #nBinSR1 = 6 #FIXME
+    #nBinSR2 = 2
+    #nBinRange = {
+    #             'SR1' : [1,nBinSR1],
+    #             'SR2' : [nBinSR1+1,nBinSR1+nBinSR2],
+    #             'SR3' : [nBinSR1+nBinSR2+1,nBinSR],
+    #             'Combined_SR' : [1,nBinSR],
+    #            }
+    #N_Tot = h_Tot.Integral(nBinRange[SR][0],nBinRange[SR][-1])
+    N_Tot = h_Tot.Integral()
 
     h_Fake = f1.Get("fake")
-    N_Fake = h_Fake.Integral(nBinRange[SR][0],nBinRange[SR][-1])
+    #N_Fake = h_Fake.Integral(nBinRange[SR][0],nBinRange[SR][-1])
+    N_Fake = h_Fake.Integral()
     if "Mu" in channel:
       N_CF = 0
     else:
       h_CF = f1.Get("cf")
-      N_CF = h_CF.Integral(nBinRange[SR][0],nBinRange[SR][-1])
+      #N_CF = h_CF.Integral(nBinRange[SR][0],nBinRange[SR][-1])
+      N_CF = h_CF.Integral()
 
     for syst in SystList:
-      h_conv_up     = f1.Get("conv_"+syst+"Up")
-      h_prompt_up   = f1.Get("prompt_"+syst+"Up")
+      thisSyst_N_up   = 0.
+      thisSyst_N_down = 0.
+      for bkg in bkgProc:
+        this_h_up   = f1.Get(bkg+"_"+syst+"Up")
+        this_h_down = f1.Get(bkg+"_"+syst+"Down")
+        try:
+          #this_N_up   = this_h_up.Integral(nBinRange[SR][0],nBinRange[SR][-1])
+          #this_N_down = this_h_down.Integral(nBinRange[SR][0],nBinRange[SR][-1])
+          this_N_up   = this_h_up.Integral()
+          this_N_down = this_h_down.Integral()
+        except AttributeError:
+          print "[!!WARNING!!] There is no hist named "+bkg+"_"+syst+" in "+InputPath+"/"+mass+"_"+channel+"_card_input.root"+" ."
+          print "Skipping",bkg,syst,"..."
+          continue
+        else:
+          thisSyst_N_up   += this_N_up
+          thisSyst_N_down += this_N_down
+
       h_sig_up      = f1.Get(Type_hist[Type]+"_"+syst+"Up")
-      h_conv_down   = f1.Get("conv_"+syst+"Down")
-      h_prompt_down = f1.Get("prompt_"+syst+"Down")
       h_sig_down    = f1.Get(Type_hist[Type]+"_"+syst+"Down")
 
       if "bkg" in Type:
-        N_up.append(h_conv_up.Integral(nBinRange[SR][0],nBinRange[SR][-1]) + h_prompt_up.Integral(nBinRange[SR][0],nBinRange[SR][-1]) + N_Fake + N_CF)
-        N_down.append(h_conv_down.Integral(nBinRange[SR][0],nBinRange[SR][-1]) + h_prompt_down.Integral(nBinRange[SR][0],nBinRange[SR][-1]) + N_Fake + N_CF)
+        N_up.append(thisSyst_N_up + N_Fake + N_CF)
+        N_down.append(thisSyst_N_down + N_Fake + N_CF)
       else:
-        N_up.append(h_sig_up.Integral(nBinRange[SR][0],nBinRange[SR][-1]))
-        N_down.append(h_sig_down.Integral(nBinRange[SR][0],nBinRange[SR][-1]))
+        #N_up.append(h_sig_up.Integral(nBinRange[SR][0],nBinRange[SR][-1]))
+        #N_down.append(h_sig_down.Integral(nBinRange[SR][0],nBinRange[SR][-1]))
+        N_up.append(h_sig_up.Integral())
+        N_down.append(h_sig_down.Integral())
 
     yMax = 0.
     for i in range(nSystBin):
+      #print N_Tot
       h_up.SetBinContent(i+1,N_up[i]/N_Tot)
       h_up.GetXaxis().SetBinLabel(i+1,SystList[i])
       h_down.SetBinContent(i+1,N_down[i]/N_Tot)
@@ -206,6 +240,7 @@ def CheckNevent(SR, Type): # Type : "DYVBF", "SSWW", "bkg"
     yMax += 1.
 
     # print out the details
+    print "!! Discrepancy > 10% !!"
     for i in range(nSystBin):
       if abs(N_up[i]/N_Tot-1.) >= 0.1 or abs(N_down[i]/N_Tot-1.) >= 0.1:
         print "=================================================="
@@ -273,7 +308,7 @@ def CheckNevent(SR, Type): # Type : "DYVBF", "SSWW", "bkg"
     latex_channel.SetTextSize(0.037)
     latex_channel.DrawLatex(0.2, 0.88, "#splitline{"+expr_channel[channel]+"}{#splitline{"+mass+"}{"+SR+"}}")
 
-    c1.SaveAs("Out/"+tag+"/"+era+"/Nevent/"+Type+"/"+SR+"/"+mass+"_"+channel+"_"+SR+"_"+Type+".png")
+    c1.SaveAs(Outpath+"/"+tag+"/"+era+"/Nevent/"+Type+"/"+SR+"/"+mass+"_"+channel+"_"+SR+"_"+Type+".png")
 
 def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
   for tag, era, mass, channel in [[tag, era, mass, channel] for tag in tags for era in eras for mass in masses for channel in channels]:
@@ -284,8 +319,8 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
     FoM_up = []
     FoM_down = []
 
-    os.system('mkdir -p Out/'+tag+'/'+era+'/FoM/'+SR)
-    InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegion_Plotter/LimitInputs/CRtest_HNL_ULID/"+era
+    os.system('mkdir -p '+Outpath+'/'+tag+'/'+era+'/FoM/'+SR)
+    InputPath = "/data6/Users/jihkim/SKFlatOutput/Run2UltraLegacy_v3/HNL_SignalRegion_Plotter/LimitExtraction/"+tag+"/"+era+"/"+SRnameMap[SR]
     print "Opening...",InputPath+"/"+mass+"_"+channel+"_card_input.root"
     f1 = TFile.Open(InputPath+"/"+mass+"_"+channel+"_card_input.root")
     
@@ -293,7 +328,7 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
     h_DYVBF = f1.Get("signalDYVBF")
     h_SSWW = f1.Get("signalSSWW")
     nBinSR = h_Asimov.GetNbinsX()
-    nBinSR1 = 8
+    nBinSR1 = 6 #FIXME
     nBinSR2 = 2
     nBinRange = {
                  'SR1' : range(nBinSR1),
@@ -478,17 +513,17 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
     latex_channel.SetTextSize(0.037)
     latex_channel.DrawLatex(0.2, 0.88, "#splitline{"+expr_channel[channel]+"}{#splitline{"+mass+"}{"+SR+"}}")
 
-    c1.SaveAs("Out/"+tag+"/"+era+"/FoM/"+SR+"/"+mass+"_"+channel+".png")
+    c1.SaveAs(Outpath+"/"+tag+"/"+era+"/FoM/"+SR+"/"+mass+"_"+channel+".png")
 
-def FoMScan(SR, SP): # SignalRegion, SignalProcess(TBC). FoM scan wrt signal mass
+def FoMScan(SR, SP): # SignalRegion, SignalProcess(TBA). FoM scan wrt signal mass
 
   FullMass = ["M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
   nMassBin = len(FullMass)
 
   for tag, era, channel in [[tag, era, channel] for tag in tags for era in eras for channel in channels]:
-    os.system('mkdir -p Out/'+tag+'/'+era+'/FoM/'+SR)
+    os.system('mkdir -p '+Outpath+'/'+tag+'/'+era+'/FoM/'+SR)
 
-    h_cent, yMin_cent, yMax_cent = MassScanHist(FullMass, SR, era, channel)
+    h_cent, yMin_cent, yMax_cent = MassScanHist(FullMass, SR, tag, era, channel)
 
     yMin = yMin_cent*0.1
     yMax = yMax_cent*10.
@@ -521,9 +556,9 @@ def FoMScan(SR, SP): # SignalRegion, SignalProcess(TBC). FoM scan wrt signal mas
       h_cent.SetLineWidth(2)
       h_cent.SetMarkerColor(kBlack)
 
-      h_cent_SR1, yMin_SR1, yMax_SR1 = MassScanHist(FullMass, "SR1", era, channel)
-      h_cent_SR2, yMin_SR2, yMax_SR2 = MassScanHist(FullMass, "SR2", era, channel)
-      h_cent_SR3, yMin_SR3, yMax_SR3 = MassScanHist(FullMass, "SR3", era, channel)
+      h_cent_SR1, yMin_SR1, yMax_SR1 = MassScanHist(FullMass, "SR1", tag, era, channel)
+      h_cent_SR2, yMin_SR2, yMax_SR2 = MassScanHist(FullMass, "SR2", tag, era, channel)
+      h_cent_SR3, yMin_SR3, yMax_SR3 = MassScanHist(FullMass, "SR3", tag, era, channel)
 
       yMin = min(yMin_cent,yMin_SR1,yMin_SR2,yMin_SR3)
       yMax = max(yMax_cent,yMax_SR1,yMax_SR2,yMax_SR3)
@@ -586,23 +621,23 @@ def FoMScan(SR, SP): # SignalRegion, SignalProcess(TBC). FoM scan wrt signal mas
     latex_channel.SetTextSize(0.037)
     latex_channel.DrawLatex(0.15, 0.88, "#splitline{"+expr_channel[channel]+"}{"+SR+"}")
 
-    c1.SaveAs("Out/"+tag+"/"+era+"/FoM/"+SR+"/Scan_"+channel+".png")
+    c1.SaveAs(Outpath+"/"+tag+"/"+era+"/FoM/"+SR+"/Scan_"+channel+".png")
 
 
 
 #SRlist = ["SR1","SR2","SR3","Combined_SR"]
-SRlist = ["Combined_SR"]
-#SRlist = ["SR2"]
+#SRlist = ["Combined_SR"]
+SRlist = ["SR2"]
 #Typelist = ["bkg","DYVBF","SSWW"]
 #Typelist = ["DYVBF"]
-#Typelist = ["bkg"]
+Typelist = ["bkg"]
 
-#for sr, tp in [[sr, tp] for sr in SRlist for tp in Typelist]:
-#  CheckNevent(sr,tp)
+for sr, tp in [[sr, tp] for sr in SRlist for tp in Typelist]:
+  CheckNevent(sr,tp)
 
-for sr in SRlist:
-  CheckFoM(sr,"")
-  #FoMScan(sr,"")
+#for sr in SRlist:
+#  CheckFoM(sr,"")
+#  #FoMScan(sr,"")
 
 #CheckFoM('Combined_SR',"")
 #CheckFoM('SR1',"")
