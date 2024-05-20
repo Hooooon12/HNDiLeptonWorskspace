@@ -28,22 +28,22 @@ gROOT.SetBatch(True)
 # TH1 is owned by me (not gDirectory) avoiding unexpected deletion of TH1 object; see https://root.cern/manual/object_ownership/
 TH1.AddDirectory(False)
 
-#eras = ["2016preVFP","2016postVFP","2017","2018"]
-eras = ["2017"]
+eras = ["2016preVFP","2016postVFP","2017","2018"]
+#eras = ["2017"]
 #eras = ["2018"]
-#channels = ["MuMu","EE","EMu"]
+channels = ["MuMu","EE","EMu"]
 #channels = ["MuMu","EE"]
-channels = ["EE"]
+#channels = ["EE"]
 expr_channel = {
                'MuMu' : '#mu#mu',
                'EE'   : 'ee',
                'EMu'  : 'e#mu',
               }
 #masses = ["M90","M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
-masses = ["M100"]
+#masses = ["M100"]
 #masses = ["M20000"]
 #masses = ["M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
-#masses = ["M100","M1000","M10000"]
+masses = ["M100","M1000","M10000"]
 #tags = ["CRtest_HNL_ULID"]
 tags = ["PR48_rateParam_HNL_ULID"]
 SystList = [
@@ -625,12 +625,12 @@ def FoMScan(SR, SP): # SignalRegion, SignalProcess(TBA). FoM scan wrt signal mas
 
 
 
-#SRlist = ["SR1","SR2","SR3","Combined_SR"]
+SRlist = ["SR1","SR2","SR3","Combined_SR"]
 #SRlist = ["Combined_SR"]
-SRlist = ["SR2"]
-#Typelist = ["bkg","DYVBF","SSWW"]
+#SRlist = ["SR2"]
+Typelist = ["bkg","DYVBF","SSWW"]
 #Typelist = ["DYVBF"]
-Typelist = ["bkg"]
+#Typelist = ["bkg"]
 
 for sr, tp in [[sr, tp] for sr in SRlist for tp in Typelist]:
   CheckNevent(sr,tp)

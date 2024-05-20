@@ -199,19 +199,6 @@ SampleGroup_WG_2017 = SampleGroup(
   LatexAlias='WG'
 )
 
-SampleGroup_Conv_2017 = SampleGroup(
-  Name='Conv',
-  Type='Conv',
-  #Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'],
-  Samples=['Conv'], # Which one would be nicer?
-  Era = "2017",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kGreen+3,
-  Style=1,
-  TLatexAlias='Conv',
-  LatexAlias='Conv'
-)
-
 SampleGroup_MC_2017 = SampleGroup(
   Name='MC',
   Type='Prompt',
@@ -376,7 +363,7 @@ SampleGroup_tW_2017 = SampleGroup(
 SampleGroup_Conv_2017 = SampleGroup(
   Name='Conv',
   Type='Conv',
-  Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG', 'DYJets_MG'],
+  Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'], #'DYJets_MG',
   #Samples=['Conv'],
   Era = "2017",
   Skim='_SkimTree_HNMultiLepBDT',
@@ -386,17 +373,17 @@ SampleGroup_Conv_2017 = SampleGroup(
   LatexAlias='Conv'
 )
 
-#SampleGroup_DYJets_MG_2017 = SampleGroup( # merged into the Conv
-#  Name='DYJets_MG',
-#  Type='Conv',
-#  Samples=['DYJets_MG'],
-#  Era = "2017",
-#  Skim='_SkimTree_HNMultiLepBDT',
-#  Color=ROOT.kBlue,
-#  Style=1,
-#  TLatexAlias='DYJets_MG',
-#  LatexAlias= 'DYJets_MG'
-#)
+SampleGroup_DYJets_MG_2017 = SampleGroup( # merged into the Conv
+  Name='DYJets_MG',
+  Type='Conv',
+  Samples=['DYJets_MG'],
+  Era = "2017",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue+2,
+  Style=1,
+  TLatexAlias='DYJets_MG',
+  LatexAlias= 'DYJets_MG'
+)
 
 SampleGroup_VV_2017 = SampleGroup(
   Name='VV',
@@ -574,8 +561,8 @@ SampleGroup_CF_2018 = SampleGroup(
 SampleGroup_Conv_2018 = SampleGroup(
   Name='Conv',
   Type='Conv',
-  #Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'],
-  Samples=['Conv'],
+  Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'], #'DYJets_MG'
+  #Samples=['Conv'],
   Era = "2018",
   Skim='_SkimTree_HNMultiLepBDT',
   Color=ROOT.kGreen+3,
@@ -590,7 +577,7 @@ SampleGroup_DYJets_MG_2018 = SampleGroup(
   Samples=['DYJets_MG'],
   Era = "2018",
   Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kBlue,
+  Color=ROOT.kBlue+2,
   Style=1,
   TLatexAlias='DYJets_MG',
   LatexAlias= 'DYJets_MG'
@@ -607,6 +594,151 @@ SampleGroup_MC_2018 = SampleGroup(
   TLatexAlias='MC',
   LatexAlias='MC'
 )
+
+SampleGroup_VV_2018 = SampleGroup(
+  Name='VV',
+  Type='Prompt',
+  Samples=['WZTo3LNu_mllmin4p0_powheg','ZZTo4L_powheg'], # 'WZTo3LNu_amcatnlo'
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+1,
+  Style=1,
+  TLatexAlias='VV',
+  LatexAlias='VV'
+)
+
+SampleGroup_VVV_2018 = SampleGroup(
+  Name='VVV',
+  Type='Prompt',
+  Samples=['WWW','WWZ','WZZ','ZZZ'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+2,
+  Style=1,
+  TLatexAlias='VVV',
+  LatexAlias='VVV'
+)
+
+SampleGroup_SingleTop_2018 = SampleGroup(
+  Name='SingleTop',
+  Type='Prompt',
+  Samples=['SingleTop_sch_Lep','SingleTop_tch_antitop_Incl','SingleTop_tch_top_Incl','SingleTop_tW_antitop_NoFullyHad','SingleTop_tW_top_NoFullyHad'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kTeal+6,
+  Style=1,
+  TLatexAlias='SingleTop',
+  LatexAlias='SingleTop'
+)
+
+SampleGroup_ttV_2018 = SampleGroup(
+  Name='ttV',
+  Type='Prompt',
+  Samples=['ttWToLNu','ttZToLLNuNu'], #'ttWToQQ', 'ttZToQQ_ll' : no entries
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kAzure+7,
+  Style=1,
+  TLatexAlias='ttV',
+  LatexAlias='ttV'
+)
+
+SampleGroup_TTXX_2018 = SampleGroup(
+  Name='TTXX',
+  Type='Prompt',
+  Samples=['TTTT','TTZZ'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kViolet,
+  Style=1,
+  TLatexAlias='TTXX',
+  LatexAlias='TTXX'
+)
+
+SampleGroup_tZq_2018 = SampleGroup(
+  Name='tZq',
+  Type='Prompt',
+  Samples=['tZq'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kPink+6,
+  Style=1,
+  TLatexAlias='tZq',
+  LatexAlias='tZq'
+)
+
+SampleGroup_Higgs_2018 = SampleGroup(
+  Name='Higgs',
+  Type='Prompt',
+  Samples=['ttHToNonbb','tHq','VHToNonbb'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue,
+  Style=1,
+  TLatexAlias='Higgs',
+  LatexAlias='Higgs'
+)
+
+SampleGroup_VBFHiggs_2018 = SampleGroup(
+  Name='VBFHiggs',
+  Type='Prompt',
+  Samples=['VBF_HToZZTo4L'], #VBFHToTauTau_M125, VBFHToWWTo2L2Nu : no events
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue-6,
+  Style=1,
+  TLatexAlias='VBFHiggs',
+  LatexAlias='VBFHiggs'
+)
+
+SampleGroup_WW_2018 = SampleGroup(
+  Name='WW',
+  Type='Prompt',
+  Samples=['WpWp_EWK','WpWp_QCD','WWTo2L2Nu_DS','WWTo2L2Nu_powheg'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kPink-8,
+  Style=1,
+  TLatexAlias='WW',
+  LatexAlias='WW'
+)
+
+SampleGroup_WZ_EWK_2018 = SampleGroup(
+  Name='WZ_EWK',
+  Type='Prompt',
+  Samples=['WZ_EWK'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kOrange+8,
+  Style=1,
+  TLatexAlias='WZ_EWK',
+  LatexAlias='WZ_EWK'
+)
+
+SampleGroup_ggH_2018 = SampleGroup(
+  Name='ggH',
+  Type='Prompt',
+  Samples=['GluGluHToTauTau_M125','GluGluHToWWTo2L2Nu','GluGluHToZZTo4L'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kSpring+8,
+  Style=1,
+  TLatexAlias='ggH',
+  LatexAlias='ggH'
+)
+
+SampleGroup_ggZZ_2018 = SampleGroup(
+  Name='ggZZ',
+  Type='Prompt',
+  Samples=['GluGluToZZto2e2mu','GluGluToZZto4e','GluGluToZZto4mu'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kCyan,
+  Style=1,
+  TLatexAlias='ggZZ',
+  LatexAlias='ggZZ'
+)
+
 
 ####################### 2016a ##############################
 
@@ -637,8 +769,8 @@ SampleGroup_CF_2016preVFP = SampleGroup(
 SampleGroup_Conv_2016preVFP = SampleGroup(
   Name='Conv',
   Type='Conv',
-  #Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'],
-  Samples=['Conv'],
+  Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'], #'DYJets_MG'],
+  #Samples=['Conv'],
   Era = "2016preVFP",
   Skim='_SkimTree_HNMultiLepBDT',
   Color=ROOT.kGreen+3,
@@ -653,7 +785,7 @@ SampleGroup_DYJets_MG_2016preVFP = SampleGroup(
   Samples=['DYJets_MG'],
   Era = "2016preVFP",
   Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kBlue,
+  Color=ROOT.kBlue+2,
   Style=1,
   TLatexAlias='DYJets_MG',
   LatexAlias= 'DYJets_MG'
@@ -808,6 +940,421 @@ SampleGroup_ggZZ_2016preVFP = SampleGroup(
   Type='Prompt',
   Samples=['GluGluToZZto2e2mu','GluGluToZZto4e','GluGluToZZto4mu'],
   Era = "2016preVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kCyan,
+  Style=1,
+  TLatexAlias='ggZZ',
+  LatexAlias='ggZZ'
+)
+
+
+####################### 2016b ##############################
+
+SampleGroup_Fake_2016postVFP = SampleGroup(
+  Name='Fake',
+  Type=['Fake','Data'],
+  Samples=['Fake'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=870,
+  Style=1,
+  TLatexAlias='Nonprompt',
+  LatexAlias='NonPrompt'
+)
+
+SampleGroup_CF_2016postVFP = SampleGroup(
+  Name='CF',
+  Type=['CF','Data'],
+  Samples=['CF'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_DileptonBDT',
+  Color=ROOT.kYellow,
+  Style=1,
+  TLatexAlias='ChargeFlip',
+  LatexAlias='ChargeFlip'
+)
+
+SampleGroup_Conv_2016postVFP = SampleGroup(
+  Name='Conv',
+  Type='Conv',
+  Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'], #'DYJets_MG'
+  #Samples=['Conv'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+3,
+  Style=1,
+  TLatexAlias='Conv',
+  LatexAlias='Conv'
+)
+
+SampleGroup_DYJets_MG_2016postVFP = SampleGroup(
+  Name='DYJets_MG',
+  Type='Conv',
+  Samples=['DYJets_MG'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue+2,
+  Style=1,
+  TLatexAlias='DYJets_MG',
+  LatexAlias= 'DYJets_MG'
+)
+
+SampleGroup_MC_2016postVFP = SampleGroup(
+  Name='MC',
+  Type='Prompt',
+  Samples=['MC'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+1,
+  Style=1,
+  TLatexAlias='MC',
+  LatexAlias='MC'
+)
+
+SampleGroup_VV_2016postVFP = SampleGroup(
+  Name='VV',
+  Type='Prompt',
+  Samples=['WZTo3LNu_mllmin4p0_powheg','ZZTo4L_powheg'], # 'WZTo3LNu_amcatnlo'
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+1,
+  Style=1,
+  TLatexAlias='VV',
+  LatexAlias='VV'
+)
+
+SampleGroup_VVV_2016postVFP = SampleGroup(
+  Name='VVV',
+  Type='Prompt',
+  Samples=['WWW','WWZ','WZZ','ZZZ'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+2,
+  Style=1,
+  TLatexAlias='VVV',
+  LatexAlias='VVV'
+)
+
+SampleGroup_SingleTop_2016postVFP = SampleGroup(
+  Name='SingleTop',
+  Type='Prompt',
+  Samples=['SingleTop_sch_Lep','SingleTop_tch_antitop_Incl','SingleTop_tch_top_Incl','SingleTop_tW_antitop_NoFullyHad','SingleTop_tW_top_NoFullyHad'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kTeal+6,
+  Style=1,
+  TLatexAlias='SingleTop',
+  LatexAlias='SingleTop'
+)
+
+SampleGroup_ttV_2016postVFP = SampleGroup(
+  Name='ttV',
+  Type='Prompt',
+  Samples=['ttWToLNu','ttZToLLNuNu'], #'ttWToQQ', 'ttZToQQ_ll' : no entries
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kAzure+7,
+  Style=1,
+  TLatexAlias='ttV',
+  LatexAlias='ttV'
+)
+
+SampleGroup_TTXX_2016postVFP = SampleGroup(
+  Name='TTXX',
+  Type='Prompt',
+  Samples=['TTTT','TTZZ'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kViolet,
+  Style=1,
+  TLatexAlias='TTXX',
+  LatexAlias='TTXX'
+)
+
+SampleGroup_tZq_2016postVFP = SampleGroup(
+  Name='tZq',
+  Type='Prompt',
+  Samples=['tZq'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kPink+6,
+  Style=1,
+  TLatexAlias='tZq',
+  LatexAlias='tZq'
+)
+
+SampleGroup_Higgs_2016postVFP = SampleGroup(
+  Name='Higgs',
+  Type='Prompt',
+  Samples=['ttHToNonbb','tHq','VHToNonbb'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue,
+  Style=1,
+  TLatexAlias='Higgs',
+  LatexAlias='Higgs'
+)
+
+SampleGroup_VBFHiggs_2016postVFP = SampleGroup(
+  Name='VBFHiggs',
+  Type='Prompt',
+  Samples=['VBF_HToZZTo4L'], #VBFHToTauTau_M125, VBFHToWWTo2L2Nu : no events
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue-6,
+  Style=1,
+  TLatexAlias='VBFHiggs',
+  LatexAlias='VBFHiggs'
+)
+
+SampleGroup_WW_2016postVFP = SampleGroup(
+  Name='WW',
+  Type='Prompt',
+  Samples=['WpWp_EWK','WpWp_QCD','WWTo2L2Nu_DS','WWTo2L2Nu_powheg'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kPink-8,
+  Style=1,
+  TLatexAlias='WW',
+  LatexAlias='WW'
+)
+
+SampleGroup_WZ_EWK_2016postVFP = SampleGroup(
+  Name='WZ_EWK',
+  Type='Prompt',
+  Samples=['WZ_EWK'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kOrange+8,
+  Style=1,
+  TLatexAlias='WZ_EWK',
+  LatexAlias='WZ_EWK'
+)
+
+SampleGroup_ggH_2016postVFP = SampleGroup(
+  Name='ggH',
+  Type='Prompt',
+  Samples=['GluGluHToTauTau_M125','GluGluHToWWTo2L2Nu','GluGluHToZZTo4L'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kSpring+8,
+  Style=1,
+  TLatexAlias='ggH',
+  LatexAlias='ggH'
+)
+
+SampleGroup_ggZZ_2016postVFP = SampleGroup(
+  Name='ggZZ',
+  Type='Prompt',
+  Samples=['GluGluToZZto2e2mu','GluGluToZZto4e','GluGluToZZto4mu'],
+  Era = "2016postVFP",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kCyan,
+  Style=1,
+  TLatexAlias='ggZZ',
+  LatexAlias='ggZZ'
+)
+
+####################### Run2 ##############################
+
+SampleGroup_Fake_Run2 = SampleGroup(
+  Name='Fake',
+  Type=['Fake','Data'],
+  Samples=['Fake'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=870,
+  Style=1,
+  TLatexAlias='Nonprompt',
+  LatexAlias='NonPrompt'
+)
+
+SampleGroup_CF_Run2 = SampleGroup(
+  Name='CF',
+  Type=['CF','Data'],
+  Samples=['CF'],
+  Era = "Run2",
+  Skim='_SkimTree_DileptonBDT',
+  Color=ROOT.kYellow,
+  Style=1,
+  TLatexAlias='ChargeFlip',
+  LatexAlias='ChargeFlip'
+)
+
+SampleGroup_Conv_Run2 = SampleGroup(
+  Name='Conv',
+  Type='Conv',
+  Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'], #'DYJets_MG'
+  #Samples=['Conv'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+3,
+  Style=1,
+  TLatexAlias='Conv',
+  LatexAlias='Conv'
+)
+
+SampleGroup_DYJets_MG_Run2 = SampleGroup(
+  Name='DYJets_MG',
+  Type='Conv',
+  Samples=['DYJets_MG'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue+2,
+  Style=1,
+  TLatexAlias='DYJets_MG',
+  LatexAlias= 'DYJets_MG'
+)
+
+SampleGroup_MC_Run2 = SampleGroup(
+  Name='MC',
+  Type='Prompt',
+  Samples=['MC'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+1,
+  Style=1,
+  TLatexAlias='MC',
+  LatexAlias='MC'
+)
+
+SampleGroup_VV_Run2 = SampleGroup(
+  Name='VV',
+  Type='Prompt',
+  Samples=['WZTo3LNu_mllmin4p0_powheg','ZZTo4L_powheg'], # 'WZTo3LNu_amcatnlo'
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+1,
+  Style=1,
+  TLatexAlias='VV',
+  LatexAlias='VV'
+)
+
+SampleGroup_VVV_Run2 = SampleGroup(
+  Name='VVV',
+  Type='Prompt',
+  Samples=['WWW','WWZ','WZZ','ZZZ'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+2,
+  Style=1,
+  TLatexAlias='VVV',
+  LatexAlias='VVV'
+)
+
+SampleGroup_SingleTop_Run2 = SampleGroup(
+  Name='SingleTop',
+  Type='Prompt',
+  Samples=['SingleTop_sch_Lep','SingleTop_tch_antitop_Incl','SingleTop_tch_top_Incl','SingleTop_tW_antitop_NoFullyHad','SingleTop_tW_top_NoFullyHad'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kTeal+6,
+  Style=1,
+  TLatexAlias='SingleTop',
+  LatexAlias='SingleTop'
+)
+
+SampleGroup_ttV_Run2 = SampleGroup(
+  Name='ttV',
+  Type='Prompt',
+  Samples=['ttWToLNu','ttZToLLNuNu'], #'ttWToQQ', 'ttZToQQ_ll' : no entries
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kAzure+7,
+  Style=1,
+  TLatexAlias='ttV',
+  LatexAlias='ttV'
+)
+
+SampleGroup_TTXX_Run2 = SampleGroup(
+  Name='TTXX',
+  Type='Prompt',
+  Samples=['TTTT','TTZZ'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kViolet,
+  Style=1,
+  TLatexAlias='TTXX',
+  LatexAlias='TTXX'
+)
+
+SampleGroup_tZq_Run2 = SampleGroup(
+  Name='tZq',
+  Type='Prompt',
+  Samples=['tZq'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kPink+6,
+  Style=1,
+  TLatexAlias='tZq',
+  LatexAlias='tZq'
+)
+
+SampleGroup_Higgs_Run2 = SampleGroup(
+  Name='Higgs',
+  Type='Prompt',
+  Samples=['ttHToNonbb','tHq','VHToNonbb'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue,
+  Style=1,
+  TLatexAlias='Higgs',
+  LatexAlias='Higgs'
+)
+
+SampleGroup_VBFHiggs_Run2 = SampleGroup(
+  Name='VBFHiggs',
+  Type='Prompt',
+  Samples=['VBF_HToZZTo4L'], #VBFHToTauTau_M125, VBFHToWWTo2L2Nu : no events
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue-6,
+  Style=1,
+  TLatexAlias='VBFHiggs',
+  LatexAlias='VBFHiggs'
+)
+
+SampleGroup_WW_Run2 = SampleGroup(
+  Name='WW',
+  Type='Prompt',
+  Samples=['WpWp_EWK','WpWp_QCD','WWTo2L2Nu_DS','WWTo2L2Nu_powheg'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kPink-8,
+  Style=1,
+  TLatexAlias='WW',
+  LatexAlias='WW'
+)
+
+SampleGroup_WZ_EWK_Run2 = SampleGroup(
+  Name='WZ_EWK',
+  Type='Prompt',
+  Samples=['WZ_EWK'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kOrange+8,
+  Style=1,
+  TLatexAlias='WZ_EWK',
+  LatexAlias='WZ_EWK'
+)
+
+SampleGroup_ggH_Run2 = SampleGroup(
+  Name='ggH',
+  Type='Prompt',
+  Samples=['GluGluHToTauTau_M125','GluGluHToWWTo2L2Nu','GluGluHToZZTo4L'],
+  Era = "Run2",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kSpring+8,
+  Style=1,
+  TLatexAlias='ggH',
+  LatexAlias='ggH'
+)
+
+SampleGroup_ggZZ_Run2 = SampleGroup(
+  Name='ggZZ',
+  Type='Prompt',
+  Samples=['GluGluToZZto2e2mu','GluGluToZZto4e','GluGluToZZto4mu'],
+  Era = "Run2",
   Skim='_SkimTree_HNMultiLepBDT',
   Color=ROOT.kCyan,
   Style=1,

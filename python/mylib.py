@@ -35,7 +35,7 @@ def TotalLumiByEra(DataEra):
   if DataEra=="2018":
     return "59.8"
 
-  if DataEra =="-1":
+  if DataEra =="Run2":
     return str(19.52+16.81+41.48+59.83)
 
   else:
