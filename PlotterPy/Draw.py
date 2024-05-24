@@ -161,33 +161,20 @@ from PredefinedSamples import *
 
 if args.Category==0: # ?
   #### Define Samples
-  #if str_Era != 'Run2':
-  ############## samples for SS_CR, VBF_CR, LLL_VR ##############
-  #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-  exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_DYJets_MG_%s, SampleGroup_VV_%s, SampleGroup_VVV_%s, SampleGroup_ttV_%s, SampleGroup_TTXX_%s, SampleGroup_tZq_%s, SampleGroup_Higgs_%s, SampleGroup_VBFHiggs_%s, SampleGroup_WW_%s, SampleGroup_WZ_EWK_%s, SampleGroup_ggH_%s, SampleGroup_ggZZ_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-  ############## samples for OS_VR #######################
-  #exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_DYtau_%s, SampleGroup_WJets_MG_OS_%s, SampleGroup_WG_OS_%s, SampleGroup_ZG_OS_%s, SampleGroup_TTLL_%s, SampleGroup_VV_OS_%s, SampleGroup_tW_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-  ############## samples for SRs #######################
-  #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-  #exec('m.SignalsToDraw = [SampleGroup_DYTypeI_%s_M1000, SampleGroup_VBFTypeI_%s_M1000, SampleGroup_SSWWTypeI_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
-  #else:
-  #  m.SampleGroups = [
-  #    SampleGroup_Fake_2016preVFP,SampleGroup_Fake_2016postVFP,SampleGroup_Fake_2017,SampleGroup_Fake_2018,
-  #    #SampleGroup_CF_2016preVFP,SampleGroup_CF_2016postVFP,SampleGroup_CF_2017,SampleGroup_CF_2018,
-  #    #SampleGroup_Conv_2016preVFP,SampleGroup_Conv_2016postVFP,SampleGroup_Conv_2017,SampleGroup_Conv_2018,
-  #    #SampleGroup_DYJets_MG_2016preVFP,SampleGroup_DYJets_MG_2016postVFP,SampleGroup_DYJets_MG_2017,SampleGroup_DYJets_MG_2018,
-  #    #SampleGroup_VV_2016preVFP,SampleGroup_VV_2016postVFP,SampleGroup_VV_2017,SampleGroup_VV_2018,
-  #    #SampleGroup_VVV_2016preVFP,SampleGroup_VVV_2016postVFP,SampleGroup_VVV_2017,SampleGroup_VVV_2018,
-  #    #SampleGroup_ttV_2016preVFP,SampleGroup_ttV_2016postVFP,SampleGroup_ttV_2017,SampleGroup_ttV_2018,
-  #    #SampleGroup_TTXX_2016preVFP,SampleGroup_TTXX_2016postVFP,SampleGroup_TTXX_2017,SampleGroup_TTXX_2018,
-  #    #SampleGroup_tZq_2016preVFP,SampleGroup_tZq_2016postVFP,SampleGroup_tZq_2017,SampleGroup_tZq_2018,
-  #    #SampleGroup_Higgs_2016preVFP,SampleGroup_Higgs_2016postVFP,SampleGroup_Higgs_2017,SampleGroup_Higgs_2018,
-  #    #SampleGroup_VBFHiggs_2016preVFP,SampleGroup_VBFHiggs_2016postVFP,SampleGroup_VBFHiggs_2017,SampleGroup_VBFHiggs_2018,
-  #    #SampleGroup_WW_2016preVFP,SampleGroup_WW_2016postVFP,SampleGroup_WW_2017,SampleGroup_WW_2018,
-  #    #SampleGroup_WZ_EWK_2016preVFP,SampleGroup_WZ_EWK_2016postVFP,SampleGroup_WZ_EWK_2017,SampleGroup_WZ_EWK_2018,
-  #    #SampleGroup_ggH_2016preVFP,SampleGroup_ggH_2016postVFP,SampleGroup_ggH_2017,SampleGroup_ggH_2018,
-  #    #SampleGroup_ggZZ_2016preVFP,SampleGroup_ggZZ_2016postVFP,SampleGroup_ggZZ_2017,SampleGroup_ggZZ_2018,
-  #  ]
+  if str_Era != 'Run2':
+    ############## samples for SS_CR, VBF_CR, LLL_VR ##############
+    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_DYJets_MG_%s, SampleGroup_VV_%s, SampleGroup_VVV_%s, SampleGroup_ttV_%s, SampleGroup_TTXX_%s, SampleGroup_tZq_%s, SampleGroup_Higgs_%s, SampleGroup_VBFHiggs_%s, SampleGroup_WW_%s, SampleGroup_WZ_EWK_%s, SampleGroup_ggH_%s, SampleGroup_ggZZ_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    ############## samples for OS_VR #######################
+    #exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_DYtau_%s, SampleGroup_WJets_MG_OS_%s, SampleGroup_WG_OS_%s, SampleGroup_ZG_OS_%s, SampleGroup_TTLL_%s, SampleGroup_VV_OS_%s, SampleGroup_tW_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    ############## samples for SRs #######################
+    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    #exec('m.SignalsToDraw = [SampleGroup_DYTypeI_%s_M1000, SampleGroup_VBFTypeI_%s_M1000, SampleGroup_SSWWTypeI_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
+  else:
+    m.SampleGroups = [
+      SampleGroup_Fake_Run2,SampleGroup_CF_Run2,SampleGroup_Conv_Run2,SampleGroup_Prompt_Run2
+    ]
+    m.SignalsToDraw = [SampleGroup_DYTypeI_Run2_M1000, SampleGroup_VBFTypeI_Run2_M1000, SampleGroup_SSWWTypeI_Run2_M1000]
 
   #### Signals
   #### Print
@@ -207,7 +194,7 @@ if args.Category==0: # ?
                  #"HNL_WpWpNP2_TwoLepton_CR" : "WpWpNP2_CR",
                  #"HNL_WpWpNP3_TwoLepton_CR" : "WpWpNP3_CR",
                  ### SS_CR ##
-                 "HNL_SSPresel_TwoLepton" : "SSPresel",
+                 #"HNL_SSPresel_TwoLepton" : "SSPresel",
                  #"HNL_HighMassSR1_TwoLepton_CR" : "SR1_CR",
                  #"HNL_HighMassSR2_TwoLepton_CR" : "SR2_CR",
                  #"HNL_HighMassSR3_TwoLepton_CR" : "SR3_CR",
@@ -235,8 +222,9 @@ if args.Category==0: # ?
                  #"HNL_OS_ZAK8_TwoLepton_CR"   : "ZAK8_CR",
                  #"HNL_OS_TopAK8_TwoLepton_CR" : "TopAK8_CR",
                  ## SR ##
-                 #"LimitInput" : "Limit Input (Cut-based)",
-                 #"LimitInputBDT_M100" : "Limit Input (M100)",
+                 #"LimitExtraction" : "Limit Input (Cut-based)",
+                 #"LimitExtractionBDT_M100" : "Limit Input (M100)",
+                 "PassSR2" : "SR2",
                  #"DiJetSR3" : "DiJetSR3",
                  #"InclusiveSR1" : "InclusiveSR1",
                  #"FinalSR1" : "FinalSR1",
@@ -347,17 +335,23 @@ m.VariablesToDraw = [
   #Variable('MuonCR', '', ''),
   #Variable('ElectronCR', '', ''),
   #Variable('ElectronMuonCR', '', ''),
-  #Variable('MuonSR', '', ''),
-  #Variable('ElectronSR', '', ''),
-  #Variable('ElectronMuonSR', '', ''),
+  #Variable('MuonCRBDT', '', ''),
+  #Variable('ElectronCRBDT', '', ''),
+  #Variable('ElectronMuonCRBDT', '', ''),
+  Variable('MuonSR', '', ''),
+  Variable('ElectronSR', '', ''),
+  Variable('ElectronMuonSR', '', ''),
+  Variable('MuonSRBDT', '', ''),
+  Variable('ElectronSRBDT', '', ''),
+  Variable('ElectronMuonSRBDT', '', ''),
   #Variable('Lep_1_mva', 'MVA', ''),
   #Variable('Lep_2_mva', 'MVA', ''),
   #Variable('Lep_1_LFvsHF', 'LFvsHF', ''),
   #Variable('Lep_2_LFvsHF', 'LFvsHF', ''),
-  #Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
-  #Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
-  #Variable('Lep_1_eta', '#eta of the leading lepton', ''),
-  #Variable('Lep_2_eta', '#eta of the second lepton', ''),
+  Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
+  Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
+  Variable('Lep_1_eta', '#eta of the leading lepton', ''),
+  Variable('Lep_2_eta', '#eta of the second lepton', ''),
   #Variable('Leps_pt',  'p_{T} of all leptons', 'GeV'),
   #Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
   #Variable('Lep_4_pt', 'p_{T} of the fourth lepton', 'GeV'),
@@ -385,7 +379,7 @@ m.VariablesToDraw = [
   #Variable('Ev_MET2_ST', 'MET^{2}/S_{T}', 'GeV'),
   #Variable('N_AK4J', 'N_{j}', ''),
   #Variable('N_Mu', 'N_{#mu}', ''),
-  Variable('N_El', 'N_{e}', ''),
+  #Variable('N_El', 'N_{e}', ''),
 
 ]
 m.PrintVariables()

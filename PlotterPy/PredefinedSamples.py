@@ -1184,8 +1184,7 @@ SampleGroup_CF_Run2 = SampleGroup(
 SampleGroup_Conv_Run2 = SampleGroup(
   Name='Conv',
   Type='Conv',
-  Samples=['TG', 'TTG', 'WWG', 'WZG', 'WGJJToLNu', 'WGToLNuG_MG', 'ZGToLLG'], #'DYJets_MG'
-  #Samples=['Conv'],
+  Samples=['Conv_inc'],
   Era = "Run2",
   Skim='_SkimTree_HNMultiLepBDT',
   Color=ROOT.kGreen+3,
@@ -1194,171 +1193,84 @@ SampleGroup_Conv_Run2 = SampleGroup(
   LatexAlias='Conv'
 )
 
-SampleGroup_DYJets_MG_Run2 = SampleGroup(
-  Name='DYJets_MG',
-  Type='Conv',
-  Samples=['DYJets_MG'],
-  Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kBlue+2,
-  Style=1,
-  TLatexAlias='DYJets_MG',
-  LatexAlias= 'DYJets_MG'
-)
-
-SampleGroup_MC_Run2 = SampleGroup(
-  Name='MC',
+SampleGroup_Prompt_Run2 = SampleGroup(
+  Name='Prompt',
   Type='Prompt',
-  Samples=['MC'],
+  Samples=['Prompt_inc'],
   Era = "Run2",
   Skim='_SkimTree_HNMultiLepBDT',
   Color=ROOT.kGreen+1,
   Style=1,
-  TLatexAlias='MC',
-  LatexAlias='MC'
+  TLatexAlias='Prompt',
+  LatexAlias ='Prompt'
 )
 
-SampleGroup_VV_Run2 = SampleGroup(
-  Name='VV',
-  Type='Prompt',
-  Samples=['WZTo3LNu_mllmin4p0_powheg','ZZTo4L_powheg'], # 'WZTo3LNu_amcatnlo'
+SampleGroup_SSWWTypeI_Run2_M10000 = SampleGroup(
+  Name='SSWWTypeI',
+  Type='Signal',
+  Samples=['signalSSWW_M10000'],
   Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kGreen+1,
-  Style=1,
-  TLatexAlias='VV',
-  LatexAlias='VV'
-)
-
-SampleGroup_VVV_Run2 = SampleGroup(
-  Name='VVV',
-  Type='Prompt',
-  Samples=['WWW','WWZ','WZZ','ZZZ'],
-  Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kGreen+2,
-  Style=1,
-  TLatexAlias='VVV',
-  LatexAlias='VVV'
-)
-
-SampleGroup_SingleTop_Run2 = SampleGroup(
-  Name='SingleTop',
-  Type='Prompt',
-  Samples=['SingleTop_sch_Lep','SingleTop_tch_antitop_Incl','SingleTop_tch_top_Incl','SingleTop_tW_antitop_NoFullyHad','SingleTop_tW_top_NoFullyHad'],
-  Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kTeal+6,
-  Style=1,
-  TLatexAlias='SingleTop',
-  LatexAlias='SingleTop'
-)
-
-SampleGroup_ttV_Run2 = SampleGroup(
-  Name='ttV',
-  Type='Prompt',
-  Samples=['ttWToLNu','ttZToLLNuNu'], #'ttWToQQ', 'ttZToQQ_ll' : no entries
-  Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kAzure+7,
-  Style=1,
-  TLatexAlias='ttV',
-  LatexAlias='ttV'
-)
-
-SampleGroup_TTXX_Run2 = SampleGroup(
-  Name='TTXX',
-  Type='Prompt',
-  Samples=['TTTT','TTZZ'],
-  Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kViolet,
-  Style=1,
-  TLatexAlias='TTXX',
-  LatexAlias='TTXX'
-)
-
-SampleGroup_tZq_Run2 = SampleGroup(
-  Name='tZq',
-  Type='Prompt',
-  Samples=['tZq'],
-  Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kPink+6,
-  Style=1,
-  TLatexAlias='tZq',
-  LatexAlias='tZq'
-)
-
-SampleGroup_Higgs_Run2 = SampleGroup(
-  Name='Higgs',
-  Type='Prompt',
-  Samples=['ttHToNonbb','tHq','VHToNonbb'],
-  Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
+  Skim='',
   Color=ROOT.kBlue,
   Style=1,
-  TLatexAlias='Higgs',
-  LatexAlias='Higgs'
+  Width=3,
+  TLatexAlias='SSWW M10000',
+  LatexAlias='SSWW M10000',
+  Scale=1
 )
 
-SampleGroup_VBFHiggs_Run2 = SampleGroup(
-  Name='VBFHiggs',
-  Type='Prompt',
-  Samples=['VBF_HToZZTo4L'], #VBFHToTauTau_M125, VBFHToWWTo2L2Nu : no events
+SampleGroup_SSWWTypeI_Run2_M1000 = SampleGroup(
+  Name='SSWWTypeI',
+  Type='Signal',
+  Samples=['signalSSWW_M1000'],
   Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kBlue-6,
+  Skim='',
+  Color=ROOT.kBlue,
   Style=1,
-  TLatexAlias='VBFHiggs',
-  LatexAlias='VBFHiggs'
+  Width=3,
+  TLatexAlias='SSWW M1000',
+  LatexAlias='SSWW M1000',
+  Scale=0.001
 )
 
-SampleGroup_WW_Run2 = SampleGroup(
-  Name='WW',
-  Type='Prompt',
-  Samples=['WpWp_EWK','WpWp_QCD','WWTo2L2Nu_DS','WWTo2L2Nu_powheg'],
+SampleGroup_VBFTypeI_Run2_M1000 = SampleGroup(
+  Name='W#gamma',
+  Type='Signal',
+  Samples=['signalVBF_M1000'],
   Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kPink-8,
+  Skim='',
+  Color=ROOT.kOrange,
   Style=1,
-  TLatexAlias='WW',
-  LatexAlias='WW'
+  Width=3,
+  TLatexAlias='W#gamma M1000',
+  LatexAlias='W#gamma M1000',
+  Scale=1
 )
 
-SampleGroup_WZ_EWK_Run2 = SampleGroup(
-  Name='WZ_EWK',
-  Type='Prompt',
-  Samples=['WZ_EWK'],
+SampleGroup_DYTypeI_Run2_M1000 = SampleGroup(
+  Name='DYTypeI',
+  Type='Signal',
+  Samples=['signalDY_M1000'],
   Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kOrange+8,
+  Skim='',
+  Color=ROOT.kRed,
   Style=1,
-  TLatexAlias='WZ_EWK',
-  LatexAlias='WZ_EWK'
+  Width=3,
+  TLatexAlias='DY M1000',
+  LatexAlias='DY M1000',
+  Scale=1
 )
 
-SampleGroup_ggH_Run2 = SampleGroup(
-  Name='ggH',
-  Type='Prompt',
-  Samples=['GluGluHToTauTau_M125','GluGluHToWWTo2L2Nu','GluGluHToZZTo4L'],
+SampleGroup_DYTypeI_Run2_M100 = SampleGroup(
+  Name='DYTypeI',
+  Type='Signal',
+  Samples=['signalDY_M100'],
   Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kSpring+8,
-  Style=1,
-  TLatexAlias='ggH',
-  LatexAlias='ggH'
+  Skim='',
+  Color=ROOT.kOrange,
+  Style=3,
+  Width=3,
+  TLatexAlias='DY M100',
+  LatexAlias='DY M100',
+  Scale=1
 )
-
-SampleGroup_ggZZ_Run2 = SampleGroup(
-  Name='ggZZ',
-  Type='Prompt',
-  Samples=['GluGluToZZto2e2mu','GluGluToZZto4e','GluGluToZZto4mu'],
-  Era = "Run2",
-  Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kCyan,
-  Style=1,
-  TLatexAlias='ggZZ',
-  LatexAlias='ggZZ'
-)
-

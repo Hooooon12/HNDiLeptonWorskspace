@@ -22,7 +22,7 @@ class SampleGroup:
       print Name + " " + Era
       self.Year =Era
     else:
-      self.Year=int(Era)
+      self.Year=Era
     self.Skim = Skim
     self.Color = Color
     self.Style = Style
@@ -455,7 +455,8 @@ class Plotter:
                    "NObj"    : ["N_AK4J","N_El","N_Mu"],
                    "SKEvent" : ["Ev_MET","Ev_MET2_ST","Ev_PuppiMET_T1","Ev_PuppiMET_T1ULxyCorr","HToLepPt1","Mt_lep1"],
                    "AK8"     : ["AK8J_Tagger_particleNet_WvsQCD","AK8J_tau21"], # for JA PNet check
-                   ""        : ["MuonCR","ElectronCR","ElectronMuonCR","MuonSR","ElectronSR","ElectronMuonSR"],
+                   "AK4Jets" : ["Jet_1_pt","Jet_1_eta","Jet_2_pt","Jet_2_eta"],
+                   ""        : ["MuonCR","ElectronCR","ElectronMuonCR","MuonCRBDT","ElectronCRBDT","ElectronMuonCRBDT","MuonSR","ElectronSR","ElectronMuonSR","MuonSRBDT","ElectronSRBDT","ElectronMuonSRBDT"],
                   }
 
     # Error print verbosity
@@ -605,10 +606,10 @@ class Plotter:
                     paramName = "Syst_"+Syst.Name+"Down"+Region.ParamName
 
               # Define the hist path
-              if "LimitInput" in Region.Name and not "BDT" in Region.Name:
-                histpath = Region.Name+'/'+Region.PrimaryDataset+'/'+paramName+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/Syst_JetResUpHNL_ULID/LimitBins/MuonSR"
-              elif "LimitInput" in Region.Name and "BDT" in Region.Name:
-                histpath = Region.Name.split('_')[0]+'/'+Region.PrimaryDataset+'/'+paramName+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/Syst_JetResUpHNL_ULID/M100/LimitBins/MuonSR"
+              if "LimitExtraction" in Region.Name and not "BDT" in Region.Name:
+                histpath = Region.Name+'/'+paramName+'/'+Region.PrimaryDataset+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/Syst_JetResUpHNL_ULID/LimitBins/MuonSR"
+              elif "LimitExtraction" in Region.Name and "BDT" in Region.Name:
+                histpath = Region.Name.split('_')[0]+'/'+paramName+'/'+Region.PrimaryDataset+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/Syst_JetResUpHNL_ULID/M100/LimitBins/MuonSR"
               else:
                 if "DYtau" in SampleGroup.Name: #JH : DY taus are stored separately
                   histpath = Region.Name+'/'+paramName+'/'+Region.PrimaryDataset+'tau_/'+Region.HistTag+'/'+Variable.Name # HNL_OS_Z_TwoLepton_CR/HNL_ULID/MuMu/SKEvent/Ev_MET
@@ -709,7 +710,12 @@ class Plotter:
  
         ## Now call data hist
         if not Region.UnblindData:
-          h_Data = h_Bkgd.Clone() # Data is now the same with the total bkgds
+          try:
+            h_Data = h_Bkgd.Clone() # Data is now the same with the total bkgds
+          except AttributeError:
+            print "[WARNING] No hist :",h_Bkgd
+            print "[WARNING] continue",Variable.Name,"..."
+            continue
           h_Data.SetMarkerStyle(20)
           h_Data.SetMarkerSize(1.2)
           h_Data.SetMarkerColor(ROOT.kBlack)
@@ -1030,17 +1036,17 @@ class Plotter:
           paramName_Sig = Region.ParamName
 
           # Define the hist path
-          if "LimitInput" in Region.Name and not "BDT" in Region.Name:
-            histpath_Sig = Region.Name+'/'+Region.PrimaryDataset+'/'+paramName_Sig+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/HNL_ULID/LimitBins/MuonSR"
-          elif "LimitInput" in Region.Name and "BDT" in Region.Name:
-            histpath_Sig = Region.Name.split('_')[0]+'/'+Region.PrimaryDataset+'/'+paramName_Sig+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/HNL_ULID/M100/LimitBins/MuonSR"
+          if "LimitExtraction" in Region.Name and not "BDT" in Region.Name:
+            histpath_Sig = Region.Name+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/HNL_ULID/LimitBins/MuonSR"
+          elif "LimitExtraction" in Region.Name and "BDT" in Region.Name:
+            histpath_Sig = Region.Name.split('_')[0]+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/HNL_ULID/M100/LimitBins/MuonSR"
           else:
-            histpath_Sig = Region.Name+'/'+Region.PrimaryDataset+'/'+paramName_Sig+'/RegionPlots_'+Region.PrimaryDataset+'/'+Region.HistTag+'/'+Variable.Name # DiJetSR3/MuMu/HNL_ULID/RegionPlots_MuMu/Leptons/Lep_1_pt
+            histpath_Sig = Region.Name+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.HistTag+'/'+Variable.Name # DiJetSR3/MuMu/HNL_ULID/Leptons/Lep_1_pt
 
           f_Sig = ROOT.TFile(fullpath_Sig)
           h_Sig = f_Sig.Get(histpath_Sig)
           if not h_Sig:
-            print "no", histpath, "in", fullpath_Sig,"==> Skipping ..."
+            print "no", histpath_Sig, "in", fullpath_Sig,"==> Skipping ..."
             continue
 
           ## Make overflow
@@ -1363,12 +1369,12 @@ class Plotter:
             paramNameDown_Sig = "Syst_"+this_systName+"Down"+Region.ParamName
 
             # Define the hist path
-            if "LimitInput" in Region.Name and not "BDT" in Region.Name:
-              histpath_Sig = Region.Name+'/'+Region.PrimaryDataset+'/'+paramName_Sig+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/HNL_ULID/LimitBins/MuonSR"
-            elif "LimitInput" in Region.Name and "BDT" in Region.Name:
-              histpath_Sig = Region.Name.split('_')[0]+'/'+Region.PrimaryDataset+'/'+paramName_Sig+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/HNL_ULID/M100/LimitBins/MuonSR"
+            if "LimitExtraction" in Region.Name and not "BDT" in Region.Name:
+              histpath_Sig = Region.Name+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/HNL_ULID/LimitBins/MuonSR"
+            elif "LimitExtraction" in Region.Name and "BDT" in Region.Name:
+              histpath_Sig = Region.Name.split('_')[0]+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/HNL_ULID/M100/LimitBins/MuonSR"
             else:
-              histpath_Sig = Region.Name+'/'+Region.PrimaryDataset+'/'+paramName_Sig+'/RegionPlots_'+Region.PrimaryDataset+'/'+Region.HistTag+'/'+Variable.Name # DiJetSR3/MuMu/HNL_ULID/RegionPlots_MuMu/Leptons/Lep_1_pt
+              histpath_Sig = Region.Name+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.HistTag+'/'+Variable.Name # DiJetSR3/MuMu/HNL_ULID/Leptons/Lep_1_pt
             histpathUp_Sig   = histpath_Sig.replace(paramName_Sig,paramNameUp_Sig)
             histpathDown_Sig = histpath_Sig.replace(paramName_Sig,paramNameDown_Sig)
 
@@ -1377,7 +1383,7 @@ class Plotter:
             h_SigUp = f_Sig.Get(histpathUp_Sig)
             h_SigDown = f_Sig.Get(histpathDown_Sig)
             if not h_Sig:
-              print "no", histpath, "in", fullpath_Sig,"==> Skipping ..."
+              print "no", histpath_Sig, "in", fullpath_Sig,"==> Skipping ..."
               continue
 
             ## Make overflow
