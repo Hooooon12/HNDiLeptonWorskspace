@@ -571,6 +571,32 @@ SampleGroup_Conv_2018 = SampleGroup(
   LatexAlias='Conv'
 )
 
+SampleGroup_Conv_others_2018 = SampleGroup(
+  Name='Conv',
+  Type='Conv',
+  Samples=['Conv_others'],
+  #Samples=['Conv'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+3,
+  Style=1,
+  TLatexAlias='Conv',
+  LatexAlias='Conv'
+)
+
+SampleGroup_ZG_2018 = SampleGroup(
+  Name='ZG',
+  Type='Conv',
+  Samples=['ZGToLLG'],
+  #Samples=['Conv'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kTeal+1,
+  Style=1,
+  TLatexAlias='Z#gamma',
+  LatexAlias='Z#gamma'
+)
+
 SampleGroup_DYJets_MG_2018 = SampleGroup(
   Name='DYJets_MG',
   Type='Conv',
@@ -583,16 +609,40 @@ SampleGroup_DYJets_MG_2018 = SampleGroup(
   LatexAlias= 'DYJets_MG'
 )
 
-SampleGroup_MC_2018 = SampleGroup(
-  Name='MC',
-  Type='Prompt',
-  Samples=['MC'],
+SampleGroup_DYJets_MiNNLO_EE_2018 = SampleGroup(
+  Name='DYJets_MiNNLO_EE',
+  Type='Conv',
+  Samples=['DYJetsToEE_MiNNLO'],
   Era = "2018",
   Skim='_SkimTree_HNMultiLepBDT',
-  Color=ROOT.kGreen+1,
+  Color=ROOT.kBlue+2,
   Style=1,
-  TLatexAlias='MC',
-  LatexAlias='MC'
+  TLatexAlias='DYJets_MiNNLO_EE',
+  LatexAlias= 'DYJets_MiNNLO_EE'
+)
+
+SampleGroup_DYJets_MiNNLO_MuMu_2018 = SampleGroup(
+  Name='DYJets_MiNNLO_MuMu',
+  Type='Conv',
+  Samples=['DYJetsToMuMu_MiNNLO'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue+5,
+  Style=1,
+  TLatexAlias='DYJets_MiNNLO_MuMu',
+  LatexAlias= 'DYJets_MiNNLO_MuMu'
+)
+
+SampleGroup_DYJets_MiNNLO_TauTau_2018 = SampleGroup(
+  Name='DYJets_MiNNLO_TauTau',
+  Type='Conv',
+  Samples=['DYJetsToTauTau_MiNNLO'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue+8,
+  Style=1,
+  TLatexAlias='DYJets_MiNNLO_TauTau',
+  LatexAlias= 'DYJets_MiNNLO_TauTau'
 )
 
 SampleGroup_VV_2018 = SampleGroup(
@@ -605,6 +655,30 @@ SampleGroup_VV_2018 = SampleGroup(
   Style=1,
   TLatexAlias='VV',
   LatexAlias='VV'
+)
+
+SampleGroup_WZ_2018 = SampleGroup(
+  Name='WZ',
+  Type='Prompt',
+  Samples=['WZTo3LNu_mllmin4p0_powheg'], # 'WZTo3LNu_amcatnlo'
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kGreen+1,
+  Style=1,
+  TLatexAlias='WZ',
+  LatexAlias='WZ'
+)
+
+SampleGroup_ZZ_2018 = SampleGroup(
+  Name='ZZ',
+  Type='Prompt',
+  Samples=['ZZTo4L_powheg'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kSpring+8,
+  Style=1,
+  TLatexAlias='ZZ',
+  LatexAlias='ZZ'
 )
 
 SampleGroup_VVV_2018 = SampleGroup(
@@ -739,6 +813,47 @@ SampleGroup_ggZZ_2018 = SampleGroup(
   LatexAlias='ggZZ'
 )
 
+SampleGroup_SSWWTypeI_2018_M1000 = SampleGroup(
+  Name='SSWWTypeI',
+  Type='Signal',
+  Samples=['SSWWTypeI_SF_M1000_private'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kBlue,
+  Style=1,
+  Width=3,
+  TLatexAlias='SSWW M1000',
+  LatexAlias='SSWW M1000',
+  Scale=1
+)
+
+SampleGroup_VBFTypeI_2018_M1000 = SampleGroup(
+  Name='W#gamma',
+  Type='Signal',
+  Samples=['VBFTypeI_DF_M1000_private'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kOrange,
+  Style=1,
+  Width=3,
+  TLatexAlias='W#gamma M1000',
+  LatexAlias='W#gamma M1000',
+  Scale=0.4
+)
+
+SampleGroup_DYTypeI_2018_M1000 = SampleGroup(
+  Name='DYTypeI',
+  Type='Signal',
+  Samples=['DYTypeI_DF_M1000_private'],
+  Era = "2018",
+  Skim='_SkimTree_HNMultiLepBDT',
+  Color=ROOT.kRed,
+  Style=1,
+  Width=3,
+  TLatexAlias='DY M1000',
+  LatexAlias='DY M1000',
+  Scale=0.4
+)
 
 ####################### 2016a ##############################
 

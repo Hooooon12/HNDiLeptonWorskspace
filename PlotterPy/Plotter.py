@@ -192,8 +192,8 @@ class Plotter:
     for line in open(self.RebinFilepath).readlines():
       if "#" in line: continue
       words = line.split()
-      if Region!=words[0]:
-        continue
+      #if Region!=words[0]: # use this later when each region has different binnings
+      #  continue
       Rebins[words[1]] = int(words[2])
       if self.DoDebug:
         print ("Setting rebin " + str(words[1]) + " " + str(words[2]))
@@ -208,8 +208,8 @@ class Plotter:
 
     for line in open(self.XaxisFilepath).readlines():
       words = line.split()
-      if Region!=words[0]:
-        continue
+      #if Region!=words[0]: # use this later when each region has different xaxis
+      #  continue
       XaxisRanges[words[1]] = [float(words[2]), float(words[3])]
 
     if len(XaxisRanges) == 0:
@@ -451,12 +451,26 @@ class Plotter:
     ObjectTypes = {
                    "DeltaR"  : ["dR_ll"],
                    "Leptons" : ["BScore_BB","BScore_EC","Lep_1_pt","Lep_1_eta","Lep_2_pt","Lep_2_eta"],
-                   "Mass"    : ["DiJet_M_W","DiJet_M_l1W","DiJet_M_l2W","DiJet_M_llW","M_ll"],
-                   "NObj"    : ["N_AK4J","N_El","N_Mu"],
+                   "Mass"    : ["DiJet_M_W","DiJet_M_l1W","DiJet_M_l2W","DiJet_M_llW","DiJet_M_l1jj","DiJet_M_l2jj","DiJet_M_lljj","M_ll"],
+                   "NObj"    : ["N_AK4J","N_BJet","N_El","N_Mu"],
                    "SKEvent" : ["Ev_MET","Ev_MET2_ST","Ev_PuppiMET_T1","Ev_PuppiMET_T1ULxyCorr","HToLepPt1","Mt_lep1"],
-                   "AK8"     : ["AK8J_Tagger_particleNet_WvsQCD","AK8J_tau21"], # for JA PNet check
+                   "AK8"     : ["AK8J_Tagger_particleNet_WvsQCD","AK8J_tau21","AK8J_Mass/llJ"],
                    "AK4Jets" : ["Jet_1_pt","Jet_1_eta","Jet_2_pt","Jet_2_eta"],
-                   ""        : ["MuonCR","ElectronCR","ElectronMuonCR","MuonCRBDT","ElectronCRBDT","ElectronMuonCRBDT","MuonSR","ElectronSR","ElectronMuonSR","MuonSRBDT","ElectronSRBDT","ElectronMuonSRBDT"],
+                   ""        : [
+                                "MuonCR","ElectronCR","ElectronMuonCR",\
+                                "MuonCR1","ElectronCR1","ElectronMuonCR1",\
+                                "MuonCR2","ElectronCR2","ElectronMuonCR2",\
+                                "MuonCR3","ElectronCR3","ElectronMuonCR3",\
+                                "MuonCRBDT","ElectronCRBDT","ElectronMuonCRBDT",\
+                                "MuonCR3BDT","ElectronCR3BDT","ElectronMuonCR3BDT",\
+                                "MuonSR","ElectronSR","ElectronMuonSR",\
+                                "MuonSR1","ElectronSR1","ElectronMuonSR1",\
+                                "MuonSR2","ElectronSR2","ElectronMuonSR2",\
+                                "MuonSR3","ElectronSR3","ElectronMuonSR3",\
+                                "MuonSRBDT","ElectronSRBDT","ElectronMuonSRBDT",\
+                                "MuonSR3BDT","ElectronSR3BDT","ElectronMuonSR3BDT",\
+                                "N1Mass_Central"
+                               ],
                   }
 
     # Error print verbosity
@@ -518,7 +532,7 @@ class Plotter:
           nRebin = Rebins[Variable.Name]
 
         xMin= 0
-        xMax=100000.
+        xMax=100000. # if xMax == 100000. --> consider there is no pre-defined X axis range and skip SetRangeUser
 
         # Set X axis range if explicitly defined
         if  Variable.Name in  XaxisRanges.keys():
@@ -606,10 +620,12 @@ class Plotter:
                     paramName = "Syst_"+Syst.Name+"Down"+Region.ParamName
 
               # Define the hist path
-              if "LimitExtraction" in Region.Name and not "BDT" in Region.Name:
-                histpath = Region.Name+'/'+paramName+'/'+Region.PrimaryDataset+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/Syst_JetResUpHNL_ULID/LimitBins/MuonSR"
-              elif "LimitExtraction" in Region.Name and "BDT" in Region.Name:
-                histpath = Region.Name.split('_')[0]+'/'+paramName+'/'+Region.PrimaryDataset+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/Syst_JetResUpHNL_ULID/M100/LimitBins/MuonSR"
+              if "LimitBin" in Region.Name and not "BDT" in Region.Name:
+                histpath = 'LimitExtraction/'+paramName+'/'+Region.PrimaryDataset+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/Syst_JetResUpHNL_ULID/LimitBins/MuonSR"
+              elif "LimitBin" in Region.Name and "BDT" in Region.Name:
+                histpath = 'LimitExtraction/'+paramName+'/'+Region.PrimaryDataset+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/Syst_JetResUpHNL_ULID/M100/LimitBins/MuonSR"
+              elif "LimitShape" in Region.Name:
+                histpath = 'LimitExtraction/'+paramName+'/'+Region.PrimaryDataset+'/'+Region.Name+'/'+Variable.Name #JH : "LimitExtraction/HNL_ULID/EE/LimitShape_SR1/N1Mass_Central"
               else:
                 if "DYtau" in SampleGroup.Name: #JH : DY taus are stored separately
                   histpath = Region.Name+'/'+paramName+'/'+Region.PrimaryDataset+'tau_/'+Region.HistTag+'/'+Variable.Name # HNL_OS_Z_TwoLepton_CR/HNL_ULID/MuMu/SKEvent/Ev_MET
@@ -634,7 +650,7 @@ class Plotter:
                 continue
 
               ## Make overflow
-              h_Sample.GetXaxis().SetRangeUser(xMin,xMax)
+              if(xMax != 100000.): h_Sample.GetXaxis().SetRangeUser(xMin,xMax)
               h_Sample = mylib.MakeOverflowBin(h_Sample)
 
               h_Sample = self.Rebin(h_Sample, Region.Name, Variable.Name, nRebin)
@@ -729,7 +745,7 @@ class Plotter:
             continue
 
           ## Make overflow
-          h_Data.GetXaxis().SetRangeUser(xMin,xMax)
+          if(xMax != 100000.): h_Data.GetXaxis().SetRangeUser(xMin,xMax)
           h_Data = mylib.MakeOverflowBin(h_Data)
 
           ## Rebin
@@ -767,7 +783,7 @@ class Plotter:
         for i in range(0, gr_Data.GetN()):
           N = gr_Data.GetY()[i]
 
-          L = 0.                                          if (N==0.) else (ROOT.Math.gamma_quantile(alpha/2.,N,1.))
+          L = 0.                                          if (N==0.) else (ROOT.Math.gamma_quantile(alpha/2.,N,1.)) #JH : what error is this?
           U = ( ROOT.Math.gamma_quantile_c(alpha,N+1,1) ) if (N==0.) else (ROOT.Math.gamma_quantile_c(alpha/2.,N+1.,1.))
 
           #print '%d - %f + %f'%(N, N-L, U-N)
@@ -842,7 +858,7 @@ class Plotter:
 
         #### axis histograms
         h_dummy_up = ROOT.TH1D('h_dummy_up', '', nBin, xBins)
-        h_dummy_up.GetXaxis().SetRangeUser(xMin, xMax)
+        if(xMax != 100000.): h_dummy_up.GetXaxis().SetRangeUser(xMin, xMax)
         if nRebin>0:
           binsize = h_dummy_up.GetXaxis().GetBinUpEdge(1)-h_dummy_up.GetXaxis().GetBinLowEdge(1)
           str_binsize = '%d'%(binsize)
@@ -873,7 +889,7 @@ class Plotter:
             #h_dummy_down.GetYaxis().SetRangeUser(0.0,2.0)
 
         h_dummy_down.SetNdivisions(504,"Y")
-        h_dummy_down.GetXaxis().SetRangeUser(xMin, xMax)
+        if(xMax != 100000.): h_dummy_down.GetXaxis().SetRangeUser(xMin, xMax)
         h_dummy_down.GetXaxis().SetTitle(xtitle)
         h_dummy_down.GetYaxis().SetTitle("#scale[0.8]{#frac{Data}{Bkg.}}")
         h_dummy_down.GetYaxis().SetRangeUser(0.8,1.2)
@@ -957,7 +973,8 @@ class Plotter:
         gr_Bkgd_TotErr = mylib.GetAsymmError(h_Bkgd_TotErr_Max,h_Bkgd_TotErr_Min)
 
         ## Get Y maximum according to this stat. + syst. error
-        yMax = max( mylib.GetMaximum(gr_Bkgd_TotErr), mylib.GetMaximum(gr_Data) ) #JH
+        yMax = max( mylib.GetMaximum(gr_Bkgd_TotErr), mylib.GetMaximum(gr_Data) ) if Region.DrawData else mylib.GetMaximum(gr_Bkgd_TotErr)
+        #print "Max bkg:",mylib.GetMaximum(gr_Bkgd_TotErr),", Max data:",mylib.GetMaximum(gr_Data)
         ## Yaxis range
         yMin = 0.
         yMaxScale = 1.2
@@ -968,6 +985,7 @@ class Plotter:
           yMaxScale = 10
           yMin = Region.Logy
         h_dummy_up.GetYaxis().SetRangeUser( yMin, yMaxScale*yMax )
+        #print "y range is set from",yMin,"to",yMaxScale,"*",yMax,"=",yMaxScale*yMax
 
         ## Set legend
         lg = 0
@@ -1036,10 +1054,12 @@ class Plotter:
           paramName_Sig = Region.ParamName
 
           # Define the hist path
-          if "LimitExtraction" in Region.Name and not "BDT" in Region.Name:
-            histpath_Sig = Region.Name+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/HNL_ULID/LimitBins/MuonSR"
-          elif "LimitExtraction" in Region.Name and "BDT" in Region.Name:
-            histpath_Sig = Region.Name.split('_')[0]+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/HNL_ULID/M100/LimitBins/MuonSR"
+          if "LimitBin" in Region.Name and not "BDT" in Region.Name:
+            histpath_Sig = 'LimitExtraction/'+paramName_Sig+'/'+Region.PrimaryDataset+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/HNL_ULID/LimitBins/MuonSR"
+          elif "LimitBin" in Region.Name and "BDT" in Region.Name:
+            histpath_Sig = 'LimitExtraction/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/HNL_ULID/M100/LimitBins/MuonSR"
+          elif "LimitShape" in Region.Name:
+            histpath_Sig = 'LimitExtraction/'+paramName+'/'+Region.PrimaryDataset+'/'+Region.Name+'/'+Variable.Name #JH : "LimitExtraction/HNL_ULID/EE/LimitShape_SR1/N1Mass_Central"
           else:
             histpath_Sig = Region.Name+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.HistTag+'/'+Variable.Name # DiJetSR3/MuMu/HNL_ULID/Leptons/Lep_1_pt
 
@@ -1050,7 +1070,7 @@ class Plotter:
             continue
 
           ## Make overflow
-          h_Sig.GetXaxis().SetRangeUser(xMin,xMax)
+          if(xMax != 100000.): h_Sig.GetXaxis().SetRangeUser(xMin,xMax)
           h_Sig = mylib.MakeOverflowBin(h_Sig)
 
           ## Rebin
@@ -1192,6 +1212,8 @@ class Plotter:
           channelname.DrawLatex(0.2, 0.88, "#font[42]{"+this_TLatexAlias+"}")
 
         outname = Region.Name+'_'+Region.PrimaryDataset+'_'+Region.OutputTag+Variable.Name+'.png'
+        if '/' in Variable.Name: # if variable name itself contains '/', then just use the last part of it
+          outname = Region.Name+'_'+Region.PrimaryDataset+'_'+Region.OutputTag+Variable.Name.split('/')[-1]+'.png'
         c1.SaveAs(Outdir+outname)
         print (Outdir+outname+' ==> Saved.')
 
@@ -1369,9 +1391,9 @@ class Plotter:
             paramNameDown_Sig = "Syst_"+this_systName+"Down"+Region.ParamName
 
             # Define the hist path
-            if "LimitExtraction" in Region.Name and not "BDT" in Region.Name:
+            if "LimitBin" in Region.Name and not "BDT" in Region.Name:
               histpath_Sig = Region.Name+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/HNL_ULID/LimitBins/MuonSR"
-            elif "LimitExtraction" in Region.Name and "BDT" in Region.Name:
+            elif "LimitBin" in Region.Name and "BDT" in Region.Name:
               histpath_Sig = Region.Name.split('_')[0]+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/HNL_ULID/M100/LimitBins/MuonSR"
             else:
               histpath_Sig = Region.Name+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.HistTag+'/'+Variable.Name # DiJetSR3/MuMu/HNL_ULID/Leptons/Lep_1_pt
@@ -1387,11 +1409,11 @@ class Plotter:
               continue
 
             ## Make overflow
-            h_Sig.GetXaxis().SetRangeUser(xMin,xMax)
+            if(xMax != 100000.): h_Sig.GetXaxis().SetRangeUser(xMin,xMax)
             h_Sig = mylib.MakeOverflowBin(h_Sig)
-            h_SigUp.GetXaxis().SetRangeUser(xMin,xMax)
+            if(xMax != 100000.): h_SigUp.GetXaxis().SetRangeUser(xMin,xMax)
             h_SigUp = mylib.MakeOverflowBin(h_SigUp)
-            h_SigDown.GetXaxis().SetRangeUser(xMin,xMax)
+            if(xMax != 100000.): h_SigDown.GetXaxis().SetRangeUser(xMin,xMax)
             h_SigDown = mylib.MakeOverflowBin(h_SigDown)
 
             ## Rebin
@@ -1517,6 +1539,8 @@ class Plotter:
 
             ## Save
             outname = Region.Name+'_'+Region.PrimaryDataset+'_'+this_systName+'_'+Sig.Samples[0]+Region.OutputTag+'_'+Variable.Name+'.png'
+            if '/' in Variable.Name: # if variable name itself contains '/', then just use the last part of it
+              outname = Region.Name+'_'+Region.PrimaryDataset+'_'+this_systName+'_'+Region.OutputTag+Variable.Name.split('/')[-1]+'.png'
             c1.SaveAs(Outdir+outname)
             print (outname+' ==> Saved.')
           ##==>End Signal loop
@@ -1530,6 +1554,8 @@ class Plotter:
            
           # Save with no signal
           outname = Region.Name+'_'+Region.PrimaryDataset+'_'+this_systName+'_'+Region.OutputTag+Variable.Name+'.png'
+          if '/' in Variable.Name: # if variable name itself contains '/', then just use the last part of it
+            outname = Region.Name+'_'+Region.PrimaryDataset+'_'+this_systName+'_'+Region.OutputTag+Variable.Name.split('/')[-1]+'.png'
           c1.SaveAs(Outdir+outname)
           print (outname+' ==> Saved.')
 

@@ -164,12 +164,13 @@ if args.Category==0: # ?
   if str_Era != 'Run2':
     ############## samples for SS_CR, VBF_CR, LLL_VR ##############
     #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_DYJets_MG_%s, SampleGroup_VV_%s, SampleGroup_VVV_%s, SampleGroup_ttV_%s, SampleGroup_TTXX_%s, SampleGroup_tZq_%s, SampleGroup_Higgs_%s, SampleGroup_VBFHiggs_%s, SampleGroup_WW_%s, SampleGroup_WZ_EWK_%s, SampleGroup_ggH_%s, SampleGroup_ggZZ_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_others_%s, SampleGroup_ZG_%s, SampleGroup_DYJets_MG_%s, SampleGroup_WZ_%s, SampleGroup_ZZ_%s, SampleGroup_VVV_%s, SampleGroup_ttV_%s, SampleGroup_TTXX_%s, SampleGroup_tZq_%s, SampleGroup_Higgs_%s, SampleGroup_VBFHiggs_%s, SampleGroup_WW_%s, SampleGroup_WZ_EWK_%s, SampleGroup_ggH_%s, SampleGroup_ggZZ_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
+    #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_others_%s, SampleGroup_ZG_%s, SampleGroup_DYJets_MiNNLO_EE_%s, SampleGroup_DYJets_MiNNLO_MuMu_%s, SampleGroup_DYJets_MiNNLO_TauTau_%s, SampleGroup_WZ_%s, SampleGroup_ZZ_%s, SampleGroup_VVV_%s, SampleGroup_ttV_%s, SampleGroup_TTXX_%s, SampleGroup_tZq_%s, SampleGroup_Higgs_%s, SampleGroup_VBFHiggs_%s, SampleGroup_WW_%s, SampleGroup_WZ_EWK_%s, SampleGroup_ggH_%s, SampleGroup_ggZZ_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for OS_VR #######################
     #exec('m.SampleGroups = [SampleGroup_DY_%s, SampleGroup_DYtau_%s, SampleGroup_WJets_MG_OS_%s, SampleGroup_WG_OS_%s, SampleGroup_ZG_OS_%s, SampleGroup_TTLL_%s, SampleGroup_VV_OS_%s, SampleGroup_tW_%s, SampleGroup_FakeOS_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra, m.DataEra))
     ############## samples for SRs #######################
     #exec('m.SampleGroups = [SampleGroup_Fake_%s, SampleGroup_CF_%s, SampleGroup_Conv_%s, SampleGroup_MC_%s]'%(m.DataEra, m.DataEra, m.DataEra, m.DataEra))
-    #exec('m.SignalsToDraw = [SampleGroup_DYTypeI_%s_M1000, SampleGroup_VBFTypeI_%s_M1000, SampleGroup_SSWWTypeI_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
+    exec('m.SignalsToDraw = [SampleGroup_DYTypeI_%s_M1000, SampleGroup_VBFTypeI_%s_M1000, SampleGroup_SSWWTypeI_%s_M1000]'%(m.DataEra, m.DataEra, m.DataEra))
   else:
     m.SampleGroups = [
       SampleGroup_Fake_Run2,SampleGroup_CF_Run2,SampleGroup_Conv_Run2,SampleGroup_Prompt_Run2
@@ -198,23 +199,27 @@ if args.Category==0: # ?
                  #"HNL_HighMassSR1_TwoLepton_CR" : "SR1_CR",
                  #"HNL_HighMassSR2_TwoLepton_CR" : "SR2_CR",
                  #"HNL_HighMassSR3_TwoLepton_CR" : "SR3_CR",
-                 #"HNL_HighMassSR3LowJet_TwoLepton_CR" : "SR3_01Jet_CR",
                  #"HNL_HighMassSR3_2J_TwoLepton_CR" : "SR3_2Jet_CR",
+                 #"HNL_HighMassSSZPeak_TwoLepton_CR" : "SSZpeak_CR",
+                 #"HNL_HighMassSSZPeak_AK8_TwoLepton_CR" : "SSZpeak_AK8_CR",
                  #"HNL_HighMass1Jet_TwoLepton_CR" : "1Jet_CR",
                  #"HNL_HighMassBJet_TwoLepton_CR" : "BJet_CR",
                  #"HNL_HighMassNP_TwoLepton_CR" : "0Jet_CR",
-                 #"HNL_HighMassSSZPeak_TwoLepton_CR" : "SSZpeak_CR",
                  ### LLL_VR ###
-                 #"HNL_WZ_ThreeLepton_CR" : "WZ_CR",
+                 #"HNL_WZ_SR1_ThreeLepton_CR" : "WZ_SR1_CR",
+                 #"HNL_WZVBF_ThreeLepton_CR" : "WZVBF_CR",
+                 #"HNL_WZVBF2_ThreeLepton_CR" : "WZVBF2_CR",
+                 #"HNL_WZB_ThreeLepton_CR" : "WZB_CR",
+                 #"HNL_WZ_SR3_ThreeLepton_CR" : "WZ_SR3_CR",
                  #"HNL_ZZ_FourLepton_CR"  : "ZZ_CR",
                  #"HNL_ZG_ThreeLepton_CR" : "ZG_CR",
+                 #"HNL_ZNPEl_ThreeLepton_CR" : "ZNPel_CR",
+                 #"HNL_ZNPMu_ThreeLepton_CR" : "ZNPmu_CR",
                  #"HNL_WG_ThreeLepton_CR" : "WG_CR",
                  #"HNL_WZ2_ThreeLepton_CR" : "WZ2_CR",
                  #"HNL_WZB_ThreeLepton_CR" : "WZb_CR",
                  #"HNL_ZZLoose_FourLepton_CR"  : "ZZloose_CR",
                  #"HNL_TopNP_ThreeLepton_CR" : "TopNP_CR",
-                 #"HNL_ZNPEl_ThreeLepton_CR" : "ZNPel_CR",
-                 #"HNL_ZNPMu_ThreeLepton_CR" : "ZNPmu_CR",
                  ## OS_VR ##
                  #"HNL_OS_Z_TwoLepton_CR"      : "Z_CR",
                  #"HNL_OS_Top_TwoLepton_CR"    : "Top_CR",
@@ -222,9 +227,10 @@ if args.Category==0: # ?
                  #"HNL_OS_ZAK8_TwoLepton_CR"   : "ZAK8_CR",
                  #"HNL_OS_TopAK8_TwoLepton_CR" : "TopAK8_CR",
                  ## SR ##
-                 #"LimitExtraction" : "Limit Input (Cut-based)",
-                 #"LimitExtractionBDT_M100" : "Limit Input (M100)",
-                 "PassSR2" : "SR2",
+                 "LimitBins" : "Limit Input (Cut-based)",
+                 #"LimitBinsBDT_M100" : "Limit Input (M100)",
+                 #"PassSR1" : "SR1 w/o M(llJ)",
+                 #"LimitShape_SR1" : "SR1 (MN1 binned)",
                  #"DiJetSR3" : "DiJetSR3",
                  #"InclusiveSR1" : "InclusiveSR1",
                  #"FinalSR1" : "FinalSR1",
@@ -235,16 +241,19 @@ if args.Category==0: # ?
                                      "MuMuMuMu" : "#mu#mu#mu#mu",
                                      "EEEE"     : "eeee",
                                      "EMuLL"    : "e#mu+ll",
+                                     "LLLL"     : "llll",
                                     },
                     "ThreeLepton" : {
                                      "MuMuMu" : "#mu#mu#mu",
                                      "EEE"    : "eee",
                                      "EMuL"   : "e#mu+l",
+                                     "LLL"    : "lll",
                                     },
                     "TwoLepton"   : {
                                      "MuMu" : "#mu#mu",
                                      "EE"   : "ee",
                                      "EMu"  : "e#mu",
+                                     "LL"   : "ll",
                                     },
                    }
 
@@ -252,6 +261,11 @@ if args.Category==0: # ?
                  'HNL_ControlRegion_Plotter' : True,
                  'HNL_SignalRegion_Plotter' : False,
                 }
+
+  DrawData = {
+              'HNL_ControlRegion_Plotter' : True,
+              'HNL_SignalRegion_Plotter' : False,
+             }
 
   #### Define regions
   m.RegionsToDraw = []
@@ -296,35 +310,8 @@ if args.Category==0: # ?
         if RegionChannel is "FourLepton" or RegionChannel is "ThreeLepton":
           if not RegionChannel in RegionName: continue #The ThreeLepton, FourLepton must be included in the Region Name. If not, TwoLepton is assumed.
         for Channel, ChannelLatex in Channels.items():
-          m.RegionsToDraw.append( Region(RegionName, Channel, PN, InputDirectory, '', '', UnblindData[Analyser], Logy=0, TLatexAlias='#splitline{'+ChannelLatex+'}{'+RegionLatex+'}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
-
-
-    #SRs
-    #m.RegionsToDraw.append( Region('LimitInput', 'MuonSR', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{LimitInput}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #Region('LimitInputBDT_M100', 'MuonSR', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{LimitInputBDT_M100}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    #m.RegionsToDraw.append( Region('DiJetSR3', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR1', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR2', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR3', 'MuMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('DiJetSR3', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR1', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR2', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR3', 'EE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('DiJetSR3', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR1', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR2', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR3', 'EMu', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{e#mu}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('DiJetSR3', 'MuE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mue}{DiJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR1', 'MuE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mue}{InclusiveSR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR2', 'MuE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mue}{InclusiveSR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #m.RegionsToDraw.append( Region('InclusiveSR3', 'MuE', PN, 'Leptons', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mue}{InclusiveSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied') )
-    #Region('OneJetSR3', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{OneJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    #Region('ZeroJetSR3', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{ZeroJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    #Region('OneJetSR3', 'EE', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{OneJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    #Region('ZeroJetSR3', 'EE', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{ee}{ZeroJetSR3}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    #Region('InclusiveSR1', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{Incl. SR1}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-    #Region('PassSR2', 'MuMu', PNs[0], '', '', UnblindData=False, Logy=0, TLatexAlias='#splitline{#mu#mu}{SR2}', CutFlowCaption='Number of Events in Zmass Window (SingleMuon Trigger). Truth matching applied' ),
-
+          m.RegionsToDraw.append( Region(RegionName, Channel, PN, InputDirectory, '', '', UnblindData[Analyser], Logy=0, TLatexAlias='#splitline{'+ChannelLatex+'}{'+RegionLatex+'}', CutFlowCaption='', DrawData=DrawData[Analyser], DrawRatio=True) )
+          #m.RegionsToDraw.append( Region(RegionName, Channel, PN, InputDirectory, '', 'MiNNLO', UnblindData[Analyser], Logy=0, TLatexAlias='#splitline{'+ChannelLatex+'}{'+RegionLatex+'}', CutFlowCaption='', DrawData=True, DrawRatio=True) )
 
 
   #m.PrintRegions()
@@ -332,51 +319,41 @@ if args.Category==0: # ?
 
 #### Define Variables
 m.VariablesToDraw = [
-  #Variable('MuonCR', '', ''),
-  #Variable('ElectronCR', '', ''),
-  #Variable('ElectronMuonCR', '', ''),
-  #Variable('MuonCRBDT', '', ''),
-  #Variable('ElectronCRBDT', '', ''),
-  #Variable('ElectronMuonCRBDT', '', ''),
-  Variable('MuonSR', '', ''),
-  Variable('ElectronSR', '', ''),
-  Variable('ElectronMuonSR', '', ''),
-  Variable('MuonSRBDT', '', ''),
-  Variable('ElectronSRBDT', '', ''),
-  Variable('ElectronMuonSRBDT', '', ''),
-  #Variable('Lep_1_mva', 'MVA', ''),
-  #Variable('Lep_2_mva', 'MVA', ''),
-  #Variable('Lep_1_LFvsHF', 'LFvsHF', ''),
-  #Variable('Lep_2_LFvsHF', 'LFvsHF', ''),
-  Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
-  Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
-  Variable('Lep_1_eta', '#eta of the leading lepton', ''),
-  Variable('Lep_2_eta', '#eta of the second lepton', ''),
-  #Variable('Leps_pt',  'p_{T} of all leptons', 'GeV'),
+  #Variable('MuonCR', 'Inclusive SR', ''),
+  #Variable('ElectronCR', 'Inclusive SR', ''),
+  #Variable('ElectronMuonCR', 'Inclusive SR', ''),
+  #Variable('MuonCRBDT', 'Inclusive SR', ''),
+  #Variable('ElectronCRBDT', 'Inclusive SR', ''),
+  #Variable('ElectronMuonCRBDT', 'Inclusive SR', ''),
+  #Variable('MuonSR', 'Inclusive SR', ''),
+  #Variable('ElectronSR', 'Inclusive SR', ''),
+  #Variable('ElectronMuonSR', 'Inclusive SR', ''),
+  Variable('MuonSR1', 'SR1', ''),
+  Variable('ElectronSR1', 'SR1', ''),
+  Variable('ElectronMuonSR1', 'SR1', ''),
+  #Variable('MuonSRBDT', 'Inclusive SR', ''),
+  #Variable('ElectronSRBDT', 'Inclusive SR', ''),
+  #Variable('ElectronMuonSRBDT', 'Inclusive SR', ''),
+  #Variable('N1Mass_Central', 'M_{N1}', 'GeV'),
+  #Variable('AK8J_Mass/llJ', 'M_{llJ}', 'GeV'),
+  #Variable('Lep_1_pt', 'p_{T} of the leading lepton', 'GeV'),
+  #Variable('Lep_2_pt', 'p_{T} of the second lepton', 'GeV'),
+  #Variable('Lep_1_eta', '#eta of the leading lepton', ''),
+  #Variable('Lep_2_eta', '#eta of the second lepton', ''),
   #Variable('Lep_3_pt', 'p_{T} of the third lepton', 'GeV'),
   #Variable('Lep_4_pt', 'p_{T} of the fourth lepton', 'GeV'),
-  #Variable('Lep_1_ptcone', 'p_{T}^{cone} of the leading lepton', 'GeV'),
-  #Variable('Lep_2_ptcone', 'p_{T}^{cone} of the second lepton', 'GeV'),
-  #Variable('Lep_3_ptcone', 'p_{T}^{cone} of the third lepton', 'GeV'),
-  #Variable('Lep_4_ptcone', 'p_{T}^{cone} of the fourth lepton', 'GeV'),
-  #Variable('Leps_eta',  '#eta of all leptons', ''),
   #Variable('Lep_3_eta', '#eta of the third lepton', ''),
   #Variable('Lep_4_eta', '#eta of the fourth lepton', ''),
-  #Variable('DiJet_M_llW', 'M_{llW}', 'GeV'),
   #Variable('Jet_1_pt', 'p_{T} of the leading jet', 'GeV'),
   #Variable('Jet_2_pt', 'p_{T} of the second jet', 'GeV'),
   #Variable('Jet_1_eta', '#eta of the leading jet', 'GeV'),
   #Variable('Jet_2_eta', '#eta of the second jet', 'GeV'),
-  #Variable('N_AK8Jets', 'N_{J}', ''),
-  #Variable('N_bjetsM', 'N_{bj}', ''),
-  #Variable('Lep_3_pt', 'm(ll)','GeV'),
-  #Variable('NJets', 'N_{j}',''),
-  #Variable('NBJets', 'N_{bj}',''),
-  #Variable('nPV', 'N_{pv}',''),
-  #Variable('PuppiMETType1XY', '#slash{E}_{T}^{miss} (GeV)', 'GeV'),
   #Variable('M_ll', 'M_{ll}', 'GeV'),
+  #Variable('DiJet_M_lljj', 'M_{lljj}', 'GeV'),
+  #Variable('DiJet_M_l1jj', 'M_{l1jj}', 'GeV'),
   #Variable('Ev_MET', 'MET', 'GeV'),
   #Variable('Ev_MET2_ST', 'MET^{2}/S_{T}', 'GeV'),
+  #Variable('N_BJet', 'N_{bj}',''),
   #Variable('N_AK4J', 'N_{j}', ''),
   #Variable('N_Mu', 'N_{#mu}', ''),
   #Variable('N_El', 'N_{e}', ''),
