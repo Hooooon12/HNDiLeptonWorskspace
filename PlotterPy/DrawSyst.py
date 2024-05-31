@@ -28,9 +28,9 @@ gROOT.SetBatch(True)
 # TH1 is owned by me (not gDirectory) avoiding unexpected deletion of TH1 object; see https://root.cern/manual/object_ownership/
 TH1.AddDirectory(False)
 
-eras = ["2016preVFP","2016postVFP","2017","2018"]
+#eras = ["2016preVFP","2016postVFP","2017","2018"]
 #eras = ["2017"]
-#eras = ["2018"]
+eras = ["2018"]
 channels = ["MuMu","EE","EMu"]
 #channels = ["MuMu","EE"]
 #channels = ["EE"]
@@ -42,10 +42,11 @@ expr_channel = {
 #masses = ["M90","M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
 #masses = ["M100"]
 #masses = ["M20000"]
-#masses = ["M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
-masses = ["M100","M1000","M10000"]
+masses = ["M100","M150","M200","M300","M400","M500","M600","M700","M800","M900","M1000","M1100","M1200","M1300","M1500","M1700","M2000","M2500","M3000","M5000","M7500","M10000","M15000","M20000"]
+#masses = ["M100","M1000","M10000"]
 #tags = ["CRtest_HNL_ULID"]
-tags = ["PR48_rateParam_HNL_ULID"]
+#tags = ["PR48_rateParam_HNL_ULID"]
+tags = ["PR51_HNL_ULID"]
 SystList = [
             "JetRes",
             #"JetMass",
@@ -68,7 +69,7 @@ SRnameMap["SR2"] = "sr2"
 SRnameMap["SR3"] = "sr3"
 SRnameMap["Combined_SR"] = "sr"
 
-bkgProc = ["zg","conv","wz","zz","ww","wzewk","prompt"] #FIXME might change later?
+bkgProc = ["conv_inc","prompt_inc"] #FIXME might change later?
 
 def FoM(sig, bkg):
   this_sqrt = ((sig+bkg)*log(1+(sig/bkg)) - sig)
@@ -105,17 +106,9 @@ def MassScanHist(MassList, SR, tag, era, channel):
     h_DYVBF = f1.Get("signalDYVBF")
     h_SSWW = f1.Get("signalSSWW")
     nBinSR = h_Asimov.GetNbinsX()
-    nBinSR1 = 6 #FIXME
-    nBinSR2 = 2
-    nBinRange = {
-                 'SR1' : range(nBinSR1),
-                 'SR2' : range(nBinSR1,nBinSR1+nBinSR2),
-                 'SR3' : range(nBinSR1+nBinSR2,nBinSR),
-                 'Combined_SR' : range(nBinSR),
-                }
 
     FoM_cent = 0.
-    for j in nBinRange[SR]:
+    for j in range(nBinSR):
       this_sig = 0.
       this_bkg = h_Asimov.GetBinContent(j+1)
       this_label = h_Asimov.GetXaxis().GetLabels().At(j).GetName() #At starts with 0: https://root.cern/doc/master/classTList.html#ae03bdf13ec16e76796e83c18eeae06d0
@@ -175,25 +168,14 @@ def CheckNevent(SR, Type): # Type : "DYVBF", "SSWW", "bkg"
       print "[!!WARNING!!] There is no hist named "+Type_hist[Type]+" in "+InputPath+"/"+mass+"_"+channel+"_card_input.root"+" ."
       print "Skipping",Type_hist[Type],"..."
       continue
-    #nBinSR1 = 6 #FIXME
-    #nBinSR2 = 2
-    #nBinRange = {
-    #             'SR1' : [1,nBinSR1],
-    #             'SR2' : [nBinSR1+1,nBinSR1+nBinSR2],
-    #             'SR3' : [nBinSR1+nBinSR2+1,nBinSR],
-    #             'Combined_SR' : [1,nBinSR],
-    #            }
-    #N_Tot = h_Tot.Integral(nBinRange[SR][0],nBinRange[SR][-1])
     N_Tot = h_Tot.Integral()
 
     h_Fake = f1.Get("fake")
-    #N_Fake = h_Fake.Integral(nBinRange[SR][0],nBinRange[SR][-1])
     N_Fake = h_Fake.Integral()
     if "Mu" in channel:
       N_CF = 0
     else:
       h_CF = f1.Get("cf")
-      #N_CF = h_CF.Integral(nBinRange[SR][0],nBinRange[SR][-1])
       N_CF = h_CF.Integral()
 
     for syst in SystList:
@@ -203,8 +185,6 @@ def CheckNevent(SR, Type): # Type : "DYVBF", "SSWW", "bkg"
         this_h_up   = f1.Get(bkg+"_"+syst+"Up")
         this_h_down = f1.Get(bkg+"_"+syst+"Down")
         try:
-          #this_N_up   = this_h_up.Integral(nBinRange[SR][0],nBinRange[SR][-1])
-          #this_N_down = this_h_down.Integral(nBinRange[SR][0],nBinRange[SR][-1])
           this_N_up   = this_h_up.Integral()
           this_N_down = this_h_down.Integral()
         except AttributeError:
@@ -222,8 +202,6 @@ def CheckNevent(SR, Type): # Type : "DYVBF", "SSWW", "bkg"
         N_up.append(thisSyst_N_up + N_Fake + N_CF)
         N_down.append(thisSyst_N_down + N_Fake + N_CF)
       else:
-        #N_up.append(h_sig_up.Integral(nBinRange[SR][0],nBinRange[SR][-1]))
-        #N_down.append(h_sig_down.Integral(nBinRange[SR][0],nBinRange[SR][-1]))
         N_up.append(h_sig_up.Integral())
         N_down.append(h_sig_down.Integral())
 
@@ -240,9 +218,9 @@ def CheckNevent(SR, Type): # Type : "DYVBF", "SSWW", "bkg"
     yMax += 1.
 
     # print out the details
-    print "!! Discrepancy > 10% !!"
     for i in range(nSystBin):
       if abs(N_up[i]/N_Tot-1.) >= 0.1 or abs(N_down[i]/N_Tot-1.) >= 0.1:
+        print "!! Discrepancy > 10% !!"
         print "=================================================="
         print "in",mass,channel,SR,Type,h_up.GetXaxis().GetLabels().At(i).GetName(),";"
         print "up :",N_up[i]/N_Tot,", down :",N_down[i]/N_Tot
@@ -328,19 +306,11 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
     h_DYVBF = f1.Get("signalDYVBF")
     h_SSWW = f1.Get("signalSSWW")
     nBinSR = h_Asimov.GetNbinsX()
-    nBinSR1 = 6 #FIXME
-    nBinSR2 = 2
-    nBinRange = {
-                 'SR1' : range(nBinSR1),
-                 'SR2' : range(nBinSR1,nBinSR1+nBinSR2),
-                 'SR3' : range(nBinSR1+nBinSR2,nBinSR),
-                 'Combined_SR' : range(nBinSR),
-                }
 
     NegBkgBins = []
     FoM_cent = 0.
     print "In Central,"
-    for i in nBinRange[SR]:
+    for i in range(nBinSR):
       this_sig = 0.
       this_bkg = h_Asimov.GetBinContent(i+1)
       this_label = h_Asimov.GetXaxis().GetLabels().At(i).GetName() #At starts with 0: https://root.cern/doc/master/classTList.html#ae03bdf13ec16e76796e83c18eeae06d0

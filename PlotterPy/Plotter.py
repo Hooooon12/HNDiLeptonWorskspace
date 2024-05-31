@@ -635,7 +635,7 @@ class Plotter:
               ## Correlated sources has Syst.Year = -1
               ## Uncorrelated sources has Syst.Year = 2016 or 2017 or 2018
               ## For this cases, SampleGroup.Year should be matched
-              if (Syst.Year>0) and (Syst.Year!=SampleGroup.Year):
+              if (Syst.Year>0) and (int(Syst.Year)!=int(SampleGroup.Year)):
                 print "Systematic year doesn't match to Sample year :"
                 print Syst.Year,"vs",SampleGroup.Year
                 print "Exiting..."
@@ -1392,9 +1392,11 @@ class Plotter:
 
             # Define the hist path
             if "LimitBin" in Region.Name and not "BDT" in Region.Name:
-              histpath_Sig = Region.Name+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/HNL_ULID/LimitBins/MuonSR"
+              histpath_Sig = 'LimitExtraction/'+paramName_Sig+'/'+Region.PrimaryDataset+'/LimitBins/'+Variable.Name #JH : "LimitInput/MuMu/HNL_ULID/LimitBins/MuonSR"
             elif "LimitBin" in Region.Name and "BDT" in Region.Name:
-              histpath_Sig = Region.Name.split('_')[0]+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/HNL_ULID/M100/LimitBins/MuonSR"
+              histpath_Sig = 'LimitExtraction/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.Name.split('_')[1]+'/LimitBins/'+Variable.Name #JH : "LimitInputBDT/MuMu/HNL_ULID/M100/LimitBins/MuonSR"
+            elif "LimitShape" in Region.Name:
+              histpath_Sig = 'LimitExtraction/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.Name+'/'+Variable.Name #JH : "LimitExtraction/HNL_ULID/EE/LimitShape_SR1/N1Mass_Central"
             else:
               histpath_Sig = Region.Name+'/'+paramName_Sig+'/'+Region.PrimaryDataset+'/'+Region.HistTag+'/'+Variable.Name # DiJetSR3/MuMu/HNL_ULID/Leptons/Lep_1_pt
             histpathUp_Sig   = histpath_Sig.replace(paramName_Sig,paramNameUp_Sig)
