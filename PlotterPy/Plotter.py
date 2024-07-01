@@ -450,7 +450,7 @@ class Plotter:
 
     ObjectTypes = {
                    "DeltaR"  : ["dR_ll"],
-                   "Leptons" : ["BScore_BB","BScore_EC","Lep_1_pt","Lep_1_eta","Lep_2_pt","Lep_2_eta"],
+                   "Leptons" : ["BScore_BB","BScore_EC","Lep_1_pt","Lep_1_eta","Lep_2_pt","Lep_2_eta","Lep_3_pt","Lep_3_eta","Lep_4_pt","Lep_4_eta"],
                    "Mass"    : ["DiJet_M_W","DiJet_M_l1W","DiJet_M_l2W","DiJet_M_llW","DiJet_M_l1jj","DiJet_M_l2jj","DiJet_M_lljj","M_ll"],
                    "NObj"    : ["N_AK4J","N_BJet","N_El","N_Mu"],
                    "SKEvent" : ["Ev_MET","Ev_MET2_ST","Ev_PuppiMET_T1","Ev_PuppiMET_T1ULxyCorr","HToLepPt1","Mt_lep1"],

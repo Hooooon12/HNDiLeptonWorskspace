@@ -333,29 +333,36 @@ def CheckFoM(SR, SP): # SignalRegion, SignalProcess (TBC)
         else:
           #print "[WARNING] Adding 0.1 to",this_bkg,"..."
           #this_bkg += 0.1
-          print "[WARNING] Adding 1. to",this_bkg,"..."
+          print "[WARNING] Adding 1. to",this_bkg,"..." # This is based on the fact that max N of -ve events is ~ -0.12 level
           this_bkg += 1.
           NegBkgBins.append(i)
       print i+1,"th bin:"
       FoM_cent += FoM(this_sig,this_bkg)
+
+    if FoM_cent == 0.:
+      print "[WARNING] The sum of the central figure of merit is exactly 0."
+      print "[WARNING] Maybe no signal in this signal region?"
+      print "[WARNING] This may happen when you're running low mass sr2."
+      print "[WARNING] Skipping..."
+      continue
 
     h_Fake = f1.Get("fake")
     h_CF = f1.Get("cf")
 
     for syst in SystList:
       print "In", syst+","
-      h_conv_up     = f1.Get("conv_"+syst+"Up")
-      h_prompt_up   = f1.Get("prompt_"+syst+"Up")
+      h_conv_up     = f1.Get("conv_inc_"+syst+"Up")
+      h_prompt_up   = f1.Get("prompt_inc_"+syst+"Up")
       h_DYVBF_up    = f1.Get("signalDYVBF_"+syst+"Up")
       h_SSWW_up     = f1.Get("signalSSWW_"+syst+"Up")
-      h_conv_down   = f1.Get("conv_"+syst+"Down")
-      h_prompt_down = f1.Get("prompt_"+syst+"Down")
+      h_conv_down   = f1.Get("conv_inc_"+syst+"Down")
+      h_prompt_down = f1.Get("prompt_inc_"+syst+"Down")
       h_DYVBF_down  = f1.Get("signalDYVBF_"+syst+"Down")
       h_SSWW_down   = f1.Get("signalSSWW_"+syst+"Down")
  
       this_FoM_up = 0.
       this_FoM_down = 0.
-      for i in nBinRange[SR]:
+      for i in range(nBinSR):
         this_sig_up = 0.
         this_sig_down = 0.
         this_label = h_Asimov.GetXaxis().GetLabels().At(i).GetName() #At starts with 0: https://root.cern/doc/master/classTList.html#ae03bdf13ec16e76796e83c18eeae06d0
@@ -602,12 +609,12 @@ Typelist = ["bkg","DYVBF","SSWW"]
 #Typelist = ["DYVBF"]
 #Typelist = ["bkg"]
 
-for sr, tp in [[sr, tp] for sr in SRlist for tp in Typelist]:
-  CheckNevent(sr,tp)
+#for sr, tp in [[sr, tp] for sr in SRlist for tp in Typelist]:
+#  CheckNevent(sr,tp)
 
-#for sr in SRlist:
-#  CheckFoM(sr,"")
-#  #FoMScan(sr,"")
+for sr in SRlist:
+  CheckFoM(sr,"")
+  #FoMScan(sr,"")
 
 #CheckFoM('Combined_SR',"")
 #CheckFoM('SR1',"")
